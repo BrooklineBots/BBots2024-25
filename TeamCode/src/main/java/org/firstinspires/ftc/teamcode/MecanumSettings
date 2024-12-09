@@ -1,0 +1,17 @@
+Motor 1 = Back Left Motor
+Motor 2 = Front Left Motor
+Motor 3 = Front Right Motor
+Motor 4 = Back Right Motor
+
+FORWARD:
+Front Left Power: gamepad1.left_stick_x - gamepad1.left_stick_y
+Back Left Power: gamepad1.left_stick_x + gamepad1.left_stick_y
+Front Right Power: gamepad1.left_stick_x + gamepad1.left_stick_y
+Back Right Power: gamepad1.left_stick_x - gamepad1.left_stick_y
+
+ROTATION:
+Front Left Power: -gamepad1.right_stick_y + gamepad1.right_stick_x + gamepad1.left_stick_x
+Back Left Power: -gamepad1.right_stick_y - gamepad1.right_stick_x - gamepad1.left_stick_x;
+Front Right Power: -gamepad1.right_stick_y + gamepad1.right_stick_x - gamepad1.left_stick_x;
+Back Right Power: -gamepad1.right_stick_y - gamepad1.right_stick_x + gamepad1.left_stick_x;
+
