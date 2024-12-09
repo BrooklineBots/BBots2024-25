@@ -1,0 +1,86 @@
+package org.firstinspires.ftc.teamcode;
+
+import com.qualcomm.hardware.bosch.BNO055IMU;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.*;
+
+@TeleOp(name = "mecanum bot demo", group = "MecanumBot")
+public class MecanumDriveOpMode extends LinearOpMode {
+
+    public void runOpMode(){
+        DcMotor m1 = hardwareMap.dcMotor.get("back_left_motor");
+        DcMotor m2 = hardwareMap.dcMotor.get("front_left_motor");
+        DcMotor m3 = hardwareMap.dcMotor.get("front_right_motor");
+        DcMotor m4 = hardwareMap.dcMotor.get("back_right_motor");
+        // m1.setDirection(DcMotor.Direction.REVERSE);
+        // m2.setDirection(DcMotor.Direction.REVERSE);
+        m1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        m2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        m3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        m4.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        m1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        m2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        m3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        m4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        
+
+        IMU imu = hardwareMap.get(IMU.class, "imu");
+
+
+        telemetry.addData("Press Start When Ready","");
+        telemetry.update();
+
+        waitForStart();
+        while (opModeIsActive()){
+            double forward = gamepad1.left_stick_x;
+            double right = gamepad1.left_stick_y;
+            double rotate = gamepad1.right_stick_x;
+            telemetry.addData("Rotate:", gamepad1.right_stick_x);
+            telemetry.update();
+            
+            double p1;
+            double p2;
+            double p3;
+            double p4;
+            
+            if(rotate != 0){
+                p2 = -gamepad1.right_stick_y + gamepad1.right_stick_x + gamepad1.left_stick_x;
+                p1 = -gamepad1.right_stick_y - gamepad1.right_stick_x - gamepad1.left_stick_x;
+                p4 = -gamepad1.right_stick_y - gamepad1.right_stick_x + gamepad1.left_stick_x;
+                p3 = -gamepad1.right_stick_y + gamepad1.right_stick_x - gamepad1.left_stick_x;
+            }
+            else{
+                p1 = forward + right;
+                p4 = forward - right;
+                p2 = forward - right;
+                p3 = forward + right;
+            }
+            
+            
+            
+            
+            double max = Math.max(1.0, Math.abs(p1));
+            max = Math.max(max, Math.abs(p2));
+            max = Math.max(max, Math.abs(p3));
+            max = Math.max(max, Math.abs(p4));
+            p1 /= max;
+            p2 /= max;
+            p3 /= max;
+            p4 /= max;
+            
+            
+            m1.setPower(p1);
+            m2.setPower(p2);
+            m3.setPower(p3);
+            m4.setPower(p4);
+            
+        }
+        
+        m1.setPower(0);
+        m2.setPower(0);
+        m3.setPower(0);
+        m4.setPower(0);
+    }
