@@ -4,19 +4,22 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-@TeleOp(name = "testDrive2")
+@TeleOp(name = "realTestDrive")
 public class DriveOpMode4 extends OpMode {
 
+    final double TOLERANCE = 0.2; // Tolerance threshold for enabling strafing
     DcMotor frontLeft;
     DcMotor frontRight;
     DcMotor backLeft;
     DcMotor backRight;
     DcMotor tallLinearActuator;
+    boolean strafeMode = false;
 
     public static boolean isWithinTolerance(
             double currentValue, double targetValue, double tolerance) {
         return Math.abs(currentValue - targetValue) <= tolerance;
     }
+
 
     @Override
     public void init() {
@@ -26,22 +29,10 @@ public class DriveOpMode4 extends OpMode {
         backRight = hardwareMap.dcMotor.get("back_right_motor");
         tallLinearActuator = hardwareMap.dcMotor.get("tall_linear_actuator");
         tallLinearActuator.setDirection(DcMotor.Direction.REVERSE);
-    }
 
-    private double getPowerValue(double yValue, double xValue, double tolerance, boolean negate) {
-        double power;
-        boolean yTolerance = isWithinTolerance(yValue, 0, tolerance);
-        boolean xTolerance = isWithinTolerance(xValue, 0, tolerance);
-        if (yTolerance && xTolerance) {
-            power = Math.hypot(yValue, xValue);
-        } else if (yTolerance) {
-            power = yValue;
-        } else if (xTolerance) {
-            power = xValue;
-        } else {
-            power = 0;
-        }
-        return negate ? -power : power;
+        // Reverse necessary motors for proper movement
+//        frontRight.setDirection(DcMotor.Direction.REVERSE);
+//        backLeft.setDirection(DcMotor.Direction.REVERSE);
     }
 
     @Override
@@ -50,11 +41,27 @@ public class DriveOpMode4 extends OpMode {
         double x = gamepad1.left_stick_x;  // Left/Right Strafing
         double rotation = gamepad1.right_stick_x; // Rotation
 
-        // Mecanum Drive calculations
-        double frontLeftPower = y + x + rotation;
-        double frontRightPower = y - x - rotation;
-        double backLeftPower = y - x + rotation;
-        double backRightPower = y + x - rotation;
+        // Enable strafe mode if lateral movement is significantly greater than forward/backward movement
+        strafeMode = Math.abs(x) > Math.abs(y) + TOLERANCE;
+
+        double frontLeftPower;
+        double frontRightPower;
+        double backLeftPower;
+        double backRightPower;
+
+        if (strafeMode) {
+            // Mecanum Strafe Mode
+            frontLeftPower = x;
+            frontRightPower = -x;
+            backLeftPower = -x;
+            backRightPower = x;
+        } else {
+            // Normal Drive Mode
+            frontLeftPower = y + rotation;
+            frontRightPower = -(y - rotation);
+            backLeftPower = -(y + rotation);
+            backRightPower = -(y - rotation);
+        }
 
         // Ensure values remain within the range -1 to 1
         frontLeftPower = Math.max(-1, Math.min(1, frontLeftPower));
@@ -78,40 +85,4 @@ public class DriveOpMode4 extends OpMode {
         backLeft.setPower(backLeftPower);
         backRight.setPower(backRightPower);
     }
-
-    //    public void stop() {
-//        frontLeft.setPower(0);
-//        frontRight.setPower(0);
-//        backLeft.setPower(0);
-//        backRight.setPower(0);
-//    }
-//
-//    public void forward(double power) {
-//        frontLeft.setPower(power);
-//        backLeft.setPower(power);
-//        frontRight.setPower(power);
-//        backRight.setPower(power);
-//    }
-//
-//    public void right(double power) {
-//        frontLeft.setPower(-power);
-//        backLeft.setPower(power);
-//        frontRight.setPower(-power);
-//        backRight.setPower(power);
-//    }
-//
-//    public void rotateRight(double power) {
-//        frontLeft.setPower(-power);
-//        backLeft.setPower(-power);
-//        frontRight.setPower(power);
-//        backRight.setPower(power);
-//    }
-//
-//    public void moveArm(double power) {
-//        tallLinearActuator.setPower(power);
-//    }
-//
-//    public void stopArm(double power) {
-//        tallLinearActuator.setPower(power);
-//    }
 }
