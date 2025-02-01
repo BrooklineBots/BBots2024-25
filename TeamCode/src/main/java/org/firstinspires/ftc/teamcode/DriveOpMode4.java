@@ -35,23 +35,34 @@ public class DriveOpMode4 extends OpMode {
         tallLinearActuator.setDirection(DcMotor.Direction.REVERSE);
     }
 
+    private double getPowerValue(double yValue, double xValue, double tolerance, boolean negate) {
+        double power;
+        if (isWithinTolerance(yValue, 0, tolerance) && isWithinTolerance(xValue, 0, tolerance)) {
+            power = Math.hypot(yValue, xValue);
+        } else {
+            power = 0;
+        }
+        return negate ? -power : power;
+    }
+
     @Override
     public void loop() {
-        double frontLeftPower = isWithinTolerance(gamepad1.left_stick_y, 0, 0.1) ? 0 : gamepad1.left_stick_y;
-        double frontRightPower = isWithinTolerance(gamepad1.left_stick_x, 0, 0.1) ? 0 : gamepad1.left_stick_x;
-        double backLeftPower = isWithinTolerance(gamepad1.left_stick_x, 0, 0.1) ? 0 : gamepad1.left_stick_x;
-        double backRightPower = isWithinTolerance(gamepad1.left_stick_y, 0, 0.1) ? 0 : gamepad1.left_stick_y;
+        double frontLeftPower = getPowerValue(gamepad1.left_stick_y, gamepad1.left_stick_x, 0.1, true);
+        double frontRightPower = getPowerValue(gamepad1.left_stick_y, gamepad1.left_stick_x, 0.1, false);
+        double backLeftPower = getPowerValue(gamepad1.left_stick_y, gamepad1.left_stick_x, 0.1, false);
+        double backRightPower = getPowerValue(gamepad1.left_stick_y, gamepad1.left_stick_x, 0.1, false);
 
-        if (isWithinTolerance(gamepad1.left_stick_x, 0.5, 0.25)) {
-            frontRightPower = 0;
-            backLeftPower = 0;
-        } else if (isWithinTolerance(gamepad1.left_stick_x, -0.5, 0.25)) {
-            frontLeftPower = 0;
-            backRightPower = 0;
-        }
 
-        AutonomousRecorder recorder = new AutonomousRecorder();
-        recorder.setMotorPowers(frontLeftPower, frontRightPower, backLeftPower, backRightPower);
+//        if (isWithinTolerance(gamepad1.left_stick_x, 0.5, 0.25)) {
+//            frontRightPower = 0;
+//            backLeftPower = 0;
+//        } else if (isWithinTolerance(gamepad1.left_stick_x, -0.5, 0.25)) {
+//            frontLeftPower = 0;
+//            backRightPower = 0;
+//        }
+
+//        AutonomousRecorder recorder = new AutonomousRecorder();
+//        recorder.setMotorPowers(frontLeftPower, frontRightPower, backLeftPower, backRightPower);
         setMotors(frontLeftPower, frontRightPower, backLeftPower, backRightPower);
 
         if (isWithinTolerance(gamepad2.left_stick_y, 0, 0.1)) {
