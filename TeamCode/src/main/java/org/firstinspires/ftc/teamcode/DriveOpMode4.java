@@ -37,8 +37,14 @@ public class DriveOpMode4 extends OpMode {
 
     private double getPowerValue(double yValue, double xValue, double tolerance, boolean negate) {
         double power;
-        if (isWithinTolerance(yValue, 0, tolerance) && isWithinTolerance(xValue, 0, tolerance)) {
+        boolean yTolerance = isWithinTolerance(yValue, 0, tolerance);
+        boolean xTolerance = isWithinTolerance(xValue, 0, tolerance);
+        if (yTolerance && xTolerance) {
             power = Math.hypot(yValue, xValue);
+        } else if (yTolerance) {
+            power = yValue;
+        } else if (xTolerance) {
+            power = xValue;
         } else {
             power = 0;
         }
