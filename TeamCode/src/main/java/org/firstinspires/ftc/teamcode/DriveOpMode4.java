@@ -1,10 +1,3 @@
-/*
- * teamcode - DriveOpMode4
- *
- * February 2025
- *
- */
-
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -53,31 +46,36 @@ public class DriveOpMode4 extends OpMode {
 
     @Override
     public void loop() {
-        double frontLeftPower = getPowerValue(gamepad1.left_stick_y, gamepad1.left_stick_x, 0.1, true);
-        double frontRightPower = getPowerValue(gamepad1.left_stick_y, gamepad1.left_stick_x, 0.1, false);
-        double backLeftPower = getPowerValue(gamepad1.left_stick_y, gamepad1.left_stick_x, 0.1, false);
-        double backRightPower = getPowerValue(gamepad1.left_stick_y, gamepad1.left_stick_x, 0.1, false);
+        double y = -gamepad1.left_stick_y; // Forward/Backward
+        double x = gamepad1.left_stick_x;  // Left/Right Strafing
+        double rotation = gamepad1.right_stick_x; // Rotation
 
+        // Mecanum Drive calculations
+        double frontLeftPower = y + x + rotation;
+        double frontRightPower = y - x - rotation;
+        double backLeftPower = y - x + rotation;
+        double backRightPower = y + x - rotation;
 
-//        if (isWithinTolerance(gamepad1.left_stick_x, 0.5, 0.25)) {
-//            frontRightPower = 0;
-//            backLeftPower = 0;
-//        } else if (isWithinTolerance(gamepad1.left_stick_x, -0.5, 0.25)) {
-//            frontLeftPower = 0;
-//            backRightPower = 0;
-//        }
+        // Normalize the values so that no value exceeds 1.0
+        double max = Math.max(1.0, Math.abs(frontLeftPower));
+        max = Math.max(max, Math.abs(frontRightPower));
+        max = Math.max(max, Math.abs(backLeftPower));
+        max = Math.max(max, Math.abs(backRightPower));
 
-//        AutonomousRecorder recorder = new AutonomousRecorder();
-//        recorder.setMotorPowers(frontLeftPower, frontRightPower, backLeftPower, backRightPower);
+        frontLeftPower /= max;
+        frontRightPower /= max;
+        backLeftPower /= max;
+        backRightPower /= max;
+
         setMotors(frontLeftPower, frontRightPower, backLeftPower, backRightPower);
 
-        if (isWithinTolerance(gamepad2.left_stick_y, 0, 0.1)) {
+        // Control the linear actuator
+        if (Math.abs(gamepad2.left_stick_y) > 0.1) {
             tallLinearActuator.setPower(gamepad2.left_stick_y);
+        } else {
+            tallLinearActuator.setPower(0);
         }
-
-
     }
-
 
     public void setMotors(double frontLeftPower, double frontRightPower, double backLeftPower, double backRightPower) {
         frontLeft.setPower(frontLeftPower);
@@ -85,9 +83,8 @@ public class DriveOpMode4 extends OpMode {
         backLeft.setPower(backLeftPower);
         backRight.setPower(backRightPower);
     }
-//
-//
-//    public void stop() {
+
+    //    public void stop() {
 //        frontLeft.setPower(0);
 //        frontRight.setPower(0);
 //        backLeft.setPower(0);
@@ -122,6 +119,4 @@ public class DriveOpMode4 extends OpMode {
 //    public void stopArm(double power) {
 //        tallLinearActuator.setPower(power);
 //    }
-
-
 }
