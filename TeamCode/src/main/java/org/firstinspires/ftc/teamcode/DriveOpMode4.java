@@ -56,16 +56,11 @@ public class DriveOpMode4 extends OpMode {
         double backLeftPower = y - x + rotation;
         double backRightPower = y + x - rotation;
 
-        // Normalize the values so that no value exceeds 1.0
-        double max = Math.max(1.0, Math.abs(frontLeftPower));
-        max = Math.max(max, Math.abs(frontRightPower));
-        max = Math.max(max, Math.abs(backLeftPower));
-        max = Math.max(max, Math.abs(backRightPower));
-
-        frontLeftPower /= max;
-        frontRightPower /= max;
-        backLeftPower /= max;
-        backRightPower /= max;
+        // Ensure values remain within the range -1 to 1
+        frontLeftPower = Math.max(-1, Math.min(1, frontLeftPower));
+        frontRightPower = Math.max(-1, Math.min(1, frontRightPower));
+        backLeftPower = Math.max(-1, Math.min(1, backLeftPower));
+        backRightPower = Math.max(-1, Math.min(1, backRightPower));
 
         setMotors(frontLeftPower, frontRightPower, backLeftPower, backRightPower);
 
