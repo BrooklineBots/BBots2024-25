@@ -39,8 +39,8 @@ public class DriveOpMode4 extends OpMode {
     public void loop() {
         double frontLeftPower = isWithinTolerance(gamepad1.left_stick_y, 0, 0.1) ? 0 : gamepad1.left_stick_y;
         double frontRightPower = isWithinTolerance(gamepad1.left_stick_x, 0, 0.1) ? 0 : gamepad1.left_stick_x;
-        double backLeftPower = isWithinTolerance(gamepad1.left_stick_x, 0, 0.1) ? 0 : gamepad1.right_stick_x;
-        double backRightPower = isWithinTolerance(gamepad1.left_stick_y, 0, 0.1) ? 0 : gamepad1.right_trigger;
+        double backLeftPower = isWithinTolerance(gamepad1.left_stick_x, 0, 0.1) ? 0 : gamepad1.left_stick_x;
+        double backRightPower = isWithinTolerance(gamepad1.left_stick_y, 0, 0.1) ? 0 : gamepad1.left_stick_y;
 
         if (isWithinTolerance(gamepad1.left_stick_x, 0.5, 0.25)) {
             frontRightPower = 0;
