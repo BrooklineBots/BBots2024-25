@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@TeleOp(name = "Record Autonomous Path")
+@TeleOp(name = "RecordAutonomousPath")
 public class RecordAutonomousPath extends OpMode {
     DcMotor frontLeft;
     DcMotor frontRight;
