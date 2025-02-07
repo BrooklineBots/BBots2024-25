@@ -5,19 +5,17 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.hardware.bosch.BNO055IMU;
-
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @TeleOp(name = "Field Centric Drive", group = "MYCODE")
-public class FieldCentricDriveOpMode extends OpMode{
+public class FieldCentricDriveOpMode extends OpMode {
     MecanumDrive drive = new MecanumDrive();
     IMU imu;
     Servo handServo = hardwareMap.servo.get("handServo");
 
     @Override
-    public void init(){
+    public void init() {
         drive.init(hardwareMap);
         imu = hardwareMap.get(IMU.class, "imu");
         RevHubOrientationOnRobot RevOrientation =
@@ -27,7 +25,7 @@ public class FieldCentricDriveOpMode extends OpMode{
         imu.initialize(new IMU.Parameters(RevOrientation));
     }
 
-    private void driveFieldRelative(double forward, double right, double rotate){
+    private void driveFieldRelative(double forward, double right, double rotate) {
         double robotAngle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
         //convert to polar
@@ -44,14 +42,13 @@ public class FieldCentricDriveOpMode extends OpMode{
     }
 
     @Override
-    public void loop(){
+    public void loop() {
         double forward = -gamepad1.left_stick_y;
         double right = gamepad1.left_stick_x;
         double rotate = gamepad1.right_stick_x;
 
         driveFieldRelative(forward, right, rotate);
     }
-
 
 
 }
