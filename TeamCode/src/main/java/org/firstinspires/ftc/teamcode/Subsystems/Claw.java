@@ -9,7 +9,10 @@ public class Claw {
 
     private Servo claw;
 
+    private Telemetry telemetry;
+
     public Claw(HardwareMap hwMap, Telemetry telemetry){
+        this.telemetry = telemetry;
         claw = hwMap.get(Servo.class, "servo1");
         claw.setDirection(Servo.Direction.REVERSE);
     }
