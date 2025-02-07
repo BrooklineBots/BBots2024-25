@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Constants;
 
 public class Arm {
 
@@ -13,7 +14,7 @@ public class Arm {
 
     public Arm(HardwareMap hwMap, Telemetry telemetry){
         this.telemetry = telemetry;
-        arm = hwMap.dcMotor.get("tall_linear_actuator");
+        arm = hwMap.dcMotor.get(Constants.ArmConstants.ARM_MOTOR_ID);
         arm.setDirection(DcMotor.Direction.REVERSE);
     }
 

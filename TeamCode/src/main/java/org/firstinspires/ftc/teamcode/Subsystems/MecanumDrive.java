@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.Constants;
+
 public class MecanumDrive {
     private DcMotor frontLeftMotor;
     private DcMotor frontRightMotor;
@@ -10,10 +12,10 @@ public class MecanumDrive {
     private DcMotor backRightMotor;
 
     public void init(HardwareMap hardwareMap){
-        frontLeftMotor = hardwareMap.dcMotor.get("front_left_motor");
-        frontRightMotor = hardwareMap.dcMotor.get("front_right_motor");
-        backLeftMotor = hardwareMap.dcMotor.get("back_left_motor");
-        backRightMotor = hardwareMap.dcMotor.get("back_right_motor");
+        frontLeftMotor = hardwareMap.dcMotor.get(Constants.DriveConstants.FRONT_LEFT_MOTOR_ID);
+        frontRightMotor = hardwareMap.dcMotor.get(Constants.DriveConstants.FRONT_RIGHT_MOTOR_ID);
+        backLeftMotor = hardwareMap.dcMotor.get(Constants.DriveConstants.BACK_LEFT_MOTOR_ID);
+        backRightMotor = hardwareMap.dcMotor.get(Constants.DriveConstants.BACK_RIGHT_MOTOR_ID);
 
         frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -52,5 +54,9 @@ public class MecanumDrive {
         double bRPower = forward + right - rotate;
 
         setPowers(fLPower,fRPower, bLPower, bRPower);
+    }
+
+    public void stopMotors(){
+        setPowers(0,0,0,0);
     }
 }
