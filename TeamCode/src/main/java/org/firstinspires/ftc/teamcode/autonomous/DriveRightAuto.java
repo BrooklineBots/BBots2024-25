@@ -5,11 +5,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.DriveOpMode6;
+import org.firstinspires.ftc.teamcode.RobotContainer;
 
 @Autonomous(name = "Drive Right", group = "Autonomous")
 public class DriveRightAuto extends LinearOpMode {
-    private DriveOpMode6 driver;
+    private RobotContainer driver;
     private DcMotor frontLeftMotor;
     private DcMotor frontRightMotor;
     private DcMotor backLeftMotor;

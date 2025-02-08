@@ -2,15 +2,13 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Subsystems.Arm;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Subsystems.MecanumDrive;
 
-@TeleOp(name = "testDrive2")
-public class DriveOpMode6 extends OpMode {
+@TeleOp(name = "mainDrive")
+public class RobotContainer extends OpMode {
 
     private Arm arm;
     private Claw claw;
