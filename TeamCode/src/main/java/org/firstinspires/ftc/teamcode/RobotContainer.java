@@ -2,10 +2,12 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Subsystems.Arm;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Subsystems.MecanumDrive;
+import org.firstinspires.ftc.teamcode.autonomous.AutonomousRecorder;
 
 @TeleOp(name = "mainDrive")
 public class RobotContainer extends OpMode {
@@ -14,11 +16,21 @@ public class RobotContainer extends OpMode {
     private Claw claw;
     private MecanumDrive drive;
 
+    private AutonomousRecorder recorder;
+
+    private ElapsedTime recordingTimer;
+    private boolean isRecording = false;
+
     @Override
     public void init() {
+       recorder = new AutonomousRecorder();
+
        arm = new Arm(hardwareMap, telemetry);
        claw = new Claw(hardwareMap, telemetry);
-       drive = new MecanumDrive();
+       drive = new MecanumDrive(hardwareMap, telemetry);
+
+       recordingTimer = new ElapsedTime();
+
 
     }
 
@@ -28,25 +40,45 @@ public class RobotContainer extends OpMode {
 
     @Override
     public void loop() {
+        this.telemetry.update();
+
+        if (isRecording && recordingTimer.seconds() >= 35.0) {
+            recorder.stopRecording();
+            isRecording = false;
+            gamepad1.rumble(250);
+        }
 
         if(!isWithinTolerance(0, gamepad1.left_stick_y, 0.1) || !isWithinTolerance(0, gamepad1.left_stick_x, 0.1) || !isWithinTolerance(0, gamepad1.right_stick_x, 0.1)){
-            drive.drive(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+            drive.driveFieldRelative(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
+            recorder.giveCommand("drive.driveFieldRelative(" + gamepad1.left_stick_x + ", " + gamepad1.left_stick_y + ", " + gamepad1.right_stick_x + ");");
         } else{
             drive.stopMotors();
+            recorder.giveCommand("drive.stop();");
         }
 
         if (!isWithinTolerance(0, gamepad2.left_stick_y, 0.1)) {
             arm.moveUp(gamepad2.left_stick_y);
+            recorder.giveCommand("arm.moveUp(" + gamepad2.left_stick_y + ");");
         } else {
             arm.stop();
+            recorder.giveCommand("arm.stop();");
         }
 
         if (gamepad1.a) {
             claw.closeClaw();
+            recorder.giveCommand("claw.closeClaw();");
         } else if (gamepad1.b) {
             claw.openClaw();
+            recorder.giveCommand("claw.openClaw();");
         }
 
+        if (gamepad1.x) {
+            if (recorder.startRecording()) {
+                isRecording = true;
+                recordingTimer.reset();
+                gamepad1.rumble(250);
+            }
+        }
 
     }
 
