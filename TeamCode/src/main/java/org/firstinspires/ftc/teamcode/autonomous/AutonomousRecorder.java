@@ -1,21 +1,30 @@
 package org.firstinspires.ftc.teamcode.autonomous;
 
+import android.content.Context;
 import android.os.Environment;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import android.content.Context;
 
 public class AutonomousRecorder {
     private FileWriter fileWriter;
     private boolean isRecording = false;
     private boolean hasRecorded = false;
 
-    public AutonomousRecorder() {
+    public AutonomousRecorder(Context context) {
         try {
-            fileWriter = new FileWriter(Environment. getExternalStorageDirectory().getPath() + "/AutonomousRecord.java");
-            writeHeader();
+            File directory = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
+            if (directory != null) {
+                File file = new File(directory, "AutonomousRecord.java");
+                fileWriter = new FileWriter(file);
+                writeHeader();
+            } else {
+                throw new IOException("External files directory is null");
+            }
         } catch (IOException e) {
-            // Handle exception, perhaps log it?
+            e.printStackTrace();
             isRecording = false;
         }
     }
@@ -25,8 +34,9 @@ public class AutonomousRecorder {
 
         try {
             fileWriter.write(command + "\n");
+            fileWriter.flush(); // Ensure data is written immediately
         } catch (IOException e) {
-            // Handle exception
+            e.printStackTrace(); // Improved logging
         }
     }
 
@@ -51,10 +61,17 @@ public class AutonomousRecorder {
     public void stopRecording() {
         isRecording = false;
         try {
+            fileWriter.write("    }\n");
             fileWriter.write("}\n");
-            fileWriter.close();
+            fileWriter.flush(); // Flush before closing
         } catch (IOException e) {
-            // Handle exception
+            e.printStackTrace();
+        } finally {
+            try {
+                fileWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

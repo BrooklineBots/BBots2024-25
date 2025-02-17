@@ -23,7 +23,7 @@ public class RobotContainer extends OpMode {
 
     @Override
     public void init() {
-       recorder = new AutonomousRecorder();
+        recorder = new AutonomousRecorder(hardwareMap.appContext);
 
        arm = new Arm(hardwareMap, telemetry);
        claw = new Claw(hardwareMap, telemetry);
@@ -40,9 +40,10 @@ public class RobotContainer extends OpMode {
 
     @Override
     public void loop() {
+        telemetry.addData("Is Recording:", isRecording);
         this.telemetry.update();
 
-        if (isRecording && recordingTimer.seconds() >= 35.0) {
+        if (isRecording && recordingTimer.seconds() >= 5.0) {
             recorder.stopRecording();
             isRecording = false;
             gamepad1.rumble(250);

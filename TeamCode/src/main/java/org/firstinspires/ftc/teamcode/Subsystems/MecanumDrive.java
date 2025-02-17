@@ -38,8 +38,8 @@ public class MecanumDrive {
         // Generate a random number between 10 and 100 (inclusive)
 
 
-        telemetry.addData("IMU Angle:", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
-        telemetry.update();
+//        telemetry.addData("IMU Angle:", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
+//        telemetry.update();
         this.telemetry = telemetry;
     }
 
@@ -64,8 +64,8 @@ public class MecanumDrive {
 
     public void driveFieldRelative(double forward, double right, double rotate) {
         double robotAngle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES) / 180;
-        telemetry.addData("IMU Angle:", robotAngle);
-        telemetry.update();
+//        telemetry.addData("IMU Angle:", robotAngle);
+//        telemetry.update();
 
         // Convert to polar coordinates
         double theta = Math.atan2(forward, right);
