@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.autonomous;
 
+import android.os.Environment;
+
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -10,7 +12,7 @@ public class AutonomousRecorder {
 
     public AutonomousRecorder() {
         try {
-            fileWriter = new FileWriter("/sdcard/autonomousRecord.java");
+            fileWriter = new FileWriter(Environment. getExternalStorageDirectory().getPath() + "/AutonomousRecord.java");
             writeHeader();
         } catch (IOException e) {
             // Handle exception, perhaps log it?
