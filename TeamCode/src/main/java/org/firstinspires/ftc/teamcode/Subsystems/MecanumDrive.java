@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Constants;
-import java.util.Random;
 
 
 public class MecanumDrive {
@@ -88,7 +87,7 @@ public class MecanumDrive {
         setPowers(fLPower, fRPower, bLPower, bRPower);
     }
 
-    public void stopMotors() {
+    public void stop() {
         setPowers(0, 0, 0, 0);
     }
 }
