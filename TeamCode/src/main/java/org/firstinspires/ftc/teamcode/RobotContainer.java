@@ -30,7 +30,7 @@ public class RobotContainer extends OpMode {
         claw = new Claw(hardwareMap, telemetry);
         drive = new MecanumDrive(hardwareMap, telemetry);
 
-        recorder = new AutonomousRecorder(hardwareMap.appContext, hardwareMap, 100); // 100ms interval
+        recorder = new AutonomousRecorder(hardwareMap.appContext, hardwareMap, 20); // 100ms interval
         player = new AutonomousPlayer(hardwareMap);
 
         recordingTimer = new ElapsedTime();

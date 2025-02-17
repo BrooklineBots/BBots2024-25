@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.autonomous;
 
 import android.content.Context;
 import android.os.Environment;
+import android.util.Log;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -63,6 +64,13 @@ public class AutonomousPlayer {
         try {
             File directory = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
             File file = new File(directory, "motor_data.csv");
+            Log.d("AutonomousPlayer", "Loading recording from: " + file.getAbsolutePath()); // Add logging
+
+            if (!file.exists()) {
+                Log.e("AutonomousPlayer", "CSV file does not exist");
+                return;
+            }
+
             BufferedReader reader = new BufferedReader(new FileReader(file));
             String line;
             boolean isHeader = true;
@@ -84,12 +92,14 @@ public class AutonomousPlayer {
             }
             reader.close();
         } catch (IOException e) {
+            Log.e("AutonomousPlayer", "Error loading recording", e);
+
             e.printStackTrace();
         }
     }
-
     public void startPlayback() {
         if (records.isEmpty()) return;
+
         startTime = System.currentTimeMillis();
         isPlaying = true;
         currentIndex = 0;
@@ -100,9 +110,11 @@ public class AutonomousPlayer {
 
         long elapsed = System.currentTimeMillis() - startTime;
 
+        // Process all records that have elapsed
         while (currentIndex < records.size()) {
             MotorRecord record = records.get(currentIndex);
             if (record.timestamp <= elapsed) {
+                // Apply motor/servo values
                 frontLeftMotor.setPower(record.frontLeft);
                 frontRightMotor.setPower(record.frontRight);
                 backLeftMotor.setPower(record.backLeft);
@@ -111,10 +123,11 @@ public class AutonomousPlayer {
                 clawServo.setPosition(record.claw);
                 currentIndex++;
             } else {
-                break;
+                break; // Wait for next timestamp
             }
         }
 
+        // Stop playback only when all records are processed
         if (currentIndex >= records.size()) {
             stopPlayback();
         }
