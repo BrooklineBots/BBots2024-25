@@ -20,7 +20,6 @@ public class Arm {
         leftArmMotor = hwMap.dcMotor.get(ArmConstants.LEFT_ARM_MOTOR_ID);
         rightArmMotor = hwMap.dcMotor.get(ArmConstants.RIGHT_ARM_MOTOR_ID);
 
-        leftArmMotor.setDirection(DcMotor.Direction.REVERSE);
         rightArmMotor.setDirection(DcMotor.Direction.REVERSE);
 
         leftArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

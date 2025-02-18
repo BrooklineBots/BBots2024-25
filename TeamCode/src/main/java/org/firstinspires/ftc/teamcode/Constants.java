@@ -12,7 +12,7 @@ public class Constants {
         public static final String LEFT_ARM_MOTOR_ID = "left_arm_motor";
         public static final String RIGHT_ARM_MOTOR_ID = "right_arm_motor";
         public static final int MIN_POSITION = 0;
-        public static final int MAX_POSITION = 1500;
+        public static final int MAX_POSITION = 4409;
         public static final double MOVE_POWER = 0.25;
         public static final int MAX_ALLOWED_DIFFERENCE = 50;
     }

@@ -40,8 +40,8 @@ public class RobotContainer extends OpMode {
 
     @Override
     public void loop() {
-        telemetry.addData("Is Recording:", isRecording);
-        this.telemetry.update();
+//        telemetry.addData("Is Recording:", isRecording);
+//        this.telemetry.update();
 
         if (isRecording && recordingTimer.seconds() >= 15.0) {
             recorder.stopRecording();
