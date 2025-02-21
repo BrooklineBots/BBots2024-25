@@ -12,6 +12,7 @@ public class Arm {
 
     private DcMotor leftArmMotor;
     private DcMotor rightArmMotor;
+    private DcMotor middleArmMotor;
     private Telemetry telemetry;
 
     public Arm(HardwareMap hwMap, Telemetry telemetry) {
@@ -19,11 +20,13 @@ public class Arm {
 
         leftArmMotor = hwMap.dcMotor.get(ArmConstants.LEFT_ARM_MOTOR_ID);
         rightArmMotor = hwMap.dcMotor.get(ArmConstants.RIGHT_ARM_MOTOR_ID);
+        middleArmMotor = hwMap.dcMotor.get(ArmConstants.MIDDLE_ARM_MOTOR_ID);
 
         rightArmMotor.setDirection(DcMotor.Direction.REVERSE);
 
         leftArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        middleArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         resetEncoders();
         setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -32,6 +35,7 @@ public class Arm {
     private void setRunMode(DcMotor.RunMode mode) {
         leftArmMotor.setMode(mode);
         rightArmMotor.setMode(mode);
+        middleArmMotor.setMode(mode);
     }
 
     private void resetEncoders() {
@@ -49,6 +53,7 @@ public class Arm {
 
         leftArmMotor.setTargetPosition(target);
         rightArmMotor.setTargetPosition(target);
+
 
         setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
 
@@ -68,9 +73,17 @@ public class Arm {
         telemetry.update();
     }
 
+    public void moveOut(double power){
+        setRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        middleArmMotor.setPower(-power);
+        telemetry.addData("Middle Arm tick:", middleArmMotor.getCurrentPosition());
+        telemetry.update();
+    }
+
     public void stop() {
         leftArmMotor.setPower(0);
         rightArmMotor.setPower(0);
+        middleArmMotor.setPower(0);
     }
 
     public boolean isBusy() {

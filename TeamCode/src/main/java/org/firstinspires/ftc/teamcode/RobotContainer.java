@@ -65,6 +65,13 @@ public class RobotContainer extends OpMode {
             recorder.giveCommand("arm.stop();");
         }
 
+        if (!isWithinTolerance(0, gamepad2.right_stick_y, 0.1)) {
+            arm.moveOut(gamepad2.right_stick_y);
+
+        } else {
+            arm.stop();
+        }
+
         if (gamepad1.a) {
             claw.closeClaw();
             recorder.giveCommand("claw.closeClaw();");

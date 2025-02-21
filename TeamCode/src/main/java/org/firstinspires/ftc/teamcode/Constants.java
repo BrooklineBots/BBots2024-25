@@ -6,11 +6,13 @@ public class Constants {
         public static final String FRONT_RIGHT_MOTOR_ID = "front_right_motor";
         public static final String BACK_LEFT_MOTOR_ID = "back_left_motor";
         public static final String BACK_RIGHT_MOTOR_ID = "back_right_motor";
+
     }
 
     public static class ArmConstants {
         public static final String LEFT_ARM_MOTOR_ID = "left_arm_motor";
         public static final String RIGHT_ARM_MOTOR_ID = "right_arm_motor";
+        public static final String MIDDLE_ARM_MOTOR_ID = "middle_arm_motor";
         public static final int MIN_POSITION = 0;
         public static final int MAX_POSITION = 4409;
         public static final double MOVE_POWER = 0.25;
