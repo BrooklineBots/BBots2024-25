@@ -4,7 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Subsystems.Arm;
+import org.firstinspires.ftc.teamcode.Subsystems.HorizontalArm;
+import org.firstinspires.ftc.teamcode.Subsystems.VerticalArm;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Subsystems.MecanumDrive;
 import org.firstinspires.ftc.teamcode.autonomous.AutonomousRecorder;
@@ -12,7 +13,8 @@ import org.firstinspires.ftc.teamcode.autonomous.AutonomousRecorder;
 @TeleOp(name = "mainDrive")
 public class RobotContainer extends OpMode {
 
-    private Arm arm;
+    private VerticalArm verticalArm;
+    //private HorizontalArm horizontalArm;
     private Claw claw;
     private MecanumDrive drive;
 
@@ -23,9 +25,11 @@ public class RobotContainer extends OpMode {
 
     @Override
     public void init() {
-        recorder = new AutonomousRecorder(hardwareMap.appContext);
 
-       arm = new Arm(hardwareMap, telemetry);
+       recorder = new AutonomousRecorder(hardwareMap.appContext);
+
+       verticalArm = new VerticalArm(hardwareMap, telemetry);
+       //horizontalArm = new HorizontalArm(hardwareMap, telemetry);
        claw = new Claw(hardwareMap, telemetry);
        drive = new MecanumDrive(hardwareMap, telemetry);
 
@@ -58,12 +62,20 @@ public class RobotContainer extends OpMode {
         }
 
         if (!isWithinTolerance(0, gamepad2.left_stick_y, 0.1)) {
-            arm.moveUp(gamepad2.left_stick_y);
-            recorder.giveCommand("arm.moveUp(" + gamepad2.left_stick_y + ");");
+            verticalArm.moveUp(gamepad2.left_stick_y);
+            recorder.giveCommand("verticalArm.moveUp(" + gamepad2.left_stick_y + ");");
         } else {
-            arm.stop();
-            recorder.giveCommand("arm.stop();");
+            verticalArm.stop();
+            recorder.giveCommand("verticalArm.stop();");
         }
+
+//        if(!isWithinTolerance(0, gamepad2.right_stick_y, 0.1)){
+//            horizontalArm.moveOut(gamepad2.right_stick_y);
+//            recorder.giveCommand("horizontalArm.moveOut(" + gamepad2.right_stick_y + ");");
+//        } else {
+//            verticalArm.stop();
+//            recorder.giveCommand("horizontalArm.stop();");
+//        }
 
         if (gamepad1.a) {
             claw.closeClaw();
