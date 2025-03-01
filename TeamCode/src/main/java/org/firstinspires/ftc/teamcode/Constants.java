@@ -20,7 +20,7 @@ public class Constants {
         //Horizontal Arm Constants
         public static final String HORIZONTAL_ARM_ID = "horizontalArm";
         public static final int HORIZONTAL_MIN_POSITION = 0; //TODO: change
-        public static final int HORIZONTAL_MAX_POSITION = 0; //TODO: change
+        public static final int HORIZONTAL_MAX_POSITION = 200; //TODO: change
         public static final double HORIZONTAL_MOVE_POWER = 0.25;
 
 
