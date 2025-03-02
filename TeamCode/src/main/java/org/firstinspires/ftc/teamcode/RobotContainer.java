@@ -92,7 +92,7 @@ public class RobotContainer extends OpMode {
                 gamepad1.rumble(250);
             }
         }
-
+        telemetry.update();
     }
 
 

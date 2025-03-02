@@ -45,4 +45,12 @@ public class Constants {
         public static final double OPEN_POSITION = 0.27;
         public static final double CLOSE_POSITION = 0.0;
     }
+
+    public static class IntakeConstants{
+        public static final String LEFT_WHEEL_ID = "leftWheel";
+        public static final String RIGHT_WHEEL_ID = "rightWheel";
+        public static final double MAX_VOLTAGE = 5; //TODO: change
+        public static final double SERVO_POWER = 0.5;
+    }
+
 }
