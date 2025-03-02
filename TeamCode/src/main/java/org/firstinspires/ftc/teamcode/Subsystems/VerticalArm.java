@@ -49,6 +49,7 @@ public class VerticalArm {
         rightArm.setTargetPosition(targetPosition);
 
         setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         leftArm.setPower(ArmConstants.VERTICAL_MOVE_POWER);
         rightArm.setPower(ArmConstants.VERTICAL_MOVE_POWER);
     }
