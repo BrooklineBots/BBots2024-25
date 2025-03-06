@@ -92,6 +92,12 @@ public class RobotContainer extends OpMode {
 
         telemetry.addData("Servo Position: ", claw.getPosition());
 
+        if(gamepad1.a){
+            claw.setPosition(0.6); //open
+        } else if(gamepad1.b){
+            claw.setPosition(0.7); //close
+        }
+
 //        if(gamepad2.a){
 //            isPressed = !isPressed;
 //        }

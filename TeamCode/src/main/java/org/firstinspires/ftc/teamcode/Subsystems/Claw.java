@@ -22,17 +22,18 @@ public class Claw {
     }
 
     public void openClaw(){
-        claw.setPosition(Constants.ClawConstants.OPEN_POSITION);
+        setPosition(Constants.ClawConstants.OPEN_POSITION);
     }
 
     public void closeClaw(){
-        claw.setPosition(Constants.ClawConstants.CLOSE_POSITION);
+        setPosition(Constants.ClawConstants.CLOSE_POSITION);
     }
 
     public void setPosition(double position){
-        if(position >= MIN_POSITION && position <= MAX_POSITION){
-            claw.setPosition(position);
-        }
+        claw.setPosition(position);
+//        if(position >= MIN_POSITION && position <= MAX_POSITION){
+//            claw.setPosition(position);
+//        }
     }
 
     public double getPosition(){
