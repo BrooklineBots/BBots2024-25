@@ -16,10 +16,32 @@ public class Intake {
         this.telemetry = telemetry;
         leftWheel = hwMap.get(Servo.class, Constants.IntakeConstants.LEFT_WHEEL_ID);
         rightWheel = hwMap.get(Servo.class, Constants.IntakeConstants.RIGHT_WHEEL_ID);
+
+        leftWheel.setDirection(Servo.Direction.FORWARD);
+        rightWheel.setDirection(Servo.Direction.REVERSE);
     }
 
-    public boolean collect(){
-        
+    public void collect(){
+        setPos(Constants.IntakeConstants.SERVO_POWER);
     }
+
+    public void release(){
+        setPos(-Constants.IntakeConstants.SERVO_POWER);
+    }
+
+    public void setPos(double position){
+        leftWheel.setPosition(position);
+        rightWheel.setPosition(position);
+    }
+
+    public boolean voltageSpike(){
+        return false;
+    }
+
+    public void stop(){
+        leftWheel.setPosition(0);
+        rightWheel.setPosition(0);
+    }
+
 
 }

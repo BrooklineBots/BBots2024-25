@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Subsystems.HorizontalArm;
+import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.VerticalArm;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Subsystems.MecanumDrive;
@@ -17,11 +18,14 @@ public class RobotContainer extends OpMode {
     //private HorizontalArm horizontalArm;
     private Claw claw;
     private MecanumDrive drive;
+    private Intake intake;
 
     private AutonomousRecorder recorder;
 
     private ElapsedTime recordingTimer;
     private boolean isRecording = false;
+
+    private boolean isPressed = false;
 
     @Override
     public void init() {
@@ -32,6 +36,7 @@ public class RobotContainer extends OpMode {
        //horizontalArm = new HorizontalArm(hardwareMap, telemetry);
        claw = new Claw(hardwareMap, telemetry);
        drive = new MecanumDrive(hardwareMap, telemetry);
+       intake = new Intake(hardwareMap, telemetry);
 
        recordingTimer = new ElapsedTime();
 
@@ -77,13 +82,25 @@ public class RobotContainer extends OpMode {
 //            recorder.giveCommand("horizontalArm.stop();");
 //        }
 
-        if (gamepad1.a) {
-            claw.closeClaw();
-            recorder.giveCommand("claw.closeClaw();");
-        } else if (gamepad1.b) {
-            claw.openClaw();
-            recorder.giveCommand("claw.openClaw();");
-        }
+//        if (gamepad1.a) {
+//            claw.closeClaw();
+//            recorder.giveCommand("claw.closeClaw();");
+//        } else if (gamepad1.b) {
+//            claw.openClaw();
+//            recorder.giveCommand("claw.openClaw();");
+//        }
+
+        telemetry.addData("Servo Position: ", claw.getPosition());
+
+//        if(gamepad2.a){
+//            isPressed = !isPressed;
+//        }
+
+//        if(isPressed){
+//            intake.collect();
+//        } else{
+//            intake.stop();
+//        }
 
         if (gamepad1.x) {
             if (recorder.startRecording()) {
@@ -93,6 +110,8 @@ public class RobotContainer extends OpMode {
             }
         }
         telemetry.update();
+
+
     }
 
 
