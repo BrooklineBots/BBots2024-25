@@ -30,10 +30,9 @@ public class Claw {
     }
 
     public void setPosition(double position){
-        claw.setPosition(position);
-//        if(position >= MIN_POSITION && position <= MAX_POSITION){
-//            claw.setPosition(position);
-//        }
+        if(position >= MIN_POSITION && position <= MAX_POSITION){
+            claw.setPosition(position);
+        }
     }
 
     public double getPosition(){
