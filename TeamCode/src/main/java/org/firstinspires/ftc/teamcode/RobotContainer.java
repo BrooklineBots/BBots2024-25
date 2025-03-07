@@ -64,6 +64,10 @@ public class RobotContainer extends OpMode {
             recorder.giveCommand("drive.stop();");
         }
 
+        if(gamepad1.y){
+            drive.testMotors();
+        }
+
         if (!isWithinTolerance(0, gamepad2.left_stick_y, 0.1)) {
             verticalArm.moveUp(gamepad2.left_stick_y);
             recorder.giveCommand("verticalArm.moveUp(" + gamepad2.left_stick_y + ");");

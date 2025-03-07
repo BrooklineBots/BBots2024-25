@@ -88,6 +88,25 @@ public class MecanumDrive {
         setPowers(fLPower, fRPower, bLPower, bRPower);
     }
 
+    public void testMotors(){
+        try {
+            frontLeftMotor.setPower(0.2);
+            Thread.sleep(1000);
+            stop();
+            frontRightMotor.setPower(0.2);
+            Thread.sleep(1000);
+            stop();
+            backLeftMotor.setPower(0.2);
+            Thread.sleep(1000);
+            stop();
+            backRightMotor.setPower(0.2);
+            Thread.sleep(1000);
+            stop();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void stop() {
         setPowers(0, 0, 0, 0);
     }
