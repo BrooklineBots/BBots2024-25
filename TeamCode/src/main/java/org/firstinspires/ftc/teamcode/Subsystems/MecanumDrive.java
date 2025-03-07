@@ -75,12 +75,15 @@ public class MecanumDrive {
         double newForward = r * Math.sin(theta);
         double newRight = r * Math.cos(theta);
 
+        telemetry.addData("Forward: ", newForward);
+        telemetry.addData("Right: ", newRight);
+        telemetry.addData("Rotate: ", rotate);
         this.drive(newForward, -newRight, -rotate);
     }
 
     private void drive(double forward, double right, double rotate) {
-        double fLPower = forward + right + rotate;
-        double fRPower = forward - right - rotate; //-
+        double fLPower = -(forward + right + rotate);
+        double fRPower = -(forward - right - rotate); //-
         double bLPower = forward - right + rotate;
         double bRPower = forward + right - rotate; //-
 
