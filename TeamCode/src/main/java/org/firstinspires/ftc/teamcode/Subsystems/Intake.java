@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.Constants;
 public class Intake {
     private Servo leftWheel;
     private Servo rightWheel;
+    private Servo flipServo;
 
     private Telemetry telemetry;
 
@@ -22,16 +23,34 @@ public class Intake {
     }
 
     public void collect(){
-        setPos(Constants.IntakeConstants.SERVO_POWER);
+        wheelSetPos(Constants.IntakeConstants.SERVO_POWER);
     }
 
     public void release(){
-        setPos(-Constants.IntakeConstants.SERVO_POWER);
+        wheelSetPos(-Constants.IntakeConstants.SERVO_POWER);
     }
 
-    public void setPos(double position){
+    public void rotateUp(){
+        setFlipperPos(Constants.IntakeConstants.UP_POSITION);
+    }
+
+    public void rotateDown(){
+        setFlipperPos(Constants.IntakeConstants.DOWN_POSITION);
+    }
+
+
+    public void wheelSetPos(double position){
         leftWheel.setPosition(position);
         rightWheel.setPosition(position);
+    }
+
+    public void setFlipperPos(double position){
+        flipServo.setPosition(position);
+    }
+
+    public void passSample(){
+        rotateUp();
+        release();
     }
 
     public boolean voltageSpike(){

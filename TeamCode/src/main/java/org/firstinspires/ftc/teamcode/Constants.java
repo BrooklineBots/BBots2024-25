@@ -49,8 +49,12 @@ public class Constants {
     public static class IntakeConstants{
         public static final String LEFT_WHEEL_ID = "leftWheel";
         public static final String RIGHT_WHEEL_ID = "rightWheel";
+        public static final String FLIP_SERVO_ID = "flipServo";
+        public static final double UP_POSITION = 0.6;
+        public static final double DOWN_POSITION = 0.2;
         public static final double MAX_VOLTAGE = 5; //TODO: change
         public static final double SERVO_POWER = 0.5;
+
     }
 
 }

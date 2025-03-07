@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Subsystems.HorizontalArm;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.VerticalArm;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
@@ -15,7 +14,6 @@ import org.firstinspires.ftc.teamcode.autonomous.AutonomousRecorder;
 public class RobotContainer extends OpMode {
 
     private VerticalArm verticalArm;
-    //private HorizontalArm horizontalArm;
     private Claw claw;
     private MecanumDrive drive;
     private Intake intake;
@@ -25,7 +23,8 @@ public class RobotContainer extends OpMode {
     private ElapsedTime recordingTimer;
     private boolean isRecording = false;
 
-    private boolean isPressed = false;
+    private boolean isAPressed = false;
+    private boolean isBPressed = false;
 
     @Override
     public void init() {
@@ -33,10 +32,9 @@ public class RobotContainer extends OpMode {
        recorder = new AutonomousRecorder(hardwareMap.appContext);
 
        verticalArm = new VerticalArm(hardwareMap, telemetry);
-       //horizontalArm = new HorizontalArm(hardwareMap, telemetry);
        claw = new Claw(hardwareMap, telemetry);
        drive = new MecanumDrive(hardwareMap, telemetry);
-       intake = new Intake(hardwareMap, telemetry);
+//       intake = new Intake(hardwareMap, telemetry);
 
        recordingTimer = new ElapsedTime();
 
@@ -74,14 +72,6 @@ public class RobotContainer extends OpMode {
             recorder.giveCommand("verticalArm.stop();");
         }
 
-//        if(!isWithinTolerance(0, gamepad2.right_stick_y, 0.1)){
-//            horizontalArm.moveOut(gamepad2.right_stick_y);
-//            recorder.giveCommand("horizontalArm.moveOut(" + gamepad2.right_stick_y + ");");
-//        } else {
-//            verticalArm.stop();
-//            recorder.giveCommand("horizontalArm.stop();");
-//        }
-
         if (gamepad1.a) {
             claw.openClaw();
             recorder.giveCommand("claw.closeClaw();");
@@ -91,13 +81,28 @@ public class RobotContainer extends OpMode {
         }
 
 //        if(gamepad2.a){
-//            isPressed = !isPressed;
+//            isAPressed = !isAPressed;
 //        }
 
-//        if(isPressed){
+//        if(isAPressed){
 //            intake.collect();
-//        } else{
+//        } else if(!isAPressed){
 //            intake.stop();
+//        }
+//
+//        if(gamepad2.b){
+//            isBPressed = !isBPressed;
+//        }
+//
+//        if(isBPressed){
+//            intake.rotateUp();
+//        } else if(!isBPressed){
+//            intake.rotateDown();
+//        }
+//
+//        if(gamepad2.x){
+//            intake.passSample();
+//            claw.closeClaw();
 //        }
 
         if (gamepad1.x) {
