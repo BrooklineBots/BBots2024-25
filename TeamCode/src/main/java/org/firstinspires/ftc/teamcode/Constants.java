@@ -42,8 +42,8 @@ public class Constants {
 
     public static class ClawConstants {
         public static final String CLAW_SERVO_ID = "servo1";
-        public static final double OPEN_POSITION = 0.27;
-        public static final double CLOSE_POSITION = 0.0;
+        public static final double OPEN_POSITION = 0.6;
+        public static final double CLOSE_POSITION = 0.7;
     }
 
     public static class IntakeConstants{

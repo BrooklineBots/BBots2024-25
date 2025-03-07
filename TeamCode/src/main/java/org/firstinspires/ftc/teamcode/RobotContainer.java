@@ -82,20 +82,12 @@ public class RobotContainer extends OpMode {
 //            recorder.giveCommand("horizontalArm.stop();");
 //        }
 
-//        if (gamepad1.a) {
-//            claw.closeClaw();
-//            recorder.giveCommand("claw.closeClaw();");
-//        } else if (gamepad1.b) {
-//            claw.openClaw();
-//            recorder.giveCommand("claw.openClaw();");
-//        }
-
-        telemetry.addData("Servo Position: ", claw.getPosition());
-
-        if(gamepad1.a){
-            claw.setPosition(0.6); //open
-        } else if(gamepad1.b){
-            claw.setPosition(0.7); //close
+        if (gamepad1.a) {
+            claw.openClaw();
+            recorder.giveCommand("claw.closeClaw();");
+        } else if (gamepad1.b) {
+            claw.closeClaw();
+            recorder.giveCommand("claw.openClaw();");
         }
 
 //        if(gamepad2.a){
