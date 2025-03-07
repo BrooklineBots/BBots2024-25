@@ -63,8 +63,8 @@ public class MecanumDrive {
 
     public void driveFieldRelative(double forward, double right, double rotate) {
         double robotAngle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES) / 180;
-//        telemetry.addData("IMU Angle:", robotAngle);
-//        telemetry.update();
+        telemetry.addData("IMU Angle:", robotAngle);
+        telemetry.update();
 
         // Convert to polar coordinates
         double theta = Math.atan2(forward, right);
@@ -82,12 +82,19 @@ public class MecanumDrive {
     }
 
     private void drive(double forward, double right, double rotate) {
-        double fLPower = -(forward + right + rotate);
-        double fRPower = -(forward - right - rotate); //-
-        double bLPower = forward - right + rotate;
+        double fLPower = -forward + right - rotate;
+        double fRPower = -forward + right + rotate; //-
+        double bLPower = -forward + right + rotate;
         double bRPower = forward + right - rotate; //-
+//        double fLPower = forward + right + rotate;
+//        double fRPower = forward - right - rotate; //-
+//        double bLPower = forward - right + rotate;
+//        double bRPower = forward + right - rotate; //-
 
-
+        telemetry.addData("fLPower: ", fLPower);
+        telemetry.addData("fRPower: ", fRPower);
+        telemetry.addData("bLPower: ", bLPower);
+        telemetry.addData("bRPower: ", bRPower);
         setPowers(fLPower, fRPower, bLPower, bRPower);
     }
 

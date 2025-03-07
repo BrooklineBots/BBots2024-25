@@ -47,8 +47,6 @@ public class RobotContainer extends OpMode {
 
     @Override
     public void loop() {
-        telemetry.addData("Is Recording:", isRecording);
-        this.telemetry.update();
 
         if (isRecording && recordingTimer.seconds() >= 15.0) {
             recorder.stopRecording();
@@ -57,8 +55,7 @@ public class RobotContainer extends OpMode {
         }
 
         if(!isWithinTolerance(0, gamepad1.left_stick_y, 0.1) || !isWithinTolerance(0, gamepad1.left_stick_x, 0.1) || !isWithinTolerance(0, gamepad1.right_stick_x, 0.1)){
-            drive.driveFieldRelative(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
-
+            drive.driveFieldRelative(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
             recorder.giveCommand("drive.driveFieldRelative(" + gamepad1.left_stick_x + ", " + gamepad1.left_stick_y + ", " + gamepad1.right_stick_x + ");");
         } else{
             drive.stop();
