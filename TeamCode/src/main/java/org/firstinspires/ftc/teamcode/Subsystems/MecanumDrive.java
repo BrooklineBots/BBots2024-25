@@ -82,14 +82,14 @@ public class MecanumDrive {
     }
 
     private void drive(double forward, double right, double rotate) {
-        double fLPower = -forward + right - rotate;
-        double fRPower = -forward + right + rotate; //-
-        double bLPower = -forward + right + rotate;
-        double bRPower = forward + right - rotate; //-
-//        double fLPower = forward + right + rotate;
-//        double fRPower = forward - right - rotate; //-
-//        double bLPower = forward - right + rotate;
+//        double fLPower = -forward + right - rotate;
+//        double fRPower = -forward + right + rotate; //-
+//        double bLPower = -forward + right + rotate;
 //        double bRPower = forward + right - rotate; //-
+        double fLPower = forward + right + rotate;
+        double fRPower = forward - right - rotate; //-
+        double bLPower = forward - right + rotate;
+        double bRPower = forward + right - rotate; //-
 
 //        telemetry.addData("fLPower: ", fLPower);
 //        telemetry.addData("fRPower: ", fRPower);

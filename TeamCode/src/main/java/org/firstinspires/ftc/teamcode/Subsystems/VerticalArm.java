@@ -63,6 +63,11 @@ public class VerticalArm {
 
         leftArm.setPower(ArmConstants.VERTICAL_MOVE_POWER);
         rightArm.setPower(ArmConstants.VERTICAL_MOVE_POWER);
+
+    }
+
+    public double[] getCurrentPosition(){
+        return new double[]{leftArm.getCurrentPosition(), rightArm.getCurrentPosition()};
     }
 
     public double[] getArmPowers() {

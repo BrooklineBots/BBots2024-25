@@ -15,7 +15,7 @@ public class Constants {
         public static final int VERTICAL_MIN_POSITION = 0; //TODO: change
         public static final int VERTICAL_MAX_POSITION = 4409;
         public static final double VERTICAL_MOVE_POWER = 0.25;
-        public static final int MAX_ALLOWED_DIFFERENCE = 50;
+        public static final int MAX_ALLOWED_DIFFERENCE = 10;
 
         //Horizontal Arm Constants
         public static final String HORIZONTAL_ARM_ID = "horizontalArm";
