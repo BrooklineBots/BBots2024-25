@@ -95,7 +95,7 @@ public class RobotContainer extends OpMode {
         if(!isWithinTolerance(0, gamepad1.left_stick_y, 0.05) ||
                 !isWithinTolerance(0, gamepad1.left_stick_x, 0.05) ||
                 !isWithinTolerance(0, gamepad1.right_stick_x, 0.05)){
-            drive.driveFieldRelative(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+            drive.drive(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
         } else{
             drive.stop();
         }
@@ -106,11 +106,11 @@ public class RobotContainer extends OpMode {
             verticalArm.goToPosition(Constants.ArmPosition.SCORE_LOW);
         }
 
-        if (gamepad1.a) {
-            claw.openClaw();
-        } else if (gamepad1.b) {
-            claw.closeClaw();
-        }
+//        if (gamepad2.) {
+//            claw.openClaw();
+//        } else if (gamepad1.b) {
+//            claw.closeClaw();
+//        }
 
 //        if(gamepad2.a){
 //            isAPressed = !isAPressed;
@@ -137,8 +137,8 @@ public class RobotContainer extends OpMode {
 //            claw.closeClaw();
 //        }
 
-        telemetry.addData("Left Arm Position: ", verticalArm.getCurrentPosition()[0]);
-        telemetry.addData("Right Arm Position: ", verticalArm.getCurrentPosition()[1]);
+//        telemetry.addData("Left Arm Position: ", verticalArm.getCurrentPosition()[0]);
+//        telemetry.addData("Right Arm Position: ", verticalArm.getCurrentPosition()[1]);
         telemetry.update();
 
 
