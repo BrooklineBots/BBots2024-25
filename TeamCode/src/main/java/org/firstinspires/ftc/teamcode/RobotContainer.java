@@ -98,10 +98,10 @@ public class RobotContainer extends OpMode {
             drive.stop();
         }
 
-        if (!isWithinTolerance(0, gamepad2.left_stick_y, 0.1)) {
-            verticalArm.moveUp(gamepad2.left_stick_y);
-        } else {
-            verticalArm.stop();
+        if(gamepad2.dpad_up){
+            verticalArm.goToPosition(Constants.ArmPosition.SCORE_MID);
+        } else if(gamepad2.dpad_down){
+            verticalArm.goToPosition(Constants.ArmPosition.SCORE_LOW);
         }
 
         if (gamepad1.a) {

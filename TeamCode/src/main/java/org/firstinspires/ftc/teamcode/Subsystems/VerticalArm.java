@@ -45,6 +45,17 @@ public class VerticalArm {
             stop();
         }
 
+        if(Math.abs(leftArm.getCurrentPosition() - rightArm.getCurrentPosition()) > ArmConstants.MAX_ALLOWED_DIFFERENCE){
+            double leftDistance = Math.abs(leftArm.getCurrentPosition() - targetPosition);
+            double rightDistance = Math.abs(rightArm.getCurrentPosition() - targetPosition);
+
+            if(leftDistance >= rightDistance){
+                rightArm.setPower(0);
+            } else{
+                leftArm.setPower(0);
+            }
+        }
+
         leftArm.setTargetPosition(targetPosition);
         rightArm.setTargetPosition(targetPosition);
 
@@ -81,9 +92,7 @@ public class VerticalArm {
         int leftPos = leftArm.getCurrentPosition();
         int rightPos = rightArm.getCurrentPosition();
 
-        if(Math.abs(leftPos - rightPos) > ArmConstants.MAX_ALLOWED_DIFFERENCE){
-            stop();
-        }
+
 
         if(leftPos < ArmConstants.VERTICAL_MIN_POSITION || leftPos > ArmConstants.VERTICAL_MAX_POSITION || rightPos < ArmConstants.VERTICAL_MIN_POSITION || rightPos > ArmConstants.VERTICAL_MAX_POSITION){
             stop();
