@@ -82,9 +82,8 @@ public class RobotContainer extends OpMode {
             );
             telemetry.update();
         } else {
-            telemetry.addData("Container, isRecording: ", isRecording);
-            telemetry.addData("sdgfaing: ", (double) recordingTimer / 1000);
-            telemetry.update();
+//            telemetry.addData("Container, isRecording: ", isRecording);
+//            telemetry.update();
         }
 
         if (isRecording && ( (double) recordingTimer / 1000) >= 15.0) {
