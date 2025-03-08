@@ -63,8 +63,8 @@ public class MecanumDrive {
 
     public void driveFieldRelative(double forward, double right, double rotate) {
         double robotAngle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES) / 180;
-        telemetry.addData("IMU Angle:", robotAngle);
-        telemetry.update();
+//        telemetry.addData("IMU Angle:", robotAngle);
+//        telemetry.update();
 
         // Convert to polar coordinates
         double theta = Math.atan2(forward, right);
@@ -75,9 +75,9 @@ public class MecanumDrive {
         double newForward = r * Math.sin(theta);
         double newRight = r * Math.cos(theta);
 
-        telemetry.addData("Forward: ", newForward);
-        telemetry.addData("Right: ", newRight);
-        telemetry.addData("Rotate: ", rotate);
+//        telemetry.addData("Forward: ", newForward);
+//        telemetry.addData("Right: ", newRight);
+//        telemetry.addData("Rotate: ", rotate);
         this.drive(newForward, -newRight, -rotate);
     }
 
@@ -91,33 +91,31 @@ public class MecanumDrive {
 //        double bLPower = forward - right + rotate;
 //        double bRPower = forward + right - rotate; //-
 
-        telemetry.addData("fLPower: ", fLPower);
-        telemetry.addData("fRPower: ", fRPower);
-        telemetry.addData("bLPower: ", bLPower);
-        telemetry.addData("bRPower: ", bRPower);
+//        telemetry.addData("fLPower: ", fLPower);
+//        telemetry.addData("fRPower: ", fRPower);
+//        telemetry.addData("bLPower: ", bLPower);
+//        telemetry.addData("bRPower: ", bRPower);
         setPowers(fLPower, fRPower, bLPower, bRPower);
     }
 
-    public void testMotors(){
-        try {
-            frontLeftMotor.setPower(0.2);
-            Thread.sleep(1000);
-            stop();
-            frontRightMotor.setPower(0.2);
-            Thread.sleep(1000);
-            stop();
-            backLeftMotor.setPower(0.2);
-            Thread.sleep(1000);
-            stop();
-            backRightMotor.setPower(0.2);
-            Thread.sleep(1000);
-            stop();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+    public double[] getMotorPowers() {
+        return new double[] {
+                frontLeftMotor.getPower(),
+                frontRightMotor.getPower(),
+                backLeftMotor.getPower(),
+                backRightMotor.getPower()
+        };
     }
 
     public void stop() {
         setPowers(0, 0, 0, 0);
     }
-}
+
+    public void setExactMotorPowers(double fLPower, double fRPower, double bLPower, double bRPower) {
+        frontLeftMotor.setPower(fLPower);
+        frontRightMotor.setPower(fRPower);
+        backLeftMotor.setPower(bLPower);
+        backRightMotor.setPower(bRPower);
+    }
+
+    }

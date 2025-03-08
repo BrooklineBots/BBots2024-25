@@ -37,7 +37,7 @@ public class DriveRightAuto extends LinearOpMode {
         frontRightMotor = hwMap.dcMotor.get("front_right_motor");
         backLeftMotor = hwMap.dcMotor.get("back_left_motor");
         backRightMotor = hwMap.dcMotor.get("back_right_motor");
-
+        
         //frontLeftMotor.setDirection(DcMotor.Direction.REVERSE); bc not work
         backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotor.Direction.REVERSE);

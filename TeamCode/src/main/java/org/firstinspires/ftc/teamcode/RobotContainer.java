@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -20,7 +22,8 @@ public class RobotContainer extends OpMode {
 
     private AutonomousRecorder recorder;
 
-    private ElapsedTime recordingTimer;
+    private long recordingTimer;
+    private final long startTimer = System.currentTimeMillis();
     private boolean isRecording = false;
 
     private boolean isAPressed = false;
@@ -29,14 +32,14 @@ public class RobotContainer extends OpMode {
     @Override
     public void init() {
 
-       recorder = new AutonomousRecorder(hardwareMap.appContext);
+       recorder = new AutonomousRecorder(hardwareMap.appContext, telemetry);
 
        verticalArm = new VerticalArm(hardwareMap, telemetry);
        claw = new Claw(hardwareMap, telemetry);
        drive = new MecanumDrive(hardwareMap, telemetry);
 //       intake = new Intake(hardwareMap, telemetry);
 
-       recordingTimer = new ElapsedTime();
+       recordingTimer = System.currentTimeMillis() - startTimer;
 
 
     }
@@ -48,7 +51,43 @@ public class RobotContainer extends OpMode {
     @Override
     public void loop() {
 
-        if (isRecording && recordingTimer.seconds() >= 15.0) {
+        if (gamepad1.x) {
+            if (recorder.startRecording()) {
+                isRecording = true;
+                recordingTimer = System.currentTimeMillis();
+                gamepad1.rumble(250);
+            }
+        }
+
+        if (isRecording) {
+            double[] drivePowers = drive.getMotorPowers();
+            double[] armPower = verticalArm.getArmPowers();
+            double[] wheelPower = {0, 0}; // intake.getWheelPowers();
+            double clawPosition = claw.getClawPosition();
+            double flipperPosition = 0.0; //intake.getFlipperPos();
+            recordingTimer = System.currentTimeMillis() - startTimer;
+
+            recorder.recordData(
+                    recordingTimer,
+                    drivePowers[0],  // Front Left
+                    drivePowers[1],  // Front Right
+                    drivePowers[2],  // Back Left
+                    drivePowers[3],  // Back Right
+                    armPower[0], //Left Arm
+                    armPower[1], //Right Arm
+                    clawPosition, //Claw
+                    0, //wheelPower[0], //Intake Left
+                    0, //wheelPower[1], //Intake Right
+                    0 //flipperPosition //Flipper
+            );
+            telemetry.update();
+        } else {
+            telemetry.addData("Container, isRecording: ", isRecording);
+            telemetry.addData("sdgfaing: ", (double) recordingTimer / 1000);
+            telemetry.update();
+        }
+
+        if (isRecording && ( (double) recordingTimer / 1000) >= 15.0) {
             recorder.stopRecording();
             isRecording = false;
             gamepad1.rumble(250);
@@ -56,30 +95,20 @@ public class RobotContainer extends OpMode {
 
         if(!isWithinTolerance(0, gamepad1.left_stick_y, 0.1) || !isWithinTolerance(0, gamepad1.left_stick_x, 0.1) || !isWithinTolerance(0, gamepad1.right_stick_x, 0.1)){
             drive.driveFieldRelative(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
-            recorder.giveCommand("drive.driveFieldRelative(" + gamepad1.left_stick_x + ", " + gamepad1.left_stick_y + ", " + gamepad1.right_stick_x + ");");
         } else{
             drive.stop();
-            recorder.giveCommand("drive.stop();");
-        }
-
-        if(gamepad1.y){
-            drive.testMotors();
         }
 
         if (!isWithinTolerance(0, gamepad2.left_stick_y, 0.1)) {
             verticalArm.moveUp(gamepad2.left_stick_y);
-            recorder.giveCommand("verticalArm.moveUp(" + gamepad2.left_stick_y + ");");
         } else {
             verticalArm.stop();
-            recorder.giveCommand("verticalArm.stop();");
         }
 
         if (gamepad1.a) {
             claw.openClaw();
-            recorder.giveCommand("claw.closeClaw();");
         } else if (gamepad1.b) {
             claw.closeClaw();
-            recorder.giveCommand("claw.openClaw();");
         }
 
 //        if(gamepad2.a){
@@ -107,13 +136,7 @@ public class RobotContainer extends OpMode {
 //            claw.closeClaw();
 //        }
 
-        if (gamepad1.x) {
-            if (recorder.startRecording()) {
-                isRecording = true;
-                recordingTimer.reset();
-                gamepad1.rumble(250);
-            }
-        }
+
         telemetry.update();
 
 

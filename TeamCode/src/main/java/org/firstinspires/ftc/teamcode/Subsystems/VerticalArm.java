@@ -54,9 +54,18 @@ public class VerticalArm {
         rightArm.setPower(ArmConstants.VERTICAL_MOVE_POWER);
     }
 
+    public double[] getArmPowers() {
+        return new double[]{leftArm.getPower(), rightArm.getPower()};
+    }
+
     public void moveUp(double power){
         leftArm.setPower(-power);
         rightArm.setPower(-power);
+    }
+
+    public void setArmPowers(double left, double right) {
+        leftArm.setPower(left);
+        rightArm.setPower(right);
     }
 
     public void stop(){

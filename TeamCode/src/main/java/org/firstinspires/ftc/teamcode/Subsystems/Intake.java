@@ -26,6 +26,14 @@ public class Intake {
         wheelSetPos(Constants.IntakeConstants.SERVO_POWER);
     }
 
+    public double[] getWheelPowers(){
+        return new double[]{leftWheel.getPosition(), rightWheel.getPosition()};
+    }
+
+    public double getFlipperPos(){
+        return flipServo.getPosition();
+    }
+
     public void release(){
         wheelSetPos(-Constants.IntakeConstants.SERVO_POWER);
     }
@@ -42,6 +50,11 @@ public class Intake {
     public void wheelSetPos(double position){
         leftWheel.setPosition(position);
         rightWheel.setPosition(position);
+    }
+
+    public void setIntakePowers(double leftPower, double rightPower){
+        leftWheel.setPosition(leftPower);
+        rightWheel.setPosition(rightPower);
     }
 
     public void setFlipperPos(double position){

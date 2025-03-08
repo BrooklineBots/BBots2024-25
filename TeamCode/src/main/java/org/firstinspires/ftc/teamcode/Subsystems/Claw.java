@@ -35,6 +35,10 @@ public class Claw {
         }
     }
 
+    public double getClawPosition() {
+        return claw.getPosition();
+    }
+
     public double getPosition(){
         return claw.getPosition();
     }
