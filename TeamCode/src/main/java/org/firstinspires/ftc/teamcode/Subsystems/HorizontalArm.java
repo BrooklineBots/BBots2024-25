@@ -50,6 +50,10 @@ public class HorizontalArm {
         horizontalArm.setPower(-power);
     }
 
+    public void setArmPower(double HorizPower) {
+        horizontalArm.setPower(HorizPower);
+    }
+
     public void stop(){
         horizontalArm.setPower(0);
     }
