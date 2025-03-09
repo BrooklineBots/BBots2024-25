@@ -2,14 +2,18 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.sun.tools.javac.code.Attribute;
 
+import org.firstinspires.ftc.robotcore.external.Const;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Constants;
 
 public class Intake {
     private Servo leftWheel;
     private Servo rightWheel;
-    private Servo flipServo;
+    private Servo leftFlipServo;
+    private Servo rightFlipServo;
+
 
     private Telemetry telemetry;
 
@@ -17,6 +21,8 @@ public class Intake {
         this.telemetry = telemetry;
         leftWheel = hwMap.get(Servo.class, Constants.IntakeConstants.LEFT_WHEEL_ID);
         rightWheel = hwMap.get(Servo.class, Constants.IntakeConstants.RIGHT_WHEEL_ID);
+        leftFlipServo = hwMap.get(Servo.class, Constants.IntakeConstants.LEFT_FLIP_SERVO_ID);
+        leftFlipServo = hwMap.get(Servo.class, Constants.IntakeConstants.RIGHT_FLIP_SERVO_ID);
 
         leftWheel.setDirection(Servo.Direction.FORWARD);
         rightWheel.setDirection(Servo.Direction.REVERSE);
@@ -30,8 +36,8 @@ public class Intake {
         return new double[]{leftWheel.getPosition(), rightWheel.getPosition()};
     }
 
-    public double getFlipperPos(){
-        return flipServo.getPosition();
+    public double[] getFlipperPos(){
+        return new double[]{leftFlipServo.getPosition(), rightFlipServo.getPosition()};
     }
 
     public void release(){
@@ -39,11 +45,11 @@ public class Intake {
     }
 
     public void rotateUp(){
-        setFlipperPos(Constants.IntakeConstants.UP_POSITION);
+        setFlipperPos(Constants.IntakeConstants.LEFT_UP_POSITION, Constants.IntakeConstants.RIGHT_UP_POSITION);
     }
 
     public void rotateDown(){
-        setFlipperPos(Constants.IntakeConstants.DOWN_POSITION);
+        setFlipperPos(Constants.IntakeConstants.LEFT_DOWN_POSITION, Constants.IntakeConstants.RIGHT_DOWN_POSITION);
     }
 
 
@@ -57,20 +63,18 @@ public class Intake {
         rightWheel.setPosition(rightPower);
     }
 
-    public void setFlipperPos(double position){
-        flipServo.setPosition(position);
+    public void setFlipperPos(double position1, double position2){
+        leftFlipServo.setPosition(position1);
+        rightFlipServo.setPosition(position2);
     }
 
-    public void passSample(){
+    public void passSample(){ //TODO: SPIT COMMAND
         rotateUp();
         release();
     }
 
-    public boolean voltageSpike(){
-        return false;
-    }
 
-    public void stop(){
+    public void stopWheels(){
         leftWheel.setPosition(0);
         rightWheel.setPosition(0);
     }
