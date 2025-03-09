@@ -25,7 +25,6 @@ public class RobotContainer extends OpMode {
 
     private boolean isAPressed = false;
     private boolean isBPressed = false;
-    private boolean isA1Pressed = false;
 
     @Override
     public void init() {
@@ -109,6 +108,11 @@ public class RobotContainer extends OpMode {
             if(verticalArm.getGoalPosition() == Constants.ArmPosition.GO_TO_HIGH_BAR
                     && claw.getGoalPosition() == Constants.ClawPosition.CLOSE_POSITION){
                 verticalArm.goToPosition(Constants.ArmPosition.SCORE_HIGH_BAR);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    System.out.println("Big Sad");
+                }
                 claw.setPosition(Constants.ClawPosition.OPEN_POSITION.position);
             } else if(verticalArm.getGoalPosition() == Constants.ArmPosition.SCORE_HIGH_BUCKET
                     && claw.getGoalPosition() == Constants.ClawPosition.CLOSE_POSITION){
@@ -121,33 +125,26 @@ public class RobotContainer extends OpMode {
 
         }
 
-        if(gamepad1.a){
-            isA1Pressed = !isA1Pressed;
-            if (isA1Pressed) {
-                claw.openClaw();
-            } else{
-                claw.closeClaw();
-            }
+        if(gamepad1.left_bumper){
+            claw.closeClaw();
+        } else if (gamepad1.right_bumper) {
+            claw.openClaw();
         }
-
 
         //DRIVERS PRACTICE STOPPING AT THE RIGHT TIME
-        if(gamepad2.a){
-            isAPressed = !isAPressed;
-            if(isAPressed){
-                intake.collect();
-            } else if(!isAPressed){
-                intake.stopWheels();
-            }
+        if(gamepad2.left_trigger >= 0.25) {
+            intake.collect();
+        } else if (gamepad2.right_trigger >= 0.25) {
+            intake.stopWheels();
+
         }
 
-        if(gamepad2.b){
-            isBPressed = !isBPressed;
-            if(isBPressed){
-                intake.rotateUp();
-            } else if(!isBPressed){
-                intake.rotateDown();
-            }
+        if(gamepad2.left_bumper) {
+            intake.rotateDown();
+        } else if (gamepad2.right_bumper) {
+            verticalArm.goToPosition(Constants.ArmPosition.INTAKE);
+            intake.rotateUp();
+
         }
 
         if(gamepad2.x){
