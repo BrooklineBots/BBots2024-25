@@ -46,7 +46,7 @@ public class Constants {
     }
 
     public enum ClawPosition{
-        CLOSE_POSITION(0.7),
+        CLOSE_POSITION(0.4),
         OPEN_POSITION(0.6);
 
 
