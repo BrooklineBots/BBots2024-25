@@ -29,9 +29,10 @@ public class Constants {
 
     public enum ArmPosition{
         INTAKE(0),
-        SCORE_LOW(500),
-        SCORE_MID(2000),
-        SCORE_HIGH(1500);
+        STOWED(100),
+        SCORE_HIGH_BUCKET(2000),
+        GO_TO_HIGH_BAR(1500),
+        SCORE_HIGH_BAR(1300); //TODO: change
 
         public final int encoderTicks;
 
@@ -42,16 +43,29 @@ public class Constants {
 
     public static class ClawConstants {
         public static final String CLAW_SERVO_ID = "servo1";
-        public static final double OPEN_POSITION = 0.6;
-        public static final double CLOSE_POSITION = 0.7;
+    }
+
+    public enum ClawPosition{
+        CLOSE_POSITION(0.7),
+        OPEN_POSITION(0.6);
+
+
+        public final double position;
+
+        ClawPosition(double position){
+            this.position = position;
+        }
     }
 
     public static class IntakeConstants{
         public static final String LEFT_WHEEL_ID = "leftWheel";
         public static final String RIGHT_WHEEL_ID = "rightWheel";
-        public static final String FLIP_SERVO_ID = "flipServo";
-        public static final double UP_POSITION = 0.6;
-        public static final double DOWN_POSITION = 0.2;
+        public static final String LEFT_FLIP_SERVO_ID = "leftFlipServo";
+        public static final String RIGHT_FLIP_SERVO_ID = "rightFlipServo";
+        public static final double LEFT_UP_POSITION = 0.6; //TODO: change
+        public static final double RIGHT_UP_POSITION = 0.6;
+        public static final double LEFT_DOWN_POSITION = 0.2; //TODO: change
+        public static final double RIGHT_DOWN_POSITION = 0.2;
         public static final double MAX_VOLTAGE = 5; //TODO: change
         public static final double SERVO_POWER = 0.5;
 

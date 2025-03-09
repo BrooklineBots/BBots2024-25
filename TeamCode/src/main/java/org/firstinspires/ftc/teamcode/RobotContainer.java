@@ -1,10 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
-
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.VerticalArm;
@@ -28,6 +25,7 @@ public class RobotContainer extends OpMode {
 
     private boolean isAPressed = false;
     private boolean isBPressed = false;
+    private boolean isA1Pressed = false;
 
     @Override
     public void init() {
@@ -101,41 +99,62 @@ public class RobotContainer extends OpMode {
         }
 
         if(gamepad2.dpad_up){
-            verticalArm.goToPosition(Constants.ArmPosition.SCORE_MID);
+            verticalArm.goToPosition(Constants.ArmPosition.GO_TO_HIGH_BAR);
+        } else if(gamepad2.dpad_right){
+            verticalArm.goToPosition(Constants.ArmPosition.SCORE_HIGH_BUCKET);
         } else if(gamepad2.dpad_down){
-            verticalArm.goToPosition(Constants.ArmPosition.SCORE_LOW);
+            verticalArm.goToPosition(Constants.ArmPosition.STOWED);
+        } else if(gamepad2.dpad_left){
+            if(verticalArm.getGoalPosition() == Constants.ArmPosition.GO_TO_HIGH_BAR
+                    && claw.getGoalPosition() == Constants.ClawPosition.CLOSE_POSITION){
+                verticalArm.goToPosition(Constants.ArmPosition.SCORE_HIGH_BAR);
+                claw.setPosition(Constants.ClawPosition.OPEN_POSITION.position);
+            } else if(verticalArm.getGoalPosition() == Constants.ArmPosition.SCORE_HIGH_BUCKET
+                    && claw.getGoalPosition() == Constants.ClawPosition.CLOSE_POSITION){
+                claw.setPosition(Constants.ClawPosition.OPEN_POSITION.position);
+            } else {
+                claw.setPosition(Constants.ClawPosition.OPEN_POSITION.position);
+                verticalArm.goToPosition(Constants.ArmPosition.STOWED);
+
+            }
+
         }
 
-//        if (gamepad2.) {
-//            claw.openClaw();
-//        } else if (gamepad1.b) {
-//            claw.closeClaw();
-//        }
+        if(gamepad1.a){
+            isA1Pressed = !isA1Pressed;
+            if (isA1Pressed) {
+                claw.openClaw();
+            } else{
+                claw.closeClaw();
+            }
+        }
 
-//        if(gamepad2.a){
-//            isAPressed = !isAPressed;
-//        }
 
-//        if(isAPressed){
-//            intake.collect();
-//        } else if(!isAPressed){
-//            intake.stop();
-//        }
-//
-//        if(gamepad2.b){
-//            isBPressed = !isBPressed;
-//        }
-//
-//        if(isBPressed){
-//            intake.rotateUp();
-//        } else if(!isBPressed){
-//            intake.rotateDown();
-//        }
-//
-//        if(gamepad2.x){
-//            intake.passSample();
-//            claw.closeClaw();
-//        }
+        //DRIVERS PRACTICE STOPPING AT THE RIGHT TIME
+        if(gamepad2.a){
+            isAPressed = !isAPressed;
+            if(isAPressed){
+                intake.collect();
+            } else if(!isAPressed){
+                intake.stop();
+            }
+        }
+
+        if(gamepad2.b){
+            isBPressed = !isBPressed;
+            if(isBPressed){
+                intake.rotateUp();
+            } else if(!isBPressed){
+                intake.rotateDown();
+            }
+        }
+
+        if(gamepad2.x){
+            intake.passSample();
+            claw.closeClaw();
+        }
+
+        //make autonomous commands
 
 //        telemetry.addData("Left Arm Position: ", verticalArm.getCurrentPosition()[0]);
 //        telemetry.addData("Right Arm Position: ", verticalArm.getCurrentPosition()[1]);

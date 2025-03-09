@@ -11,6 +11,7 @@ public class VerticalArm {
 
     private DcMotor leftArm;
     private DcMotor rightArm;
+    private ArmPosition goalPosition;
 
 
     private Telemetry telemetry;
@@ -19,6 +20,7 @@ public class VerticalArm {
         this.telemetry = telemetry;
         leftArm = hwMap.dcMotor.get(Constants.ArmConstants.LEFT_ARM_ID);
         rightArm = hwMap.dcMotor.get(Constants.ArmConstants.RIGHT_ARM_ID);
+        goalPosition = ArmPosition.STOWED;
 
         rightArm.setDirection(DcMotor.Direction.REVERSE);
 
@@ -39,6 +41,7 @@ public class VerticalArm {
     }
 
     public void goToPosition(ArmPosition position){
+        goalPosition = position;
         int targetPosition = position.encoderTicks;
 
         if(targetPosition < ArmConstants.VERTICAL_MIN_POSITION || targetPosition > ArmConstants.VERTICAL_MAX_POSITION){
@@ -64,6 +67,10 @@ public class VerticalArm {
         leftArm.setPower(ArmConstants.VERTICAL_MOVE_POWER);
         rightArm.setPower(ArmConstants.VERTICAL_MOVE_POWER);
 
+    }
+
+    public ArmPosition getGoalPosition(){
+        return goalPosition;
     }
 
     public double[] getCurrentPosition(){
