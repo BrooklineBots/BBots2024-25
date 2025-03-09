@@ -57,18 +57,18 @@ public class Constants {
         }
     }
 
-    public static class IntakeConstants{
-        public static final String LEFT_WHEEL_ID = "leftWheel";
-        public static final String RIGHT_WHEEL_ID = "rightWheel";
-        public static final String LEFT_FLIP_SERVO_ID = "leftFlipServo";
-        public static final String RIGHT_FLIP_SERVO_ID = "rightFlipServo";
-        public static final double LEFT_UP_POSITION = 0.82; //TODO: change
-        public static final double LEFT_DOWN_POSITION = 0.37; //TODO: change
-        public static final double RIGHT_UP_POSITION = 0.9;
-        public static final double RIGHT_DOWN_POSITION = 0.45;
-        public static final double MAX_VOLTAGE = 5; //TODO: change
-        public static final double SERVO_POWER = 0.5;
-
-    }
+//    public static class IntakeConstants{
+//        public static final String LEFT_WHEEL_ID = "leftWheel";
+//        public static final String RIGHT_WHEEL_ID = "rightWheel";
+//        public static final String LEFT_FLIP_SERVO_ID = "leftFlipServo";
+//        public static final String RIGHT_FLIP_SERVO_ID = "rightFlipServo";
+//        public static final double LEFT_UP_POSITION = 0.82; //TODO: change
+//        public static final double LEFT_DOWN_POSITION = 0.37; //TODO: change
+//        public static final double RIGHT_UP_POSITION = 0.9;
+//        public static final double RIGHT_DOWN_POSITION = 0.45;
+//        public static final double MAX_VOLTAGE = 5; //TODO: change
+//        public static final double SERVO_POWER = 0.5;
+//
+//    }
 
 }

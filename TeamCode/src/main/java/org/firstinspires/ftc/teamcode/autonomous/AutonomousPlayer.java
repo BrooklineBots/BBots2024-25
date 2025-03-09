@@ -19,7 +19,7 @@ public class AutonomousPlayer extends LinearOpMode {
     private MecanumDrive drive;
     private VerticalArm verticalArm;
     private Claw claw;
-    private Intake intake; //TODO: UNcomment me
+//    private Intake intake; //TODO: UNcomment me
 
     // Data structure for recorded states
     private static class Record {
@@ -47,21 +47,21 @@ public class AutonomousPlayer extends LinearOpMode {
             drive.setExactMotorPowers(record.fl, record.fr, record.bl, record.br);
             verticalArm.setArmPowers(record.leftArm, record.rightArm);
             claw.setPosition(record.claw);
-            intake.setIntakePowers(record.intakeLeft, record.intakeRight);//TODO: UNcomment me
-            intake.setFlipperPos(record.leftFlipper, record.rightFlipper);//TODO: UNcomment me
+//            intake.setIntakePowers(record.intakeLeft, record.intakeRight);//TODO: UNcomment me
+//            intake.setFlipperPos(record.leftFlipper, record.rightFlipper);//TODO: UNcomment me
         }
 
         // Stop all motors at the end
         drive.stop();
         verticalArm.stop();
-        intake.stopWheels();//TODO: UNcomment me
+//        intake.stopWheels();//TODO: UNcomment me
     }
 
     private void initializeSubsystems() {
         drive = new MecanumDrive(hardwareMap, telemetry);
         verticalArm = new VerticalArm(hardwareMap, telemetry);
         claw = new Claw(hardwareMap, telemetry);
-        intake = new Intake(hardwareMap, telemetry);//TODO: UNcomment me
+//        intake = new Intake(hardwareMap, telemetry);//TODO: UNcomment me
     }
 
     private List<Record> readCSV(String filename) {
@@ -83,10 +83,10 @@ public class AutonomousPlayer extends LinearOpMode {
                 record.leftArm = Double.parseDouble(values[5]);
                 record.rightArm = Double.parseDouble(values[6]);
                 record.claw = Double.parseDouble(values[7]);
-                record.intakeLeft = Double.parseDouble(values[8]);
-                record.intakeRight = Double.parseDouble(values[9]);
-                record.leftFlipper = Double.parseDouble(values[10]);
-                record.rightFlipper = Double.parseDouble(values[11]);
+//                record.intakeLeft = Double.parseDouble(values[8]);
+//                record.intakeRight = Double.parseDouble(values[9]);
+//                record.leftFlipper = Double.parseDouble(values[10]);
+//                record.rightFlipper = Double.parseDouble(values[11]);
                 records.add(record);
             }
         } catch (IOException | NumberFormatException e) {

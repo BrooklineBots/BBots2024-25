@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Subsystems.Intake;
+//import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.VerticalArm;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Subsystems.MecanumDrive;
@@ -15,7 +15,7 @@ public class RobotContainer extends OpMode {
     private VerticalArm verticalArm;
     private Claw claw;
     private MecanumDrive drive;
-    private Intake intake;
+//    private Intake intake;
 
     private AutonomousRecorder recorder;
 
@@ -34,7 +34,7 @@ public class RobotContainer extends OpMode {
        verticalArm = new VerticalArm(hardwareMap, telemetry);
        claw = new Claw(hardwareMap, telemetry);
        drive = new MecanumDrive(hardwareMap, telemetry);
-       intake = new Intake(hardwareMap, telemetry);
+//       intake = new Intake(hardwareMap, telemetry);
 
        recordingTimer = System.currentTimeMillis() - startTimer;
 
@@ -59,9 +59,9 @@ public class RobotContainer extends OpMode {
         if (isRecording) {
             double[] drivePowers = drive.getMotorPowers();
             double[] armPower = verticalArm.getArmPowers();
-            double[] wheelPower = {0, 0}; // intake.getWheelPowers();
+//            double[] wheelPower = {0, 0}; // intake.getWheelPowers();
             double clawPosition = claw.getClawPosition();
-            double[] flipperPosition = intake.getFlipperPos();
+//            double[] flipperPosition = intake.getFlipperPos();
             recordingTimer = System.currentTimeMillis() - startTimer;
 
             recorder.recordData(
@@ -72,11 +72,12 @@ public class RobotContainer extends OpMode {
                     drivePowers[3],  // Back Right
                     armPower[0], //Left Arm
                     armPower[1], //Right Arm
-                    clawPosition, //Claw
-                    wheelPower[0], //Intake Left
-                    wheelPower[1], //Intake Right
-                    flipperPosition[0], //leftFlipper
-                    flipperPosition[1] //rightFlipper
+                    clawPosition
+//                    , //Claw
+//                    wheelPower[0], //Intake Left
+//                    wheelPower[1], //Intake Right
+//                    flipperPosition[0], //leftFlipper
+//                    flipperPosition[1] //rightFlipper
             );
             telemetry.update();
         } else {
@@ -132,25 +133,23 @@ public class RobotContainer extends OpMode {
         }
 
         //DRIVERS PRACTICE STOPPING AT THE RIGHT TIME
-        if(gamepad2.left_trigger >= 0.25) {
-            intake.collect();
-        } else if (gamepad2.right_trigger >= 0.25) {
-            intake.stopWheels();
+//        if(gamepad2.left_trigger >= 0.25) {
+//            intake.collect();
+//        } else if (gamepad2.right_trigger >= 0.25) {
+//            intake.stopWheels();
+//        }
+//
+//        if(gamepad2.left_bumper) {
+//            intake.rotateDown();
+//        } else if (gamepad2.right_bumper) {
+//            verticalArm.goToPosition(Constants.ArmPosition.INTAKE);
+//            intake.rotateUp();
+//        }
 
-        }
-
-        if(gamepad2.left_bumper) {
-            intake.rotateDown();
-        } else if (gamepad2.right_bumper) {
-            verticalArm.goToPosition(Constants.ArmPosition.INTAKE);
-            intake.rotateUp();
-
-        }
-
-        if(gamepad2.x){
-            intake.passSample();
-            claw.closeClaw();
-        }
+//        if(gamepad2.x){
+//            intake.passSample();
+//            claw.closeClaw();
+//        }
 
         //make autonomous commands
 
