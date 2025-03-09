@@ -35,7 +35,7 @@ public class RobotContainer extends OpMode {
        verticalArm = new VerticalArm(hardwareMap, telemetry);
        claw = new Claw(hardwareMap, telemetry);
        drive = new MecanumDrive(hardwareMap, telemetry);
-//       intake = new Intake(hardwareMap, telemetry);
+       intake = new Intake(hardwareMap, telemetry);
 
        recordingTimer = System.currentTimeMillis() - startTimer;
 
@@ -62,7 +62,7 @@ public class RobotContainer extends OpMode {
             double[] armPower = verticalArm.getArmPowers();
             double[] wheelPower = {0, 0}; // intake.getWheelPowers();
             double clawPosition = claw.getClawPosition();
-            double flipperPosition = 0.0; //intake.getFlipperPos();
+            double[] flipperPosition = intake.getFlipperPos();
             recordingTimer = System.currentTimeMillis() - startTimer;
 
             recorder.recordData(
@@ -74,9 +74,10 @@ public class RobotContainer extends OpMode {
                     armPower[0], //Left Arm
                     armPower[1], //Right Arm
                     clawPosition, //Claw
-                    0, //wheelPower[0], //Intake Left
-                    0, //wheelPower[1], //Intake Right
-                    0 //flipperPosition //Flipper
+                    wheelPower[0], //Intake Left
+                    wheelPower[1], //Intake Right
+                    flipperPosition[0], //leftFlipper
+                    flipperPosition[1] //rightFlipper
             );
             telemetry.update();
         } else {
@@ -136,7 +137,7 @@ public class RobotContainer extends OpMode {
             if(isAPressed){
                 intake.collect();
             } else if(!isAPressed){
-                intake.stop();
+                intake.stopWheels();
             }
         }
 

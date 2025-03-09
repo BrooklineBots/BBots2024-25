@@ -37,10 +37,10 @@ public class AutonomousRecorder {
         }
     }
 
-    public void recordData(long timestamp, double fl, double fr, double bl, double br, double leftArm, double rightArm, double claw, double intakeLeft, double intakeRight, double flipper) {
+    public void recordData(long timestamp, double fl, double fr, double bl, double br, double leftArm, double rightArm, double claw, double intakeLeft, double intakeRight, double leftFlipper, double rightFlipper) {
         if (!isRecording) return;
         try {
-            String line = String.format("%d,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f\n", timestamp, fl, fr, bl, br, leftArm, rightArm, claw, intakeLeft, intakeRight, flipper);
+            String line = String.format("%d,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f\n", timestamp, fl, fr, bl, br, leftArm, rightArm, claw, intakeLeft, intakeRight, leftFlipper, rightFlipper);
             fileWriter.write(line);
 
             telemetry.addData("Recorder, isRecording: ", isRecording);
@@ -54,7 +54,8 @@ public class AutonomousRecorder {
             telemetry.addData("claw", claw);
             telemetry.addData("intakeLeft", intakeLeft);
             telemetry.addData("intakeRight", intakeRight);
-            telemetry.addData("flipper", flipper);
+            telemetry.addData("leftFlipper", leftFlipper);
+            telemetry.addData("rightFlipper", rightFlipper);
             telemetry.update();
         } catch (IOException e) {
             e.printStackTrace();
