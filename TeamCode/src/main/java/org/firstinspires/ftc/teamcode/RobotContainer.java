@@ -29,14 +29,14 @@ public class RobotContainer extends OpMode {
     @Override
     public void init() {
 
-       recorder = new AutonomousRecorder(hardwareMap.appContext, telemetry);
+        recorder = new AutonomousRecorder(hardwareMap.appContext, telemetry);
 
-       verticalArm = new VerticalArm(hardwareMap, telemetry);
-       claw = new Claw(hardwareMap, telemetry);
-       drive = new MecanumDrive(hardwareMap, telemetry);
-       intake = new Intake(hardwareMap, telemetry);
+        verticalArm = new VerticalArm(hardwareMap, telemetry);
+        claw = new Claw(hardwareMap, telemetry);
+        drive = new MecanumDrive(hardwareMap, telemetry);
+        intake = new Intake(hardwareMap, telemetry);
 
-       recordingTimer = System.currentTimeMillis() - startTimer;
+        recordingTimer = System.currentTimeMillis() - startTimer;
 
 
     }
@@ -84,7 +84,7 @@ public class RobotContainer extends OpMode {
 //            telemetry.update();
         }
 
-        if (isRecording && ( (double) recordingTimer / 1000) >= 15.0) {
+        if (isRecording && ( (double) recordingTimer / 1000) >= 30.0) {
             recorder.stopRecording();
             isRecording = false;
             gamepad1.rumble(250);
@@ -109,7 +109,7 @@ public class RobotContainer extends OpMode {
                     && claw.getGoalPosition() == Constants.ClawPosition.CLOSE_POSITION){
                 verticalArm.goToPosition(Constants.ArmPosition.SCORE_HIGH_BAR);
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(750);
                 } catch (InterruptedException e) {
                     System.out.println("Big Sad");
                 }
@@ -117,7 +117,8 @@ public class RobotContainer extends OpMode {
             } else if(verticalArm.getGoalPosition() == Constants.ArmPosition.SCORE_HIGH_BUCKET
                     && claw.getGoalPosition() == Constants.ClawPosition.CLOSE_POSITION){
                 claw.setPosition(Constants.ClawPosition.OPEN_POSITION.position);
-            } else {
+            }
+            else {
                 claw.setPosition(Constants.ClawPosition.OPEN_POSITION.position);
                 verticalArm.goToPosition(Constants.ArmPosition.STOWED);
 
@@ -148,9 +149,11 @@ public class RobotContainer extends OpMode {
         }
 
         if(gamepad2.x){
-            intake.passSample();
+            intake.release();
             claw.closeClaw();
         }
+
+
 
         //make autonomous commands
 

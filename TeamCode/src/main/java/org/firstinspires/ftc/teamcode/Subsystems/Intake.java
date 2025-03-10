@@ -42,17 +42,17 @@ public class Intake {
     }
 
     public void release(){
-        wheelSetPos(-Constants.IntakeConstants.SERVO_POWER);
+        wheelSetPos(1); //Constants.IntakeConstants.SERVO_POWER
     }
 
     public void rotateUp(){
         setFlipperPos(Constants.IntakeConstants.LEFT_UP_POSITION,
-                      Constants.IntakeConstants.RIGHT_UP_POSITION);
+                Constants.IntakeConstants.RIGHT_UP_POSITION);
     }
 
     public void rotateDown(){
         setFlipperPos(Constants.IntakeConstants.LEFT_DOWN_POSITION,
-                      Constants.IntakeConstants.RIGHT_DOWN_POSITION);
+                Constants.IntakeConstants.RIGHT_DOWN_POSITION);
     }
 
 
@@ -79,11 +79,6 @@ public class Intake {
         });
         thread.start();
 
-    }
-
-    public void passSample(){ //TODO: SPIT COMMAND
-        rotateUp();
-        release();
     }
 
 

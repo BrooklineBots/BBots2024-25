@@ -13,7 +13,7 @@ public class Constants {
         public static final String LEFT_ARM_ID = "leftArm";
         public static final String RIGHT_ARM_ID = "rightArm";
         public static final int VERTICAL_MIN_POSITION = 0; //TODO: change
-        public static final int VERTICAL_MAX_POSITION = 4000;
+        public static final int VERTICAL_MAX_POSITION = 4100;
         public static final double VERTICAL_MOVE_POWER = 0.35;
         public static final int MAX_ALLOWED_DIFFERENCE = 10;
 
@@ -29,10 +29,10 @@ public class Constants {
 
     public enum ArmPosition{
         INTAKE(250),
-        STOWED(200),
-        SCORE_HIGH_BUCKET(3700),
-        GO_TO_HIGH_BAR(1900),
-        SCORE_HIGH_BAR(1400); //TODO: change
+        STOWED(250),
+        SCORE_HIGH_BUCKET(4100),
+        GO_TO_HIGH_BAR(2200),
+        SCORE_HIGH_BAR(1500); //TODO: check value (could be not-updated)
 
         public final int encoderTicks;
 
