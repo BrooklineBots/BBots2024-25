@@ -49,5 +49,13 @@ public class Claw {
 
   public double getPosition() {
     return claw.getPosition();
+
+
+
+    //Bad Code :) This is a test. 
+
+
+
+
   }
 }
