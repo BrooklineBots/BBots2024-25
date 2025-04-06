@@ -6,13 +6,13 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Constants;
 
 public class MecanumDrive {
-  private DcMotor frontLeftMotor;
-  private DcMotor frontRightMotor;
-  private DcMotor backLeftMotor;
-  private DcMotor backRightMotor;
+  private final DcMotor frontLeftMotor;
+  private final DcMotor frontRightMotor;
+  private final DcMotor backLeftMotor;
+  private final DcMotor backRightMotor;
   private Telemetry telemetry;
 
-  public MecanumDrive(HardwareMap hardwareMap, Telemetry telemetry) {
+  public MecanumDrive(final HardwareMap hardwareMap, final Telemetry telemetry) {
     frontLeftMotor = hardwareMap.dcMotor.get(Constants.DriveConstants.FRONT_LEFT_MOTOR_ID);
     frontRightMotor = hardwareMap.dcMotor.get(Constants.DriveConstants.FRONT_RIGHT_MOTOR_ID);
     backLeftMotor = hardwareMap.dcMotor.get(Constants.DriveConstants.BACK_LEFT_MOTOR_ID);
@@ -29,7 +29,8 @@ public class MecanumDrive {
     this.telemetry = telemetry;
   }
 
-  private void setPowers(double fLPower, double fRPower, double bLPower, double bRPower) {
+  private void setPowers(
+      final double fLPower, final double fRPower, final double bLPower, final double bRPower) {
     // finds the highest speed b/w 1 and fL then that and fR and so on
     // double maxSpeed = Math.max(Math.abs(fRPower), Math.abs(fLPower));
     // maxSpeed = Math.max(maxSpeed, Math.abs(bLPower));
@@ -49,33 +50,29 @@ public class MecanumDrive {
     backRightMotor.setPower(bRPower);
   }
 
-  public void driveFieldRelative(double forward, double right, double rotate) {
-    //        telemetry.addData("IMU Angle:", robotAngle);
-    //        telemetry.update();
+  public void driveFieldRelative(
+      final double forward,
+      final double strafe,
+      final double rotate,
+      final double robotHeadingDeg) {
+    final double theta = Math.toRadians(robotHeadingDeg); // Convert to radians
 
-    // Convert to polar coordinates
-    double theta = Math.atan2(forward, right);
-    double r = Math.hypot(forward, right);
+    // Rotate joystick input by negative robot heading to stay field-aligned
+    final double tempForward = forward * Math.cos(theta) - strafe * Math.sin(theta);
+    final double tempStrafe = forward * Math.sin(theta) + strafe * Math.cos(theta);
 
-    // Convert back to Cartesian coordinates
-    double newForward = r * Math.sin(theta);
-    double newRight = r * Math.cos(theta);
-
-    //        telemetry.addData("Forward: ", newForward);
-    //        telemetry.addData("Right: ", newRight);
-    //        telemetry.addData("Rotate: ", rotate);
-    this.drive(newForward, -newRight, -rotate);
+    this.drive(tempForward, tempStrafe, rotate);
   }
 
-  public void drive(double forward, double right, double rotate) {
+  public void drive(final double forward, final double right, final double rotate) {
     //        double fLPower = -forward + right - rotate;
     //        double fRPower = -forward + right + rotate; //-
     //        double bLPower = -forward + right + rotate;
     //        double bRPower = forward + right - rotate; //-
-    double fLPower = -forward + right + rotate;
-    double fRPower = -forward - right - rotate; // -
-    double bLPower = forward - -right + -rotate;
-    double bRPower = -forward + right - rotate; // -
+    final double fLPower = -forward + right + rotate;
+    final double fRPower = -forward - right - rotate; // -
+    final double bLPower = forward - -right + -rotate;
+    final double bRPower = -forward + right - rotate; // -
 
     //        telemetry.addData("fLPower: ", fLPower);
     //        telemetry.addData("fRPower: ", fRPower);
@@ -97,7 +94,8 @@ public class MecanumDrive {
     setPowers(0, 0, 0, 0);
   }
 
-  public void setExactMotorPowers(double fLPower, double fRPower, double bLPower, double bRPower) {
+  public void setExactMotorPowers(
+      final double fLPower, final double fRPower, final double bLPower, final double bRPower) {
     frontLeftMotor.setPower(fLPower);
     frontRightMotor.setPower(fRPower);
     backLeftMotor.setPower(bLPower);

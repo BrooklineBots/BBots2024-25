@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.MecanumDrive;
@@ -18,11 +20,13 @@ public class RobotContainer extends OpMode {
 
   private AutonomousRecorder recorder;
 
+  private BNO055IMU imu;
+  private double fieldHeadingOffset = 0.0;
+
   private long recordingTimer;
   private final long startTimer = System.currentTimeMillis();
   private boolean isRecording = false;
 
-  private boolean isAPressed = false;
   private boolean isBPressed = false;
 
   @Override
@@ -35,10 +39,17 @@ public class RobotContainer extends OpMode {
     drive = new MecanumDrive(hardwareMap, telemetry);
     intake = new Intake(hardwareMap, telemetry);
 
+    // IMU setup
+    imu = hardwareMap.get(BNO055IMU.class, "imu");
+    final BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+    parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+    imu.initialize(parameters);
+
     recordingTimer = System.currentTimeMillis() - startTimer;
   }
 
-  public boolean isWithinTolerance(double targetValue, double currentValue, double tolerance) {
+  public boolean isWithinTolerance(
+      final double targetValue, final double currentValue, final double tolerance) {
     return Math.abs(targetValue - currentValue) <= tolerance;
   }
 
@@ -54,11 +65,11 @@ public class RobotContainer extends OpMode {
     }
 
     if (isRecording) {
-      double[] drivePowers = drive.getMotorPowers();
-      double[] armPower = verticalArm.getArmPowers();
-      double[] wheelPower = {0, 0}; // intake.getWheelPowers();
-      double clawPosition = claw.getClawPosition();
-      double[] flipperPosition = intake.getFlipperPos();
+      final double[] drivePowers = drive.getMotorPowers();
+      final double[] armPower = verticalArm.getArmPowers();
+      final double[] wheelPower = {0, 0}; // intake.getWheelPowers();
+      final double clawPosition = claw.getClawPosition();
+      final double[] flipperPosition = intake.getFlipperPos();
       recordingTimer = System.currentTimeMillis() - startTimer;
 
       recorder.recordData(
@@ -87,10 +98,29 @@ public class RobotContainer extends OpMode {
       gamepad1.rumble(250);
     }
 
-    if (!isWithinTolerance(0, gamepad1.left_stick_y, 0.05)
-        || !isWithinTolerance(0, gamepad1.left_stick_x, 0.05)
-        || !isWithinTolerance(0, gamepad1.right_stick_x, 0.05)) {
-      drive.drive(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+    // Check for B button press to reset heading offset
+    if (gamepad2.b && !isBPressed) {
+      isBPressed = true;
+      fieldHeadingOffset = getHeadingFromImu();
+      telemetry.addData("Field Heading Offset set to:", fieldHeadingOffset);
+      telemetry.update();
+    } else if (!gamepad2.b) {
+      isBPressed = false;
+    }
+
+    // Read joystick inputs
+    final double forwardInput = -gamepad1.left_stick_y;
+    final double strafeInput = gamepad1.left_stick_x;
+    final double rotateInput = gamepad1.right_stick_x;
+
+    if (!isWithinTolerance(0, forwardInput, 0.05)
+        || !isWithinTolerance(0, strafeInput, 0.05)
+        || !isWithinTolerance(0, rotateInput, 0.05)) {
+
+      final double currentHeading = getHeadingFromImu();
+      final double correctedHeading = currentHeading - fieldHeadingOffset;
+
+      drive.driveFieldRelative(forwardInput, strafeInput, rotateInput, correctedHeading);
     } else {
       drive.stop();
     }
@@ -107,7 +137,7 @@ public class RobotContainer extends OpMode {
         verticalArm.goToPosition(Constants.ArmPosition.SCORE_HIGH_BAR);
         try {
           Thread.sleep(750);
-        } catch (InterruptedException e) {
+        } catch (final InterruptedException e) {
           System.out.println("Big Sad");
         }
         claw.setPosition(Constants.ClawPosition.OPEN_POSITION.position);
@@ -150,5 +180,10 @@ public class RobotContainer extends OpMode {
     //        telemetry.addData("Left Arm Position: ", verticalArm.getCurrentPosition()[0]);
     //        telemetry.addData("Right Arm Position: ", verticalArm.getCurrentPosition()[1]);
     telemetry.update();
+  }
+
+  private double getHeadingFromImu() {
+    final Orientation angles = imu.getAngularOrientation();
+    return angles.firstAngle; // Heading (Yaw) in degrees
   }
 }
