@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import com.qualcomm.robotcore.hardware.IMU;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.MecanumDrive;
@@ -20,7 +22,7 @@ public class RobotContainer extends OpMode {
 
   private AutonomousRecorder recorder;
 
-  private BNO055IMU imu;
+  private IMU imu;
   private double fieldHeadingOffset = 0.0;
 
   private long recordingTimer;
@@ -39,11 +41,13 @@ public class RobotContainer extends OpMode {
     drive = new MecanumDrive(hardwareMap, telemetry);
     intake = new Intake(hardwareMap, telemetry);
 
-    // IMU setup
-    imu = hardwareMap.get(BNO055IMU.class, "imu");
-    final BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-    parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-    imu.initialize(parameters);
+    imu = hardwareMap.get(IMU.class, "imu");
+    final IMU.Parameters imuParams =
+        new IMU.Parameters(
+            new RevHubOrientationOnRobot(
+                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+                RevHubOrientationOnRobot.UsbFacingDirection.UP));
+    imu.initialize(imuParams);
 
     recordingTimer = System.currentTimeMillis() - startTimer;
   }
@@ -183,7 +187,7 @@ public class RobotContainer extends OpMode {
   }
 
   private double getHeadingFromImu() {
-    final Orientation angles = imu.getAngularOrientation();
-    return angles.firstAngle; // Heading (Yaw) in degrees
+    final YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
+    return orientation.getYaw(AngleUnit.DEGREES);
   }
 }
