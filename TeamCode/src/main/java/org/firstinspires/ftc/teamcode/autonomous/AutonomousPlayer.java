@@ -31,19 +31,19 @@ public class AutonomousPlayer extends LinearOpMode {
   @Override
   public void runOpMode() {
     initializeSubsystems();
-    List<Record> records = readCSV("autonomous_data.csv");
+    final List<Record> records = readCSV("autonomous_data.csv");
 
     waitForStart();
-    ElapsedTime timer = new ElapsedTime();
+    final ElapsedTime timer = new ElapsedTime();
 
-    for (Record record : records) {
+    for (final Record record : records) {
       // Wait until the target timestamp
       while (timer.milliseconds() < record.timestamp && opModeIsActive()) {
         sleep(1);
       }
 
       // Apply motor/servo values
-      drive.setExactMotorPowers(record.fl, record.fr, record.bl, record.br);
+      drive.setPowers(record.fl, record.fr, record.bl, record.br);
       verticalArm.setArmPowers(record.leftArm, record.rightArm);
       claw.setPosition(record.claw);
       // intake.setIntakePowers(record.intakeLeft, record.intakeRight);//TODO: UNcomment me
@@ -63,17 +63,18 @@ public class AutonomousPlayer extends LinearOpMode {
     intake = new Intake(hardwareMap, telemetry); // TODO: UNcomment me
   }
 
-  private List<Record> readCSV(String filename) {
-    List<Record> records = new ArrayList<>();
-    File directory = hardwareMap.appContext.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
-    File file = new File(directory, filename);
+  private List<Record> readCSV(final String filename) {
+    final List<Record> records = new ArrayList<>();
+    final File directory =
+        hardwareMap.appContext.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
+    final File file = new File(directory, filename);
 
-    try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+    try (final BufferedReader br = new BufferedReader(new FileReader(file))) {
       String line;
       br.readLine(); // Skip CSV header
       while ((line = br.readLine()) != null) {
-        String[] values = line.split(",");
-        Record record = new Record();
+        final String[] values = line.split(",");
+        final Record record = new Record();
         record.timestamp = Long.parseLong(values[0]);
         record.fl = parseDoubleOrZero(values[1]);
         record.fr = parseDoubleOrZero(values[2]);
@@ -88,18 +89,18 @@ public class AutonomousPlayer extends LinearOpMode {
         record.rightFlipper = Double.parseDouble(values[11]);
         records.add(record);
       }
-    } catch (IOException | NumberFormatException e) {
+    } catch (final IOException | NumberFormatException e) {
       telemetry.log().add("Failed to read CSV: " + e.getMessage());
     }
     return records;
   }
 
   // Helper method to handle NaN
-  private double parseDoubleOrZero(String value) {
+  private double parseDoubleOrZero(final String value) {
     try {
-      double parsed = Double.parseDouble(value);
+      final double parsed = Double.parseDouble(value);
       return Double.isNaN(parsed) ? 0.0 : parsed;
-    } catch (NumberFormatException e) {
+    } catch (final NumberFormatException e) {
       return 0.0;
     }
   }

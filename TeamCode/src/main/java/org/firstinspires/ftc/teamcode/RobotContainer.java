@@ -42,11 +42,6 @@ public class RobotContainer extends OpMode {
 
   @Override
   public void loop() {
-    // TODO: Comment me
-    final double testingDirectionSpeed = 0.1;
-    drive.setPowers(
-        testingDirectionSpeed, testingDirectionSpeed, testingDirectionSpeed, testingDirectionSpeed);
-
     if (gamepad1.x) {
       if (recorder.startRecording()) {
         isRecording = true;
@@ -91,7 +86,7 @@ public class RobotContainer extends OpMode {
     }
 
     // Reset robot heading.
-    if (gamepad2.options) {
+    if (gamepad2.b) {
       drive.resetYaw();
     }
 
