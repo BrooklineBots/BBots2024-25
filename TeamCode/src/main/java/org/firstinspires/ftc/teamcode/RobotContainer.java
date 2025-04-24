@@ -1,11 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.IMU;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.MecanumDrive;
@@ -22,14 +18,9 @@ public class RobotContainer extends OpMode {
 
   private AutonomousRecorder recorder;
 
-  private IMU imu;
-  private double fieldHeadingOffset = 0.0;
-
   private long recordingTimer;
   private final long startTimer = System.currentTimeMillis();
   private boolean isRecording = false;
-
-  private boolean isBPressed = false;
 
   @Override
   public void init() {
@@ -41,14 +32,6 @@ public class RobotContainer extends OpMode {
     drive = new MecanumDrive(hardwareMap, telemetry);
     intake = new Intake(hardwareMap, telemetry);
 
-    imu = hardwareMap.get(IMU.class, "imu");
-    final IMU.Parameters imuParams =
-        new IMU.Parameters(
-            new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
-                RevHubOrientationOnRobot.UsbFacingDirection.UP));
-    imu.initialize(imuParams);
-
     recordingTimer = System.currentTimeMillis() - startTimer;
   }
 
@@ -59,6 +42,10 @@ public class RobotContainer extends OpMode {
 
   @Override
   public void loop() {
+    // TODO: Comment me
+    final double testingDirectionSpeed = 0.1;
+    drive.setPowers(
+        testingDirectionSpeed, testingDirectionSpeed, testingDirectionSpeed, testingDirectionSpeed);
 
     if (gamepad1.x) {
       if (recorder.startRecording()) {
@@ -91,10 +78,11 @@ public class RobotContainer extends OpMode {
           flipperPosition[1] // rightFlipper
           );
       telemetry.update();
-    } else {
-      //            telemetry.addData("Container, isRecording: ", isRecording);
-      //            telemetry.update();
     }
+    //    else {
+    //      //            telemetry.addData("Container, isRecording: ", isRecording);
+    //      //            telemetry.update();
+    //    }
 
     if (isRecording && ((double) recordingTimer / 1000) >= 30.0) {
       recorder.stopRecording();
@@ -102,14 +90,9 @@ public class RobotContainer extends OpMode {
       gamepad1.rumble(250);
     }
 
-    // Check for B button press to reset heading offset
-    if (gamepad2.b && !isBPressed) {
-      isBPressed = true;
-      fieldHeadingOffset = getHeadingFromImu();
-      telemetry.addData("Field Heading Offset set to:", fieldHeadingOffset);
-      telemetry.update();
-    } else if (!gamepad2.b) {
-      isBPressed = false;
+    // Reset robot heading.
+    if (gamepad2.options) {
+      drive.resetYaw();
     }
 
     // Read joystick inputs
@@ -121,10 +104,7 @@ public class RobotContainer extends OpMode {
         || !isWithinTolerance(0, strafeInput, 0.05)
         || !isWithinTolerance(0, rotateInput, 0.05)) {
 
-      final double currentHeading = getHeadingFromImu();
-      final double correctedHeading = currentHeading - fieldHeadingOffset;
-
-      drive.driveFieldRelative(forwardInput, strafeInput, rotateInput, correctedHeading);
+      drive.driveFieldRelative(forwardInput, strafeInput, rotateInput);
     } else {
       drive.stop();
     }
@@ -184,10 +164,5 @@ public class RobotContainer extends OpMode {
     //        telemetry.addData("Left Arm Position: ", verticalArm.getCurrentPosition()[0]);
     //        telemetry.addData("Right Arm Position: ", verticalArm.getCurrentPosition()[1]);
     telemetry.update();
-  }
-
-  private double getHeadingFromImu() {
-    final YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
-    return orientation.getYaw(AngleUnit.DEGREES);
   }
 }
