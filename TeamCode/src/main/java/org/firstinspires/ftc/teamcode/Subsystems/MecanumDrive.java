@@ -38,12 +38,12 @@ public class MecanumDrive {
     backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
     // Retrieve the IMU from the hardware map
-    imu = hwMap.get(IMU.class, "imu"); // TODO: Check name
+    imu = hwMap.get(IMU.class, "imu");
     // Adjust the orientation parameters to match your robot
     final IMU.Parameters parameters =
         new IMU.Parameters(
             new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.LEFT, // TODO: UPDATE THESE
+                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
                 RevHubOrientationOnRobot.UsbFacingDirection.UP));
 
     // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
