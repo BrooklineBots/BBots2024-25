@@ -1,106 +1,126 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Constants;
 
-public class MecanumDrive {
-  private DcMotor frontLeftMotor;
-  private DcMotor frontRightMotor;
-  private DcMotor backLeftMotor;
-  private DcMotor backRightMotor;
-  private Telemetry telemetry;
+@TeleOp
+public class MecanumDrive{
+    // Declare our motors
+    private final DcMotor frontLeftMotor;
+    private final DcMotor backLeftMotor;
+    private final DcMotor frontRightMotor;
+    private final DcMotor backRightMotor;
 
-  public MecanumDrive(HardwareMap hardwareMap, Telemetry telemetry) {
-    frontLeftMotor = hardwareMap.dcMotor.get(Constants.DriveConstants.FRONT_LEFT_MOTOR_ID);
-    frontRightMotor = hardwareMap.dcMotor.get(Constants.DriveConstants.FRONT_RIGHT_MOTOR_ID);
-    backLeftMotor = hardwareMap.dcMotor.get(Constants.DriveConstants.BACK_LEFT_MOTOR_ID);
-    backRightMotor = hardwareMap.dcMotor.get(Constants.DriveConstants.BACK_RIGHT_MOTOR_ID);
-    this.telemetry = telemetry;
+    private final IMU imu;
 
-    frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+    private final Telemetry telemetry;
 
-    // Generate a random number between 10 and 100 (inclusive)
+    private double fieldHeadingOffset = 0.0; //in radians
 
-    //        telemetry.addData("IMU Angle:",
-    // imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
-    //        telemetry.update();
-    this.telemetry = telemetry;
-  }
+    private final HardwareMap hwMap;
 
-  private void setPowers(double fLPower, double fRPower, double bLPower, double bRPower) {
-    // finds the highest speed b/w 1 and fL then that and fR and so on
-    // double maxSpeed = Math.max(Math.abs(fRPower), Math.abs(fLPower));
-    // maxSpeed = Math.max(maxSpeed, Math.abs(bLPower));
-    // maxSpeed = Math.max(maxSpeed, Math.abs(bRPower));
-    // maxSpeed = Math.max(maxSpeed, 1.0);
+    // Make sure your ID's match your configuration
+    public MecanumDrive(final HardwareMap hwMap, final Telemetry telemetry){
+      this.hwMap = hwMap;
+      this.telemetry = telemetry;
 
-    // turns are determined by the relative speeds of the motor (1.2 --> 1.0)
-    // makes sure values being sent to motors are within the range -1 to 1 (inclusive)
-    // fLPower /= maxSpeed;
-    // fRPower /= maxSpeed;
-    // bLPower /= maxSpeed;
-    // bRPower /= maxSpeed;
+      frontLeftMotor = hwMap.dcMotor.get(Constants.DriveConstants.FRONT_LEFT_MOTOR_ID);
+      backLeftMotor = hwMap.dcMotor.get(Constants.DriveConstants.FRONT_RIGHT_MOTOR_ID);
+      frontRightMotor = hwMap.dcMotor.get(Constants.DriveConstants.BACK_RIGHT_MOTOR_ID);
+      backRightMotor = hwMap.dcMotor.get(Constants.DriveConstants.BACK_LEFT_MOTOR_ID);
 
-    frontLeftMotor.setPower(fLPower);
-    frontRightMotor.setPower(fRPower);
-    backLeftMotor.setPower(bLPower);
-    backRightMotor.setPower(bRPower);
-  }
+      frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+      backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-  public void driveFieldRelative(double forward, double right, double rotate) {
-    //        telemetry.addData("IMU Angle:", robotAngle);
-    //        telemetry.update();
+      // Retrieve the IMU from the hardware map
+      imu = hwMap.get(IMU.class, "imu");
+      // Adjust the orientation parameters to match your robot
+      IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+              RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+              RevHubOrientationOnRobot.UsbFacingDirection.UP));
+      // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
+      imu.initialize(parameters);
+    }
 
-    // Convert to polar coordinates
-    double theta = Math.atan2(forward, right);
-    double r = Math.hypot(forward, right);
+  /**
+   * Drives robot in a field relative manner
+   *
+   * @param y = forward/backward speed, -1 to 1
+   * @param x = left/right speed, -1 to 1
+   * @param rx = rotation speed, -1 to 1
+   */
+  public void driveFieldRelative(double y, double x, double rx) {
 
-    // Convert back to Cartesian coordinates
-    double newForward = r * Math.sin(theta);
-    double newRight = r * Math.cos(theta);
 
-    //        telemetry.addData("Forward: ", newForward);
-    //        telemetry.addData("Right: ", newRight);
-    //        telemetry.addData("Rotate: ", rotate);
-    this.drive(newForward, -newRight, -rotate);
-  }
 
-  public void drive(double forward, double right, double rotate) {
-    //        double fLPower = -forward + right - rotate;
-    //        double fRPower = -forward + right + rotate; //-
-    //        double bLPower = -forward + right + rotate;
-    //        double bRPower = forward + right - rotate; //-
-    double fLPower = -forward + right + rotate;
-    double fRPower = -forward - right - rotate; // -
-    double bLPower = forward - -right + -rotate;
-    double bRPower = -forward + right - rotate; // -
+      // Rotate the movement direction counter to the bot's rotation
 
-    //        telemetry.addData("fLPower: ", fLPower);
-    //        telemetry.addData("fRPower: ", fRPower);
-    //        telemetry.addData("bLPower: ", bLPower);
-    //        telemetry.addData("bRPower: ", bRPower);
-    setPowers(fLPower, fRPower, bLPower, bRPower);
-  }
+      double rotX = x * Math.cos(-getBotHeading()) - y * Math.sin(-getBotHeading());
+      double rotY = x * Math.sin(-getBotHeading()) + y * Math.cos(-getBotHeading());
 
-  public double[] getMotorPowers() {
-    return new double[] {
-      frontLeftMotor.getPower(),
-      frontRightMotor.getPower(),
-      backLeftMotor.getPower(),
-      backRightMotor.getPower()
-    };
-  }
+      rotX = rotX * 1.1;  // Counteract imperfect strafing
 
-  public void stop() {
-    setPowers(0, 0, 0, 0);
-  }
+      // Denominator is the largest motor power (absolute value) or 1
+      // This ensures all the powers maintain the same ratio,
+      // but only if at least one is out of the range [-1, 1]
+      double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
+      double frontLeftPower = (rotY + rotX + rx) / denominator;
+      double backLeftPower = (rotY - rotX + rx) / denominator;
+      double frontRightPower = (rotY - rotX - rx) / denominator;
+      double backRightPower = (rotY + rotX - rx) / denominator;
 
-  public void setExactMotorPowers(double fLPower, double fRPower, double bLPower, double bRPower) {
-    frontLeftMotor.setPower(fLPower);
-    frontRightMotor.setPower(fRPower);
-    backLeftMotor.setPower(bLPower);
-    backRightMotor.setPower(bRPower);
-  }
+      frontLeftMotor.setPower(frontLeftPower);
+      backLeftMotor.setPower(backLeftPower);
+      frontRightMotor.setPower(frontRightPower);
+      backRightMotor.setPower(backRightPower);
+    }
+
+    public void stop(){
+        frontLeftMotor.setPower(0);
+        frontRightMotor.setPower(0);
+        backRightMotor.setPower(0);
+        backLeftMotor.setPower(0);
+    }
+
+    public void resetYaw(){
+      imu.resetYaw();
+    }
+
+    public double[] getPowers(){
+        return new double[]{frontLeftMotor.getPower(), frontRightMotor.getPower(), backLeftMotor.getPower(), backRightMotor.getPower()};
+    }
+
+    public double getBotHeading(){
+        double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS) + fieldHeadingOffset;
+        return botHeading;
+    }
+
+    public void setFieldHeadingOffset(final double newOffset){
+        fieldHeadingOffset = newOffset;
+    }
+
+  /**
+   * Sets exact motor powers
+   *
+   * @param fLPower = frontLeft speed, -1 to 1
+   * @param fRPower = frontRight speed, -1 to 1
+   * @param bLPower = backLeft speed, -1 to 1
+   * @param bRPower = backRight speed, -1 to 1
+   */
+  public void setPowers(double fLPower, double fRPower, double bLPower, double bRPower){
+        frontLeftMotor.setPower(fLPower);
+        frontRightMotor.setPower(fRPower);
+        backLeftMotor.setPower (bLPower);
+        backRightMotor.setPower(bRPower);
+    }
+
 }

@@ -22,8 +22,8 @@ public class RobotContainer extends OpMode {
   private final long startTimer = System.currentTimeMillis();
   private boolean isRecording = false;
 
-  private boolean isAPressed = false;
-  private boolean isBPressed = false;
+
+
 
   @Override
   public void init() {
@@ -53,8 +53,10 @@ public class RobotContainer extends OpMode {
       }
     }
 
+
+
     if (isRecording) {
-      double[] drivePowers = drive.getMotorPowers();
+      double[] drivePowers = drive.getPowers();
       double[] armPower = verticalArm.getArmPowers();
       double[] wheelPower = {0, 0}; // intake.getWheelPowers();
       double clawPosition = claw.getClawPosition();
@@ -81,16 +83,24 @@ public class RobotContainer extends OpMode {
       //            telemetry.update();
     }
 
+    if(gamepad2.b){
+        drive.resetYaw();
+    }
+
     if (isRecording && ((double) recordingTimer / 1000) >= 30.0) {
       recorder.stopRecording();
       isRecording = false;
       gamepad1.rumble(250);
     }
 
+    final double forwardInput = -gamepad1.left_stick_y;
+    final double strafeInput = gamepad1.left_stick_x;
+    final double rotateInput = gamepad1.right_stick_x;
+
     if (!isWithinTolerance(0, gamepad1.left_stick_y, 0.05)
         || !isWithinTolerance(0, gamepad1.left_stick_x, 0.05)
         || !isWithinTolerance(0, gamepad1.right_stick_x, 0.05)) {
-      drive.drive(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+      drive.driveFieldRelative(forwardInput, strafeInput, rotateInput);
     } else {
       drive.stop();
     }
