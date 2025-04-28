@@ -6,14 +6,14 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Constants;
 
 public class Intake {
-  private Servo leftWheel;
-  private Servo rightWheel;
-  private Servo leftFlipServo;
-  private Servo rightFlipServo;
+  private final Servo leftWheel;
+  private final Servo rightWheel;
+  private final Servo leftFlipServo;
+  private final Servo rightFlipServo;
 
-  private Telemetry telemetry;
+  private final Telemetry telemetry;
 
-  public Intake(HardwareMap hwMap, Telemetry telemetry) {
+  public Intake(final HardwareMap hwMap, final Telemetry telemetry) {
     this.telemetry = telemetry;
     leftWheel = hwMap.get(Servo.class, Constants.IntakeConstants.LEFT_WHEEL_ID);
     rightWheel = hwMap.get(Servo.class, Constants.IntakeConstants.RIGHT_WHEEL_ID);
@@ -52,8 +52,8 @@ public class Intake {
         Constants.IntakeConstants.RIGHT_DOWN_POSITION);
   }
 
-  public void wheelSetPos(double position) {
-    Thread thread =
+  public void wheelSetPos(final double position) {
+    final Thread thread =
         new Thread(
             () -> {
               leftWheel.setPosition(position);
@@ -62,8 +62,8 @@ public class Intake {
     thread.start();
   }
 
-  public void setIntakePowers(double leftPower, double rightPower) {
-    Thread thread =
+  public void setIntakePowers(final double leftPower, final double rightPower) {
+    final Thread thread =
         new Thread(
             () -> {
               leftWheel.setPosition(leftPower);
@@ -72,8 +72,8 @@ public class Intake {
     thread.start();
   }
 
-  public void setFlipperPos(double position1, double position2) {
-    Thread thread =
+  public void setFlipperPos(final double position1, final double position2) {
+    final Thread thread =
         new Thread(
             () -> {
               leftFlipServo.setPosition(position1);
@@ -83,7 +83,7 @@ public class Intake {
   }
 
   public void stopWheels() {
-    Thread thread =
+    final Thread thread =
         new Thread(
             () -> {
               leftWheel.setPosition(0);

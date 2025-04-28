@@ -8,13 +8,13 @@ import org.firstinspires.ftc.teamcode.Constants.*;
 
 public class VerticalArm {
 
-  private DcMotor leftArm;
-  private DcMotor rightArm;
+  private final DcMotor leftArm;
+  private final DcMotor rightArm;
   private ArmPosition goalPosition;
 
-  private Telemetry telemetry;
+  private final Telemetry telemetry;
 
-  public VerticalArm(HardwareMap hwMap, Telemetry telemetry) {
+  public VerticalArm(final HardwareMap hwMap, final Telemetry telemetry) {
     this.telemetry = telemetry;
     leftArm = hwMap.dcMotor.get(Constants.ArmConstants.LEFT_ARM_ID);
     rightArm = hwMap.dcMotor.get(Constants.ArmConstants.RIGHT_ARM_ID);
@@ -29,7 +29,7 @@ public class VerticalArm {
     setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
   }
 
-  private void setRunMode(DcMotor.RunMode mode) {
+  private void setRunMode(final DcMotor.RunMode mode) {
     leftArm.setMode(mode);
     rightArm.setMode(mode);
   }
@@ -38,9 +38,9 @@ public class VerticalArm {
     setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
   }
 
-  public void goToPosition(ArmPosition position) {
+  public void goToPosition(final ArmPosition position) {
     goalPosition = position;
-    int targetPosition = position.encoderTicks;
+    final int targetPosition = position.encoderTicks;
 
     if (targetPosition < ArmConstants.VERTICAL_MIN_POSITION
         || targetPosition > ArmConstants.VERTICAL_MAX_POSITION) {
@@ -49,8 +49,8 @@ public class VerticalArm {
 
     if (Math.abs(leftArm.getCurrentPosition() - rightArm.getCurrentPosition())
         > ArmConstants.MAX_ALLOWED_DIFFERENCE) {
-      double leftDistance = Math.abs(leftArm.getCurrentPosition() - targetPosition);
-      double rightDistance = Math.abs(rightArm.getCurrentPosition() - targetPosition);
+      final double leftDistance = Math.abs(leftArm.getCurrentPosition() - targetPosition);
+      final double rightDistance = Math.abs(rightArm.getCurrentPosition() - targetPosition);
 
       if (leftDistance >= rightDistance) {
         rightArm.setPower(0);
@@ -80,12 +80,12 @@ public class VerticalArm {
     return new double[] {leftArm.getPower(), rightArm.getPower()};
   }
 
-  public void moveUp(double power) {
+  public void moveUp(final double power) {
     leftArm.setPower(-power);
     rightArm.setPower(-power);
   }
 
-  public void setArmPowers(double left, double right) {
+  public void setArmPowers(final double left, final double right) {
     leftArm.setPower(left);
     rightArm.setPower(right);
   }
@@ -100,8 +100,8 @@ public class VerticalArm {
   }
 
   public void update() {
-    int leftPos = leftArm.getCurrentPosition();
-    int rightPos = rightArm.getCurrentPosition();
+    final int leftPos = leftArm.getCurrentPosition();
+    final int rightPos = rightArm.getCurrentPosition();
 
     if (leftPos < ArmConstants.VERTICAL_MIN_POSITION
         || leftPos > ArmConstants.VERTICAL_MAX_POSITION

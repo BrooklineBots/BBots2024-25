@@ -33,7 +33,7 @@ public class Constants {
 
     public final int encoderTicks;
 
-    ArmPosition(int encoderTicks) {
+    ArmPosition(final int encoderTicks) {
       this.encoderTicks = encoderTicks;
     }
   }
@@ -48,7 +48,7 @@ public class Constants {
 
     public final double position;
 
-    ClawPosition(double position) {
+    ClawPosition(final double position) {
       this.position = position;
     }
   }

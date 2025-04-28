@@ -22,9 +22,6 @@ public class RobotContainer extends OpMode {
   private final long startTimer = System.currentTimeMillis();
   private boolean isRecording = false;
 
-
-
-
   @Override
   public void init() {
 
@@ -52,8 +49,6 @@ public class RobotContainer extends OpMode {
         gamepad1.rumble(250);
       }
     }
-
-
 
     if (isRecording) {
       double[] drivePowers = drive.getPowers();
@@ -83,8 +78,8 @@ public class RobotContainer extends OpMode {
       //            telemetry.update();
     }
 
-    if(gamepad2.b){
-        drive.resetYaw();
+    if (gamepad2.b) {
+      drive.resetYaw();
     }
 
     if (isRecording && ((double) recordingTimer / 1000) >= 30.0) {

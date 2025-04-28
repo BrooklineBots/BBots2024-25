@@ -22,7 +22,7 @@ public class WebcamExample2 extends LinearOpMode {
 
   @Override
   public void runOpMode() {
-    int cameraMonitorViewId =
+    final int cameraMonitorViewId =
         hardwareMap
             .appContext
             .getResources()
@@ -41,7 +41,7 @@ public class WebcamExample2 extends LinearOpMode {
           }
 
           @Override
-          public void onError(int errorCode) {
+          public void onError(final int errorCode) {
             /*
              * This will be called if the camera could not be opened
              */
@@ -66,8 +66,8 @@ public class WebcamExample2 extends LinearOpMode {
     boolean viewportPaused;
 
     @Override
-    public Mat processFrame(Mat input) {
-      Mat mat = new Mat();
+    public Mat processFrame(final Mat input) {
+      final Mat mat = new Mat();
       Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
 
       int hsum = 0;
@@ -76,15 +76,15 @@ public class WebcamExample2 extends LinearOpMode {
 
       for (int i = 0; i < mat.rows(); i++) {
         for (int j = 0; j < mat.cols(); j++) {
-          double[] pixel = mat.get(i, j);
+          final double[] pixel = mat.get(i, j);
           hsum += pixel[0];
           ssum += pixel[1];
           vsum += pixel[2];
         }
       }
-      int hval = hsum / (mat.rows() * mat.cols());
-      int sval = ssum / (mat.rows() * mat.cols());
-      int vval = vsum / (mat.rows() * mat.cols());
+      final int hval = hsum / (mat.rows() * mat.cols());
+      final int sval = ssum / (mat.rows() * mat.cols());
+      final int vval = vsum / (mat.rows() * mat.cols());
 
       telemetry.addData("H:", hval);
       telemetry.addData("S:", sval);

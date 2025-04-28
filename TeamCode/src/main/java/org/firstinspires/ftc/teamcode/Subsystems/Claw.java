@@ -11,11 +11,11 @@ public class Claw {
   private final double MAX_POSITION = 1;
   private final double MIN_POSITION = 0;
   private ClawPosition goalPosition;
-  private Servo claw;
+  private final Servo claw;
 
-  private Telemetry telemetry;
+  private final Telemetry telemetry;
 
-  public Claw(HardwareMap hwMap, Telemetry telemetry) {
+  public Claw(final HardwareMap hwMap, final Telemetry telemetry) {
     this.telemetry = telemetry;
     claw = hwMap.get(Servo.class, Constants.ClawConstants.CLAW_SERVO_ID);
     claw.setDirection(Servo.Direction.REVERSE);
@@ -37,7 +37,7 @@ public class Claw {
     return goalPosition;
   }
 
-  public void setPosition(double position) {
+  public void setPosition(final double position) {
     if (position >= MIN_POSITION && position <= MAX_POSITION) {
       claw.setPosition(position);
     }

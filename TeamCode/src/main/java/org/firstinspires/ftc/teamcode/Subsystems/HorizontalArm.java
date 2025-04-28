@@ -8,11 +8,11 @@ import org.firstinspires.ftc.teamcode.Constants.ArmPosition;
 
 public class HorizontalArm {
 
-  private DcMotor horizontalArm;
+  private final DcMotor horizontalArm;
 
-  private Telemetry telemetry;
+  private final Telemetry telemetry;
 
-  public HorizontalArm(HardwareMap hwMap, Telemetry telemetry) {
+  public HorizontalArm(final HardwareMap hwMap, final Telemetry telemetry) {
     this.telemetry = telemetry;
     horizontalArm = hwMap.dcMotor.get(ArmConstants.HORIZONTAL_ARM_ID);
 
@@ -24,7 +24,7 @@ public class HorizontalArm {
     setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
   }
 
-  private void setRunMode(DcMotor.RunMode mode) {
+  private void setRunMode(final DcMotor.RunMode mode) {
     horizontalArm.setMode(mode);
   }
 
@@ -32,8 +32,8 @@ public class HorizontalArm {
     setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
   }
 
-  public void goToPosition(ArmPosition position) {
-    int targetPosition = position.encoderTicks;
+  public void goToPosition(final ArmPosition position) {
+    final int targetPosition = position.encoderTicks;
 
     if (targetPosition < ArmConstants.VERTICAL_MIN_POSITION
         || targetPosition > ArmConstants.VERTICAL_MAX_POSITION) {
@@ -46,11 +46,11 @@ public class HorizontalArm {
     horizontalArm.setPower(ArmConstants.VERTICAL_MOVE_POWER);
   }
 
-  public void moveOut(double power) {
+  public void moveOut(final double power) {
     horizontalArm.setPower(-power);
   }
 
-  public void setArmPower(double HorizPower) {
+  public void setArmPower(final double HorizPower) {
     horizontalArm.setPower(HorizPower);
   }
 
@@ -63,7 +63,7 @@ public class HorizontalArm {
   }
 
   public void update() {
-    int middlePos = horizontalArm.getCurrentPosition();
+    final int middlePos = horizontalArm.getCurrentPosition();
 
     if (middlePos < ArmConstants.VERTICAL_MIN_POSITION
         || middlePos > ArmConstants.VERTICAL_MAX_POSITION) {
