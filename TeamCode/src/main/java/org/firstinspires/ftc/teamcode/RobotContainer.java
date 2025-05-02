@@ -7,6 +7,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.VerticalArm;
 import org.firstinspires.ftc.teamcode.autonomous.AutonomousRecorder;
+import org.firstinspires.ftc.teamcode.Subsystems.Limelight;
 
 @TeleOp(name = "mainDrive")
 public class RobotContainer extends OpMode {
@@ -15,12 +16,19 @@ public class RobotContainer extends OpMode {
   private Claw claw;
   private MecanumDrive drive;
   private Intake intake;
+  private Limelight limelight;
 
   private AutonomousRecorder recorder;
+
+  private boolean isRedAlliance = true;
 
   private long recordingTimer;
   private final long startTimer = System.currentTimeMillis();
   private boolean isRecording = false;
+
+  public void setAlliance(boolean isRedAlliance){
+      this.isRedAlliance = isRedAlliance;
+  }
 
   @Override
   public void init() {
@@ -31,13 +39,18 @@ public class RobotContainer extends OpMode {
     claw = new Claw(hardwareMap, telemetry);
     drive = new MecanumDrive(hardwareMap, telemetry);
     intake = new Intake(hardwareMap, telemetry);
-
+    limelight = new Limelight(hardwareMap, telemetry, isRedAlliance);
+    limelight.start();
     recordingTimer = System.currentTimeMillis() - startTimer;
   }
 
   public boolean isWithinTolerance(
       final double targetValue, final double currentValue, final double tolerance) {
     return Math.abs(targetValue - currentValue) <= tolerance;
+  }
+
+  public void toggleAlliance(){
+    this.isRedAlliance = !isRedAlliance;
   }
 
   @Override
@@ -157,10 +170,15 @@ public class RobotContainer extends OpMode {
       claw.closeClaw();
     }
 
+    if(gamepad2.a) {
+      toggleAlliance();
+    }
+
     // make autonomous commands
 
     //        telemetry.addData("Left Arm Position: ", verticalArm.getCurrentPosition()[0]);
     //        telemetry.addData("Right Arm Position: ", verticalArm.getCurrentPosition()[1]);
     telemetry.update();
   }
+
 }
