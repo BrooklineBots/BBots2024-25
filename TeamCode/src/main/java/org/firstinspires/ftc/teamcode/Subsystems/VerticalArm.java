@@ -94,20 +94,4 @@ public class VerticalArm {
     leftArm.setPower(0);
     rightArm.setPower(0);
   }
-
-  public boolean isBusy() {
-    return leftArm.isBusy() || rightArm.isBusy();
-  }
-
-  public void update() {
-    final int leftPos = leftArm.getCurrentPosition();
-    final int rightPos = rightArm.getCurrentPosition();
-
-    if (leftPos < ArmConstants.VERTICAL_MIN_POSITION
-        || leftPos > ArmConstants.VERTICAL_MAX_POSITION
-        || rightPos < ArmConstants.VERTICAL_MIN_POSITION
-        || rightPos > ArmConstants.VERTICAL_MAX_POSITION) {
-      stop();
-    }
-  }
 }

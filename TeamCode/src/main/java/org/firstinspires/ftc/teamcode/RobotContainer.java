@@ -35,7 +35,8 @@ public class RobotContainer extends OpMode {
     recordingTimer = System.currentTimeMillis() - startTimer;
   }
 
-  public boolean isWithinTolerance(double targetValue, double currentValue, double tolerance) {
+  public boolean isWithinTolerance(
+      final double targetValue, final double currentValue, final double tolerance) {
     return Math.abs(targetValue - currentValue) <= tolerance;
   }
 
@@ -51,11 +52,11 @@ public class RobotContainer extends OpMode {
     }
 
     if (isRecording) {
-      double[] drivePowers = drive.getPowers();
-      double[] armPower = verticalArm.getArmPowers();
-      double[] wheelPower = {0, 0}; // intake.getWheelPowers();
-      double clawPosition = claw.getClawPosition();
-      double[] flipperPosition = intake.getFlipperPos();
+      final double[] drivePowers = drive.getPowers();
+      final double[] armPower = verticalArm.getArmPowers();
+      final double[] wheelPower = {0, 0}; // intake.getWheelPowers();
+      final double clawPosition = claw.getClawPosition();
+      final double[] flipperPosition = intake.getFlipperPos();
       recordingTimer = System.currentTimeMillis() - startTimer;
 
       recorder.recordData(
@@ -92,9 +93,15 @@ public class RobotContainer extends OpMode {
     final double strafeInput = gamepad1.left_stick_x;
     final double rotateInput = gamepad1.right_stick_x;
 
-    if (!isWithinTolerance(0, gamepad1.left_stick_y, 0.05)
-        || !isWithinTolerance(0, gamepad1.left_stick_x, 0.05)
-        || !isWithinTolerance(0, gamepad1.right_stick_x, 0.05)) {
+    final boolean driveSticksActive =
+        !isWithinTolerance(0, gamepad1.left_stick_y, 0.05)
+            || !isWithinTolerance(0, gamepad1.left_stick_x, 0.05)
+            || !isWithinTolerance(0, gamepad1.right_stick_x, 0.05);
+
+    if (driveSticksActive && gamepad1.right_trigger > 0.25 && limelight.hasTarget()) {
+      final double rotCmd = limelight.getRotationCorrection();
+      drive.driveFieldRelative(forwardInput, strafeInput, rotCmd);
+    } else if (driveSticksActive) {
       drive.driveFieldRelative(forwardInput, strafeInput, rotateInput);
     } else {
       drive.stop();
@@ -112,7 +119,7 @@ public class RobotContainer extends OpMode {
         verticalArm.goToPosition(Constants.ArmPosition.SCORE_HIGH_BAR);
         try {
           Thread.sleep(750);
-        } catch (InterruptedException e) {
+        } catch (final InterruptedException e) {
           System.out.println("Big Sad");
         }
         claw.setPosition(Constants.ClawPosition.OPEN_POSITION.position);

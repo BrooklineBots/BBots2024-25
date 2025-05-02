@@ -65,4 +65,27 @@ public class Constants {
     public static final double MAX_VOLTAGE = 5; // TODO: change
     public static final double SERVO_POWER = 0.5;
   }
+
+  public static class LimelightConstants {
+    /** Pipelines configured on the Limelight UI. */
+    public enum Pipeline {
+      /** Detect red alliance elements. UI pipeline 0. */
+      RED(0),
+      /** Detect blue alliance elements. UI pipeline 1. */
+      BLUE(1),
+      /** Detect universal yellow elements (centre game piece). UI pipeline 2. */
+      YELLOW(2);
+
+      public final int index;
+
+      Pipeline(final int index) {
+        this.index = index;
+      }
+    }
+
+    public static final double kP =
+        0.015; // proportional gain from tx degrees → motor power TODO: Tune me!
+    public static final double kMinCmd =
+        0.07; // minimum power so the robot actually moves TODO: Tune me!
+  }
 }
