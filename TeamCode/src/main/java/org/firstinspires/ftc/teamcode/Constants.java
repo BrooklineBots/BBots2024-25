@@ -88,4 +88,21 @@ public class Constants {
     public static final double kMinCmd =
         0.07; // minimum power so the robot actually moves TODO: Tune me!
   }
+
+  public static class HorizontalConstants {
+    public static final String RIGHT_EXTENSION_ID = "right_extension_servo";
+    public static final String LEFT_EXTENSION_ID = "left_extension_servo";
+  }
+
+  public enum HorizontalPosition {
+    RIGHT_OUT_POSITION(1.0),
+    RIGHT_IN_POSITION(0.75); //TODO: add left
+
+    public final double position;
+
+    HorizontalPosition(final double position) {
+      this.position = position;
+    }
+  }
+
 }
