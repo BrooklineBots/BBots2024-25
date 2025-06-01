@@ -96,7 +96,7 @@ public class Constants {
 
   public enum HorizontalPosition {
     RIGHT_OUT_POSITION(1.0),
-    RIGHT_IN_POSITION(0.75); //TODO: add left
+    RIGHT_IN_POSITION(0.75); // TODO: add left
 
     public final double position;
 
@@ -104,5 +104,4 @@ public class Constants {
       this.position = position;
     }
   }
-
 }

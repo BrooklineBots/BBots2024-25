@@ -28,7 +28,7 @@ android {
 
 dependencies {
     implementation project(':FtcRobotController')
-    implementation("edu.wpi.first.ntcore:ntcore-java:2024.3.2")
+    //    implementation("edu.wpi.first.ntcore:ntcore-java:2024.3.2")
 }
 
 spotless {
