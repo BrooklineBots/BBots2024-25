@@ -17,7 +17,7 @@ public class RobotContainer extends OpMode {
 
   //private VerticalArm verticalArm;
 //  private Claw claw;
-  //private MecanumDrive drive;
+  private MecanumDrive drive;
   private HorizontalExtension horizontal;
 //  private Intake intake;
 //  private Limelight limelight;
@@ -41,7 +41,7 @@ public class RobotContainer extends OpMode {
 
     //verticalArm = new VerticalArm(hardwareMap, telemetry);
 //    claw = new Claw(hardwareMap, telemetry);
-    //drive = new MecanumDrive(hardwareMap, telemetry);
+    drive = new MecanumDrive(hardwareMap, telemetry);
     horizontal = new HorizontalExtension(hardwareMap, telemetry);
 //    intake = new Intake(hardwareMap, telemetry);
 //    limelight = new Limelight(hardwareMap, telemetry, isRedAlliance);
@@ -85,7 +85,9 @@ public class RobotContainer extends OpMode {
 //          drivePowers[3], // Back Right
 //          armPower[0], // Left Arm
 //          armPower[1], // Right Arm
-//          clawPosition, // Claw
+//          clif (gamepad2.b) {
+//      drive.resetYaw();
+//    }awPosition, // Claw
 //          wheelPower[0], // Intake Left
 //          wheelPower[1], // Intake Right
 //          flipperPosition[0], // leftFlipper
@@ -97,19 +99,25 @@ public class RobotContainer extends OpMode {
 //      //            telemetry.update();
 //    }
 
-//    if (gamepad2.b) {
-//      drive.resetYaw();
-//    }
+
 //
 //    if (isRecording && ((double) recordingTimer / 1000) >= 30.0) {
 //      recorder.stopRecording();
 //      isRecording = false;
 //      gamepad1.rumble(250);
 //    }
-//
-//    final double forwardInput = -gamepad1.left_stick_y;
-//    final double strafeInput = gamepad1.left_stick_x;
-//    final double rotateInput = gamepad1.right_stick_x;
+
+      final double forward = -gamepad1.left_stick_y;
+      final double right = gamepad1.left_stick_x;
+      final double rotate = gamepad1.right_stick_x;
+      
+      if(!isWithinTolerance(0, gamepad1.left_stick_y, 0.1) || !isWithinTolerance(0, gamepad1.left_stick_x, 0.1) || !isWithinTolerance(0, gamepad1.right_stick_x, 0.1)){
+          drive.driveFieldRelative(forward, right, rotate);
+      }
+      else{
+          drive.stop();
+      }
+
 //
 //    final boolean driveSticksActive =
 //        !isWithinTolerance(0, gamepad1.left_stick_y, 0.05)
@@ -179,6 +187,7 @@ public class RobotContainer extends OpMode {
       toggleAlliance();
     }
 
+    telemetry.addData("alliance:" , isRedAlliance);
     if(gamepad2.right_bumper){
       horizontal.extendOut();
     }
