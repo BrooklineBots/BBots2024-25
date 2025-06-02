@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.Constants;
 
 public class MecanumDrive {
   // Declare our motors
@@ -28,14 +29,15 @@ public class MecanumDrive {
     this.hwMap = hwMap;
     this.telemetry = telemetry;
 
-    frontLeftMotor = hwMap.dcMotor.get("frontLeftMotor");
-    backLeftMotor = hwMap.dcMotor.get("frontRightMotor");
-    frontRightMotor = hwMap.dcMotor.get("backLeftMotor");
-    backRightMotor = hwMap.dcMotor.get("backRightMotor");
+    frontLeftMotor = hwMap.dcMotor.get(Constants.DriveConstants.FRONT_LEFT_MOTOR_ID);
+    backLeftMotor = hwMap.dcMotor.get(Constants.DriveConstants.FRONT_RIGHT_MOTOR_ID);
+    frontRightMotor = hwMap.dcMotor.get(Constants.DriveConstants.BACK_LEFT_MOTOR_ID);
+    backRightMotor = hwMap.dcMotor.get(Constants.DriveConstants.BACK_RIGHT_MOTOR_ID);
 
     frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
     backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
     backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+    frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
     // Retrieve the IMU from the hardware map
     imu = hwMap.get(IMU.class, "imu");
@@ -56,7 +58,7 @@ public class MecanumDrive {
    * @param x = left/right speed, -1 to 1
    * @param rx = rotation speed, -1 to 1
    */
-  public void driveFieldRelative(double x, double y, double rx) {
+  public void driveFieldRelative(double y, double x, double rx) {
 
     // Rotate the movement direction counter to the bot's rotation
 

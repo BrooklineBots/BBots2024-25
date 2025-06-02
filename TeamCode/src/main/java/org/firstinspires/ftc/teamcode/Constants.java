@@ -2,10 +2,10 @@ package org.firstinspires.ftc.teamcode;
 
 public class Constants {
   public static class DriveConstants {
-    public static final String FRONT_LEFT_MOTOR_ID = "front_left_motor";
-    public static final String FRONT_RIGHT_MOTOR_ID = "front_right_motor";
-    public static final String BACK_LEFT_MOTOR_ID = "back_left_motor";
-    public static final String BACK_RIGHT_MOTOR_ID = "back_right_motor";
+    public static final String FRONT_LEFT_MOTOR_ID = "frontLeftMotor";
+    public static final String FRONT_RIGHT_MOTOR_ID = "frontRightMotor";
+    public static final String BACK_LEFT_MOTOR_ID = "backLeftMotor";
+    public static final String BACK_RIGHT_MOTOR_ID = "backRightMotor";
   }
 
   public static class ArmConstants {
