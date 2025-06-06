@@ -79,9 +79,7 @@ public class RobotContainer extends OpMode {
     //          drivePowers[3], // Back Right
     //          armPower[0], // Left Arm
     //          armPower[1], // Right Arm
-    //          clif (gamepad2.b) {
-    //      drive.resetYaw();
-    //    }awPosition, // Claw
+    //          clawPosition, // Claw
     //          wheelPower[0], // Intake Left
     //          wheelPower[1], // Intake Right
     //          flipperPosition[0], // leftFlipper
@@ -110,6 +108,10 @@ public class RobotContainer extends OpMode {
       drive.driveFieldRelative(forward, right, rotate);
     } else {
       drive.stop();
+    }
+
+    if(gamepad2.b){
+      drive.resetYaw();
     }
 
     //

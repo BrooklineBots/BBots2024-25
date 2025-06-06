@@ -30,14 +30,13 @@ public class MecanumDrive {
     this.telemetry = telemetry;
 
     frontLeftMotor = hwMap.dcMotor.get(Constants.DriveConstants.FRONT_LEFT_MOTOR_ID);
-    backLeftMotor = hwMap.dcMotor.get(Constants.DriveConstants.FRONT_RIGHT_MOTOR_ID);
-    frontRightMotor = hwMap.dcMotor.get(Constants.DriveConstants.BACK_LEFT_MOTOR_ID);
+    backLeftMotor = hwMap.dcMotor.get(Constants.DriveConstants.BACK_LEFT_MOTOR_ID);
+    frontRightMotor = hwMap.dcMotor.get(Constants.DriveConstants.FRONT_RIGHT_MOTOR_ID);
     backRightMotor = hwMap.dcMotor.get(Constants.DriveConstants.BACK_RIGHT_MOTOR_ID);
 
     frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
     backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
     backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-    frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
     // Retrieve the IMU from the hardware map
     imu = hwMap.get(IMU.class, "imu");
