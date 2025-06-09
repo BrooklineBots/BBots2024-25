@@ -186,7 +186,7 @@ public class RobotContainer extends OpMode {
     }
 
     telemetry.addData("alliance:", isRedAlliance);
-    if (gamepad2.x) {
+    if (gamepad2.right_bumper) {
       horizontal.extendOut();
     } else if (gamepad2.left_bumper) {
       horizontal.shrinkBack();

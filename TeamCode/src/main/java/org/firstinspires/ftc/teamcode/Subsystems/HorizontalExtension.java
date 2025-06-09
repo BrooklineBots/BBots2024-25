@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.Constants;
 
 public class HorizontalExtension {
   private final CRServo rightExtensionServo;
-  // private final Servo leftExtensionServo;
+  private final CRServo leftExtensionServo;
 
   private final double MAX_POSITION = 1; // TODO: test + change
   private final double MIN_POSITION = 0;
@@ -20,22 +20,25 @@ public class HorizontalExtension {
     this.telemetry = telemetry;
 
     rightExtensionServo = hwMap.crservo.get(Constants.HorizontalConstants.RIGHT_EXTENSION_ID);
-    // leftExtensionServo = hwMap.servo.get(Constants.HorizontalConstants.LEFT_EXTENSION_ID);
+    leftExtensionServo = hwMap.crservo.get(Constants.HorizontalConstants.LEFT_EXTENSION_ID);
     rightExtensionServo.setDirection(CRServo.Direction.REVERSE); // TODO: choose which servo
-
-    // telemetry.addData("Left Extension Position: ", leftExtensionServo.getPosition());
   }
 
+  public void setPower(double power){
+    rightExtensionServo.setPower(power);
+    leftExtensionServo.setPower(power);
+  }
 
   public void extendOut() {
-    rightExtensionServo.setPower(1);
+    setPower(-0.5);
   }
 
   public void shrinkBack() {
-    rightExtensionServo.setPower(-1);
+    setPower(0.5);
   }
 
   public void stopServos(){
     rightExtensionServo.setPower(0);
+    leftExtensionServo.setPower(0);
   }
 }
