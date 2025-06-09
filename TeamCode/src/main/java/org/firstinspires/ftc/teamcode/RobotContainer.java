@@ -2,17 +2,18 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import org.firstinspires.ftc.teamcode.Subsystems.HorizontalExtension;
 import org.firstinspires.ftc.teamcode.Subsystems.MecanumDrive;
+import org.firstinspires.ftc.teamcode.Subsystems.VerticalArm;
+import org.firstinspires.ftc.teamcode.Subsystems.HorizontalExtension;
 import org.firstinspires.ftc.teamcode.autonomous.AutonomousRecorder;
 
 @TeleOp(name = "robotDrive")
 public class RobotContainer extends OpMode {
 
-  // private VerticalArm verticalArm;
+  private VerticalArm verticalArm;
   //  private Claw claw;
   private MecanumDrive drive;
-  //private HorizontalExtension horizontal;
+  private HorizontalExtension horizontal;
   //  private Intake intake;
   //  private Limelight limelight;
 
@@ -33,10 +34,10 @@ public class RobotContainer extends OpMode {
 
     recorder = new AutonomousRecorder(hardwareMap.appContext, telemetry);
 
-    // verticalArm = new VerticalArm(hardwareMap, telemetry);
+    verticalArm = new VerticalArm(hardwareMap, telemetry);
     //    claw = new Claw(hardwareMap, telemetry);
     drive = new MecanumDrive(hardwareMap, telemetry);
-    //horizontal = new HorizontalExtension(hardwareMap, telemetry);
+    horizontal = new HorizontalExtension(hardwareMap, telemetry);
     //    intake = new Intake(hardwareMap, telemetry);
     //    limelight = new Limelight(hardwareMap, telemetry, isRedAlliance);
     //    limelight.start();
@@ -110,7 +111,7 @@ public class RobotContainer extends OpMode {
       drive.stop();
     }
 
-    if(gamepad2.b){
+    if (gamepad2.b) {
       drive.resetYaw();
     }
 
@@ -129,12 +130,13 @@ public class RobotContainer extends OpMode {
     ////      drive.stop();
     ////    }
 
-    //    if (gamepad2.dpad_up) {
-    //      verticalArm.goToPosition(Constants.ArmPosition.GO_TO_HIGH_BAR);
-    //    } else if (gamepad2.dpad_right) {
-    //      verticalArm.goToPosition(Constants.ArmPosition.SCORE_HIGH_BUCKET);
-    //    } else if (gamepad2.dpad_down) {
-    //      verticalArm.goToPosition(Constants.ArmPosition.STOWED);
+    if (gamepad2.dpad_up) {
+      verticalArm.goToPosition(Constants.ArmPosition.GO_TO_HIGH_BAR);
+    } else if (gamepad2.dpad_right) {
+      verticalArm.goToPosition(Constants.ArmPosition.SCORE_HIGH_BUCKET);
+    } else if (gamepad2.dpad_down) {
+      verticalArm.goToPosition(Constants.ArmPosition.STOWED);
+    }
     //    } else if (gamepad2.dpad_left) {
     //      if (verticalArm.getGoalPosition() == Constants.ArmPosition.GO_TO_HIGH_BAR
     //          && claw.getGoalPosition() == Constants.ClawPosition.CLOSE_POSITION) {
@@ -184,15 +186,15 @@ public class RobotContainer extends OpMode {
     }
 
     telemetry.addData("alliance:", isRedAlliance);
-//    if (gamepad2.right_bumper) {
-//      horizontal.extendOut();
-//    } else if (gamepad2.left_bumper) {
-//      horizontal.shrinkBack();
-//    }
+        if (gamepad2.x) {
+          horizontal.extendOut();
+        } else if (gamepad2.left_bumper) {
+          horizontal.shrinkBack();
+        }
     // make autonomous commands
 
-    //        telemetry.addData("Left Arm Position: ", verticalArm.getCurrentPosition()[0]);
-    //        telemetry.addData("Right Arm Position: ", verticalArm.getCurrentPosition()[1]);
+    telemetry.addData("Left Arm Position: ", verticalArm.getCurrentPosition()[0]);
+    telemetry.addData("Right Arm Position: ", verticalArm.getCurrentPosition()[1]);
     telemetry.update();
   }
 }

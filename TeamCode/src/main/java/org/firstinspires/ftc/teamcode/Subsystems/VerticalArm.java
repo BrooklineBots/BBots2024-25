@@ -20,7 +20,7 @@ public class VerticalArm {
     rightArm = hwMap.dcMotor.get(Constants.ArmConstants.RIGHT_ARM_ID);
     goalPosition = ArmPosition.STOWED;
 
-    rightArm.setDirection(DcMotor.Direction.REVERSE);
+    leftArm.setDirection(DcMotor.Direction.REVERSE);
 
     leftArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     rightArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
