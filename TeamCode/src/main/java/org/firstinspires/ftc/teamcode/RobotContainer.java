@@ -186,11 +186,13 @@ public class RobotContainer extends OpMode {
     }
 
     telemetry.addData("alliance:", isRedAlliance);
-        if (gamepad2.x) {
-          horizontal.extendOut();
-        } else if (gamepad2.left_bumper) {
-          horizontal.shrinkBack();
-        }
+    if (gamepad2.x) {
+      horizontal.extendOut();
+    } else if (gamepad2.left_bumper) {
+      horizontal.shrinkBack();
+    } else{
+      horizontal.stopServos();
+    }
     // make autonomous commands
 
     telemetry.addData("Left Arm Position: ", verticalArm.getCurrentPosition()[0]);

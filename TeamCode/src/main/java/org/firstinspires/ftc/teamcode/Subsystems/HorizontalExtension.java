@@ -34,4 +34,8 @@ public class HorizontalExtension {
   public void shrinkBack() {
     rightExtensionServo.setPower(-1);
   }
+
+  public void stopServos(){
+    rightExtensionServo.setPower(0);
+  }
 }
