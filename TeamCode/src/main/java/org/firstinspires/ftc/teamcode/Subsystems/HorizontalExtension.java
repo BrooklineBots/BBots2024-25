@@ -9,8 +9,8 @@ public class HorizontalExtension {
   private final CRServo rightExtensionServo;
   private final CRServo leftExtensionServo;
 
-  private final double MAX_POSITION = 1; // TODO: test + change
-  private final double MIN_POSITION = 0;
+  private final double MAX_POWER = 1; // TODO: test + change
+  private final double MIN_POWER = 0;
 
   private final Telemetry telemetry;
   private final HardwareMap hwMap;
@@ -24,21 +24,22 @@ public class HorizontalExtension {
     rightExtensionServo.setDirection(CRServo.Direction.REVERSE); // TODO: choose which servo
   }
 
-  public void setPower(double power){
-    rightExtensionServo.setPower(power);
-    leftExtensionServo.setPower(power);
+  public void setPower(double rightPower, double leftPower){
+    if(rightPower < MAX_POWER && rightPower >= MIN_POWER && leftPower < MAX_POWER && leftPower >= MIN_POWER) {
+      rightExtensionServo.setPower(rightPower);
+      leftExtensionServo.setPower(leftPower);
+    }
   }
 
   public void extendOut() {
-    setPower(-0.5);
+    setPower(0.5, 0.6);
   }
 
   public void shrinkBack() {
-    setPower(0.5);
+    setPower(0.7, 0.4);
   }
 
   public void stopServos(){
-    rightExtensionServo.setPower(0);
-    leftExtensionServo.setPower(0);
+    setPower(0, 0);
   }
 }
