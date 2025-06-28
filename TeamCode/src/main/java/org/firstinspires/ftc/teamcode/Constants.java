@@ -17,11 +17,9 @@ public class Constants {
     public static final double VERTICAL_MOVE_POWER = 0.5;
     public static final int MAX_ALLOWED_DIFFERENCE = 10;
 
-    // Horizontal Arm Constants
-    public static final String HORIZONTAL_ARM_ID = "horizontalArm";
-    public static final int HORIZONTAL_MIN_POSITION = 0; // TODO: change
-    public static final int HORIZONTAL_MAX_POSITION = 200; // TODO: change
-    public static final double HORIZONTAL_MOVE_POWER = 0.5;
+
+
+
   }
 
   public enum ArmPosition {
@@ -49,6 +47,22 @@ public class Constants {
     public final double position;
 
     ClawPosition(final double position) {
+      this.position = position;
+    }
+  }
+
+  public static class ClawArmConstants{
+    public static final String CLAW_ARM_SERVO_ID = "clawArmServo";
+  }
+
+  public enum ClawArmPosition { //TODO: change values
+    TRANSFER_POSITION(0.0),
+    SCORE_POSITION(0.0),
+    PICKUP_POSITION(0.0);
+
+    public final double position;
+
+    ClawArmPosition(final double position) {
       this.position = position;
     }
   }
@@ -92,16 +106,10 @@ public class Constants {
   public static class HorizontalConstants {
     public static final String RIGHT_EXTENSION_ID = "right_extension_servo";
     public static final String LEFT_EXTENSION_ID = "left_extension_servo";
+    public static final double RIGHT_EXTEND_POWER = 0.55;
+    public static final double LEFT_EXTEND_POWER = 0.6;
+    public static final double RIGHT_RETRACT_POWER = -0.4;
+    public static final double LEFT_RETRACT_POWER = -0.55;
   }
 
-  public enum HorizontalPosition {
-    RIGHT_OUT_POSITION(1.0),
-    RIGHT_IN_POSITION(0.75); // TODO: add left
-
-    public final double position;
-
-    HorizontalPosition(final double position) {
-      this.position = position;
-    }
-  }
 }

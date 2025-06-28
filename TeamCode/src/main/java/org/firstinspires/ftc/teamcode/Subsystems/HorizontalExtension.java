@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.CRServo;
+
+import org.firstinspires.ftc.robotcore.external.Const;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Constants;
 
@@ -25,18 +27,19 @@ public class HorizontalExtension {
   }
 
   public void setPower(double rightPower, double leftPower){
-    if(rightPower < MAX_POWER && rightPower > MIN_POWER && leftPower < MAX_POWER && leftPower > MIN_POWER) {
+    if(rightPower < MAX_POWER && rightPower > MIN_POWER &&
+            leftPower < MAX_POWER && leftPower > MIN_POWER) {
       rightExtensionServo.setPower(rightPower);
       leftExtensionServo.setPower(leftPower);
     }
   }
 
-  public void extendOut() {
-    setPower(0.55, 0.6);
+  public void extend() {
+    setPower(Constants.HorizontalConstants.RIGHT_EXTEND_POWER, Constants.HorizontalConstants.LEFT_EXTEND_POWER);
   }
 
-  public void shrinkBack() {
-    setPower(-0.4, -0.55);
+  public void retract() {
+    setPower(Constants.HorizontalConstants.RIGHT_RETRACT_POWER, Constants.HorizontalConstants.LEFT_RETRACT_POWER);
   }
 
   public void stopServos(){

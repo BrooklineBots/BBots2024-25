@@ -19,7 +19,7 @@ public class Claw {
     this.telemetry = telemetry;
     claw = hwMap.get(Servo.class, Constants.ClawConstants.CLAW_SERVO_ID);
     claw.setDirection(Servo.Direction.REVERSE);
-    goalPosition = ClawPosition.CLOSE_POSITION;
+    goalPosition = ClawPosition.OPEN_POSITION;
     telemetry.addData("Position:", claw.getPosition());
   }
 
@@ -44,10 +44,6 @@ public class Claw {
   }
 
   public double getClawPosition() {
-    return claw.getPosition();
-  }
-
-  public double getPosition() {
     return claw.getPosition();
   }
 }
