@@ -10,7 +10,7 @@ public class HorizontalExtension {
   private final CRServo leftExtensionServo;
 
   private final double MAX_POWER = 1; // TODO: test + change
-  private final double MIN_POWER = 0;
+  private final double MIN_POWER = -1;
 
   private final Telemetry telemetry;
   private final HardwareMap hwMap;
@@ -25,18 +25,18 @@ public class HorizontalExtension {
   }
 
   public void setPower(double rightPower, double leftPower){
-    if(rightPower < MAX_POWER && rightPower >= MIN_POWER && leftPower < MAX_POWER && leftPower >= MIN_POWER) {
+    if(rightPower < MAX_POWER && rightPower > MIN_POWER && leftPower < MAX_POWER && leftPower > MIN_POWER) {
       rightExtensionServo.setPower(rightPower);
       leftExtensionServo.setPower(leftPower);
     }
   }
 
   public void extendOut() {
-    setPower(0.5, 0.6);
+    setPower(0.55, 0.6);
   }
 
   public void shrinkBack() {
-    setPower(0.7, 0.4);
+    setPower(-0.4, -0.55);
   }
 
   public void stopServos(){
