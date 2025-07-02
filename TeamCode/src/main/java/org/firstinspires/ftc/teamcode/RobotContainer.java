@@ -2,9 +2,10 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Subsystems.Claw;
-import org.firstinspires.ftc.teamcode.Subsystems.ClawArm;
+//import org.firstinspires.ftc.teamcode.Subsystems.Claw;
+//import org.firstinspires.ftc.teamcode.Subsystems.ClawArm;
 import org.firstinspires.ftc.teamcode.Subsystems.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.VerticalArm;
 import org.firstinspires.ftc.teamcode.Subsystems.HorizontalExtension;
@@ -14,13 +15,15 @@ import org.firstinspires.ftc.teamcode.autonomous.AutonomousRecorder;
 public class RobotContainer extends OpMode {
 
   private VerticalArm verticalArm;
-  private Claw claw;
-  private ClawArm clawArm;
+//  private Claw claw;
+//  private ClawArm clawArm;
   private MecanumDrive drive;
   private HorizontalExtension horizontal;
   //  private Limelight limelight;
 
   private AutonomousRecorder recorder;
+
+  private ElapsedTime timer;
 
   private boolean isRedAlliance = true;
 
@@ -38,8 +41,8 @@ public class RobotContainer extends OpMode {
     recorder = new AutonomousRecorder(hardwareMap.appContext, telemetry);
 
     verticalArm = new VerticalArm(hardwareMap, telemetry);
-    claw = new Claw(hardwareMap, telemetry);
-    clawArm = new ClawArm(hardwareMap, telemetry);
+//    claw = new Claw(hardwareMap, telemetry);
+//    clawArm = new ClawArm(hardwareMap, telemetry);
     drive = new MecanumDrive(hardwareMap, telemetry);
     horizontal = new HorizontalExtension(hardwareMap, telemetry);
     //    limelight = new Limelight(hardwareMap, telemetry, isRedAlliance);
@@ -148,33 +151,33 @@ public class RobotContainer extends OpMode {
     } else if (gamepad2.dpad_down) {
       verticalArm.goToPosition(Constants.ArmPosition.STOWED);
 
-    } else if (gamepad2.dpad_left && clawArm.getGoalPosition() ==
-            Constants.ClawArmPosition.SCORE_POSITION) {
-      if (verticalArm.getGoalPosition() == Constants.ArmPosition.GO_TO_HIGH_BAR
-          && claw.getGoalPosition() == Constants.ClawPosition.CLOSE_POSITION) {
-        verticalArm.goToPosition(Constants.ArmPosition.SCORE_HIGH_BAR);
-        try {
-          Thread.sleep(750);
-        } catch (final InterruptedException e) {
-          System.out.println("Big Sad");
-        }
-        claw.setPosition(Constants.ClawPosition.OPEN_POSITION.position);
-      } else if (verticalArm.getGoalPosition() == Constants.ArmPosition.SCORE_HIGH_BUCKET
-          && claw.getGoalPosition() == Constants.ClawPosition.CLOSE_POSITION) {
-        claw.setPosition(Constants.ClawPosition.OPEN_POSITION.position);
-      } else {
-        claw.setPosition(Constants.ClawPosition.OPEN_POSITION.position);
-        verticalArm.goToPosition(Constants.ArmPosition.STOWED);
-      }
+//    } else if (gamepad2.dpad_left && clawArm.getGoalPosition() ==
+//            Constants.ClawArmPosition.SCORE_POSITION) {
+//      if (verticalArm.getGoalPosition() == Constants.ArmPosition.GO_TO_HIGH_BAR
+//          && claw.getGoalPosition() == Constants.ClawPosition.CLOSE_POSITION) {
+//        verticalArm.goToPosition(Constants.ArmPosition.SCORE_HIGH_BAR);
+//        try {
+//          Thread.sleep(750);
+//        } catch (final InterruptedException e) {
+//          System.out.println("Big Sad");
+//        }
+//        claw.setPosition(Constants.ClawPosition.OPEN_POSITION.position);
+//      } else if (verticalArm.getGoalPosition() == Constants.ArmPosition.SCORE_HIGH_BUCKET
+//          && claw.getGoalPosition() == Constants.ClawPosition.CLOSE_POSITION) {
+//        claw.setPosition(Constants.ClawPosition.OPEN_POSITION.position);
+//      } else {
+//        claw.setPosition(Constants.ClawPosition.OPEN_POSITION.position);
+//        verticalArm.goToPosition(Constants.ArmPosition.STOWED);
+//      }
 
     }
 
     //basic claw control
-    if (gamepad1.left_bumper) {
-        claw.closeClaw();
-      } else if (gamepad1.right_bumper) {
-        claw.openClaw();
-    }
+//    if (gamepad1.left_bumper) {
+//        claw.closeClaw();
+//      } else if (gamepad1.right_bumper) {
+//        claw.openClaw();
+//    }
 
     //horizontal extension
     if (!isWithinTolerance(0, gamepad2.right_trigger, 0.1)) {

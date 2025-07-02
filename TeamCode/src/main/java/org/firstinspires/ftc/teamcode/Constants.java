@@ -23,7 +23,7 @@ public class Constants {
   }
 
   public enum ArmPosition {
-    INTAKE(250),
+    TRANSFER(250),
     STOWED(250),
     SCORE_HIGH_BUCKET(4100),
     GO_TO_HIGH_BAR(2200),
@@ -106,10 +106,10 @@ public class Constants {
   public static class HorizontalConstants {
     public static final String RIGHT_EXTENSION_ID = "right_extension_servo";
     public static final String LEFT_EXTENSION_ID = "left_extension_servo";
-    public static final double RIGHT_EXTEND_POWER = 0.55;
-    public static final double LEFT_EXTEND_POWER = 0.6;
-    public static final double RIGHT_RETRACT_POWER = -0.4;
-    public static final double LEFT_RETRACT_POWER = -0.55;
+    public static final double RIGHT_EXTEND_POWER = 0.6;
+    public static final double LEFT_EXTEND_POWER = 0.75;
+    public static final double RIGHT_RETRACT_POWER = -0.6;
+    public static final double LEFT_RETRACT_POWER = -0.75;
   }
 
 }

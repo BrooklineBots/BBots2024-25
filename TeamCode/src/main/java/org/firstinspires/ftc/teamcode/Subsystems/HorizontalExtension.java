@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Const;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -17,6 +18,9 @@ public class HorizontalExtension {
   private final Telemetry telemetry;
   private final HardwareMap hwMap;
 
+  private long startTimeNanoSeconds = -1; //off
+
+
   public HorizontalExtension(HardwareMap hwMap, Telemetry telemetry) {
     this.hwMap = hwMap;
     this.telemetry = telemetry;
@@ -29,8 +33,15 @@ public class HorizontalExtension {
   public void setPower(double rightPower, double leftPower){
     if(rightPower < MAX_POWER && rightPower > MIN_POWER &&
             leftPower < MAX_POWER && leftPower > MIN_POWER) {
-      rightExtensionServo.setPower(rightPower);
-      leftExtensionServo.setPower(leftPower);
+      if(startTimeNanoSeconds == -1){
+        leftExtensionServo.setPower(leftPower);
+        startTimeNanoSeconds = System.nanoTime();
+      }
+
+      double elapsedTimeSec = (System.nanoTime() - startTimeNanoSeconds) / 1e9;
+      if(elapsedTimeSec >= -.1){
+        rightExtensionServo.setPower(rightPower);
+      }
     }
   }
 
@@ -43,6 +54,7 @@ public class HorizontalExtension {
   }
 
   public void stopServos(){
-    setPower(0, 0);
+    rightExtensionServo.setPower(0);
+    leftExtensionServo.setPower(0);
   }
 }
