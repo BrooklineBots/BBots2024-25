@@ -14,7 +14,7 @@ public class Constants {
     public static final String RIGHT_ARM_ID = "rightArm";
     public static final int VERTICAL_MIN_POSITION = 0; // TODO: change
     public static final int VERTICAL_MAX_POSITION = 4100;
-    public static final double VERTICAL_MOVE_POWER = 0.7;
+    public static final double VERTICAL_MOVE_POWER = 0.9;
     public static final int MAX_ALLOWED_DIFFERENCE = 10;
 
 
@@ -53,7 +53,7 @@ public class Constants {
 
   public static class ClawArmConstants{
     public static final String CLAW_ARM_SERVO_ID = "clawArmServo";
-    public static final double CLAW_ARM_DELAY_BUCKET = 1;
+    public static final double CLAW_ARM_DELAY_BUCKET = 0.5;
   }
 
   public enum ClawArmPosition {

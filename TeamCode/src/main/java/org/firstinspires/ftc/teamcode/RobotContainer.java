@@ -163,22 +163,41 @@ public class RobotContainer extends OpMode {
 
     //scoring
     //testing TODO: Add claw open and close
-    if(gamepad2.dpad_up && !highBucketTriggered){
-      highBucketTriggered = true;
-      startTimeNs = System.nanoTime();
-      verticalArm.goToPosition(Constants.ArmPosition.SCORE_HIGH_BUCKET);
-      verticalMoved = true;
-    } else if (gamepad2.dpad_down){
-      verticalArm.goToPosition(Constants.ArmPosition.STOWED);
-      clawArm.goToPosition(Constants.ClawArmPosition.SCORE_LOW_BUCKET_POSITION);
-    } else if(gamepad2.dpad_right){
-      verticalArm.goToPosition(Constants.ArmPosition.STOWED);
-      clawArm.goToPosition(Constants.ClawArmPosition.SCORE_HIGH_BAR_POSITION);
-    } else if(gamepad2.dpad_left){
-      verticalArm.goToPosition(Constants.ArmPosition.STOWED);
-      clawArm.goToPosition(Constants.ClawArmPosition.TRANSFER_POSITION);
-    }
 
+
+    //emergency vertical arm control:
+    if(!isWithinTolerance(0, gamepad2.left_trigger, 0.1)){
+
+      if(!isWithinTolerance(0, gamepad2.left_stick_y, 0.1)){
+        verticalArm.setModeRunWithEncoder();
+        double power = gamepad2.left_stick_x;
+        //limit power
+        power *= 0.5;
+        verticalArm.setArmPowers(power);
+
+      }
+      else{
+        verticalArm.stop();
+      }
+    }
+    else{
+      if(gamepad2.dpad_up && !highBucketTriggered){
+        highBucketTriggered = true;
+        startTimeNs = System.nanoTime();
+        verticalArm.goToPosition(Constants.ArmPosition.SCORE_HIGH_BUCKET);
+        verticalMoved = true;
+      } else if (gamepad2.dpad_down){
+        verticalArm.goToPosition(Constants.ArmPosition.STOWED);
+        clawArm.goToPosition(Constants.ClawArmPosition.SCORE_LOW_BUCKET_POSITION);
+      } else if(gamepad2.dpad_right){
+        verticalArm.goToPosition(Constants.ArmPosition.STOWED);
+        clawArm.goToPosition(Constants.ClawArmPosition.SCORE_HIGH_BAR_POSITION);
+      } else if(gamepad2.dpad_left){
+        verticalArm.goToPosition(Constants.ArmPosition.STOWED);
+        clawArm.goToPosition(Constants.ClawArmPosition.TRANSFER_POSITION);
+      }
+    }
+    
     //CLAW HIGH BUCKET DELAY
     if (highBucketTriggered) {
       long currentTime = System.nanoTime();
@@ -189,13 +208,12 @@ public class RobotContainer extends OpMode {
         clawArm.goToPosition(Constants.ClawArmPosition.SCORE_HIGH_BUCKET_POSITION);
         clawArmMoved = true;
         highBucketTriggered = false;
+        verticalMoved = false;
       }
     }
 
-    //emergency vertical arm control:
-    if(!isWithinTolerance(0, gamepad2.left_stick_y, 0.1)){
-      verticalArm.moveArm(Constants.ArmConstants.VERTICAL_MOVE_POWER);
-    }
+
+
 //    if (gamepad2.dpad_up) { //SCORE HIGH BUCKET
 //      verticalArm.goToPosition(Constants.ArmPosition.SCORE_HIGH_BUCKET);
 //      clawArm.scoreHighBucket();

@@ -44,7 +44,7 @@ public class AutonomousPlayer extends LinearOpMode {
 
       // Apply motor/servo values
       drive.setPowers(record.fl, record.fr, record.bl, record.br);
-      verticalArm.setArmPowers(record.leftArm, record.rightArm);
+      //verticalArm.setArmPowers(record.leftArm, record.rightArm); TODO: UNcomment me
       outtake.setPosition(record.claw);
       // intake.setIntakePowers(record.intakeLeft, record.intakeRight);//TODO: UNcomment me
       // intake.setFlipperPos(record.leftFlipper, record.rightFlipper);//TODO: UNcomment me

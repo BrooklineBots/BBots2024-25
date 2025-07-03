@@ -80,14 +80,18 @@ public class VerticalArm {
     return new double[] {leftArm.getPower(), rightArm.getPower()};
   }
 
-  public void moveArm(final double power) {
-    leftArm.setPower(-power);
-    rightArm.setPower(-power);
+  public void setModeRunWithoutEncoder(){
+    leftArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    rightArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+  }
+  public void setModeRunWithEncoder(){
+    leftArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    rightArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
   }
 
-  public void setArmPowers(final double left, final double right) {
-    leftArm.setPower(left);
-    rightArm.setPower(right);
+  public void setArmPowers(final double power) {
+    leftArm.setPower(power);
+    rightArm.setPower(power);
   }
 
   public void stop() {
