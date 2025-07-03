@@ -17,7 +17,7 @@ public class AutonomousPlayer extends LinearOpMode {
   // Subsystems
   private MecanumDrive drive;
   private VerticalArm verticalArm;
-  private Claw claw;
+  private Outtake outtake;
   private Intake intake; // TODO: UNcomment me
 
   // Data structure for recorded states
@@ -45,7 +45,7 @@ public class AutonomousPlayer extends LinearOpMode {
       // Apply motor/servo values
       drive.setPowers(record.fl, record.fr, record.bl, record.br);
       verticalArm.setArmPowers(record.leftArm, record.rightArm);
-      claw.setPosition(record.claw);
+      outtake.setPosition(record.claw);
       // intake.setIntakePowers(record.intakeLeft, record.intakeRight);//TODO: UNcomment me
       // intake.setFlipperPos(record.leftFlipper, record.rightFlipper);//TODO: UNcomment me
     }
@@ -59,7 +59,7 @@ public class AutonomousPlayer extends LinearOpMode {
   private void initializeSubsystems() {
     drive = new MecanumDrive(hardwareMap, telemetry);
     verticalArm = new VerticalArm(hardwareMap, telemetry);
-    claw = new Claw(hardwareMap, telemetry);
+    outtake = new Outtake(hardwareMap, telemetry);
     intake = new Intake(hardwareMap, telemetry); // TODO: UNcomment me
   }
 

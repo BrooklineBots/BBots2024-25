@@ -6,21 +6,21 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.Constants.*;
 
-public class Claw {
+public class Outtake {
 
   private final double MAX_POSITION = 1;
   private final double MIN_POSITION = 0;
   private ClawPosition goalPosition;
-  private final Servo claw;
+  private final Servo outtake;
 
   private final Telemetry telemetry;
 
-  public Claw(final HardwareMap hwMap, final Telemetry telemetry) {
+  public Outtake(final HardwareMap hwMap, final Telemetry telemetry) {
     this.telemetry = telemetry;
-    claw = hwMap.get(Servo.class, Constants.ClawConstants.CLAW_SERVO_ID);
-    claw.setDirection(Servo.Direction.REVERSE);
+    outtake = hwMap.get(Servo.class, Constants.ClawConstants.CLAW_SERVO_ID);
+    outtake.setDirection(Servo.Direction.REVERSE);
     goalPosition = ClawPosition.OPEN_POSITION;
-    telemetry.addData("Position:", claw.getPosition());
+    telemetry.addData("Position:", outtake.getPosition());
   }
 
   public void openClaw() {
@@ -39,11 +39,11 @@ public class Claw {
 
   public void setPosition(final double position) {
     if (position >= MIN_POSITION && position <= MAX_POSITION) {
-      claw.setPosition(position);
+      outtake.setPosition(position);
     }
   }
 
   public double getClawPosition() {
-    return claw.getPosition();
+    return outtake.getPosition();
   }
 }

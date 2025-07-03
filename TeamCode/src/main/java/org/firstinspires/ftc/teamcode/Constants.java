@@ -25,7 +25,7 @@ public class Constants {
   public enum ArmPosition {
     TRANSFER(250),
     STOWED(250),
-    SCORE_HIGH_BUCKET(4100),
+    SCORE_HIGH_BUCKET(2200),
     GO_TO_HIGH_BAR(2200),
     SCORE_HIGH_BAR(1500); // TODO: check value (could be not-updated)
 
@@ -57,7 +57,9 @@ public class Constants {
 
   public enum ClawArmPosition { //TODO: change values
     TRANSFER_POSITION(0.0),
-    SCORE_POSITION(0.0),
+    SCORE_HIGH_BAR_POSITION(0.0),
+    SCORE_HIGH_BUCKET_POSITION(0.0),
+    SCORE_LOW_BUCKET_POSITION(0.0),
     PICKUP_POSITION(0.0);
 
     public final double position;

@@ -28,9 +28,17 @@ public class ClawArm {
         goalPosition = ClawArmPosition.TRANSFER_POSITION;
     }
 
-    public void moveToScore(){
-        setPosition(ClawArmPosition.SCORE_POSITION.position);
-        goalPosition = ClawArmPosition.SCORE_POSITION;
+    public void scoreHighBar(){
+        setPosition(ClawArmPosition.SCORE_HIGH_BAR_POSITION.position);
+        goalPosition = ClawArmPosition.SCORE_HIGH_BAR_POSITION;
+    }
+    public void scoreHighBucket(){
+        setPosition(ClawArmPosition.SCORE_HIGH_BUCKET_POSITION.position);
+        goalPosition = ClawArmPosition.SCORE_HIGH_BUCKET_POSITION;
+    }
+    public void scoreLowBucket() {
+        setPosition(ClawArmPosition.SCORE_LOW_BUCKET_POSITION.position);
+        goalPosition = ClawArmPosition.SCORE_LOW_BUCKET_POSITION;
     }
 
     public void moveToPickup(){
