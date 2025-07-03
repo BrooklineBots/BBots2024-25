@@ -3,37 +3,37 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.Constants.*;
 
 public class Outtake {
 
   private final double MAX_POSITION = 1;
   private final double MIN_POSITION = 0;
-  private ClawPosition goalPosition;
+  private OuttakePosition goalPosition;
   private final Servo outtake;
 
   private final Telemetry telemetry;
 
   public Outtake(final HardwareMap hwMap, final Telemetry telemetry) {
     this.telemetry = telemetry;
-    outtake = hwMap.get(Servo.class, Constants.ClawConstants.CLAW_SERVO_ID);
+    outtake = hwMap.get(Servo.class, OuttakeConstants.CLAW_SERVO_ID);
     outtake.setDirection(Servo.Direction.REVERSE);
-    goalPosition = ClawPosition.OPEN_POSITION;
+    goalPosition = OuttakePosition.OPEN_POSITION;
     telemetry.addData("Position:", outtake.getPosition());
+
   }
 
   public void openClaw() {
-    setPosition(ClawPosition.OPEN_POSITION.position);
-    goalPosition = ClawPosition.OPEN_POSITION;
+    setPosition(OuttakePosition.OPEN_POSITION.position);
+    goalPosition = OuttakePosition.OPEN_POSITION;
   }
 
   public void closeClaw() {
-    setPosition(ClawPosition.CLOSE_POSITION.position);
-    goalPosition = ClawPosition.CLOSE_POSITION;
+    setPosition(OuttakePosition.CLOSE_POSITION.position);
+    goalPosition = OuttakePosition.CLOSE_POSITION;
   }
 
-  public ClawPosition getGoalPosition() {
+  public OuttakePosition getGoalPosition() {
     return goalPosition;
   }
 

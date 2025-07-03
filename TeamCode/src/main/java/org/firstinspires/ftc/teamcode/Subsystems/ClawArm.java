@@ -15,37 +15,22 @@ public class ClawArm {
 
     private final Telemetry telemetry;
 
+    private long startTimeNs = -1;
+
     public ClawArm(final HardwareMap hwMap, final Telemetry telemetry) {
         this.telemetry = telemetry;
         clawArm = hwMap.get(Servo.class, ClawArmConstants.CLAW_ARM_SERVO_ID);
-        //clawArm.setDirection(Servo.Direction.REVERSE);
-        goalPosition = ClawArmPosition.TRANSFER_POSITION;
+
         telemetry.addData("Position:", clawArm.getPosition());
     }
 
+    public void goToPosition(ClawArmPosition position){
+        setPosition(position.position);
+        goalPosition = position;
+    }
     public void moveToTransfer(){
-        setPosition(ClawArmPosition.TRANSFER_POSITION.position);
-        goalPosition = ClawArmPosition.TRANSFER_POSITION;
-    }
 
-    public void scoreHighBar(){
-        setPosition(ClawArmPosition.SCORE_HIGH_BAR_POSITION.position);
-        goalPosition = ClawArmPosition.SCORE_HIGH_BAR_POSITION;
     }
-    public void scoreHighBucket(){
-        setPosition(ClawArmPosition.SCORE_HIGH_BUCKET_POSITION.position);
-        goalPosition = ClawArmPosition.SCORE_HIGH_BUCKET_POSITION;
-    }
-    public void scoreLowBucket() {
-        setPosition(ClawArmPosition.SCORE_LOW_BUCKET_POSITION.position);
-        goalPosition = ClawArmPosition.SCORE_LOW_BUCKET_POSITION;
-    }
-
-    public void moveToPickup(){
-        setPosition(ClawArmPosition.PICKUP_POSITION.position);
-        goalPosition = ClawArmPosition.PICKUP_POSITION;
-    }
-
 
     public ClawArmPosition getGoalPosition() {
         return goalPosition;

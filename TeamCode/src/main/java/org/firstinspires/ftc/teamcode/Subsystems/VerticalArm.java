@@ -80,7 +80,7 @@ public class VerticalArm {
     return new double[] {leftArm.getPower(), rightArm.getPower()};
   }
 
-  public void moveUp(final double power) {
+  public void moveArm(final double power) {
     leftArm.setPower(-power);
     rightArm.setPower(-power);
   }
