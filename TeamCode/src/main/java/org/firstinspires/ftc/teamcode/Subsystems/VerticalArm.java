@@ -18,7 +18,7 @@ public class VerticalArm {
     this.telemetry = telemetry;
     leftArm = hwMap.dcMotor.get(Constants.ArmConstants.LEFT_ARM_ID);
     rightArm = hwMap.dcMotor.get(Constants.ArmConstants.RIGHT_ARM_ID);
-    goalPosition = ArmPosition.STOWED;
+    goalPosition = ArmPosition.GO_TO_HIGH_BAR;
 
     leftArm.setDirection(DcMotor.Direction.REVERSE);
 
