@@ -2,9 +2,7 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.Const;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Constants;
 
@@ -30,7 +28,7 @@ public class HorizontalExtension {
     rightExtensionServo.setDirection(CRServo.Direction.REVERSE); // TODO: choose which servo
   }
 
-  public void setPowerWithDelay(double rightPower, double leftPower){
+  public void setPowerExtendDelay(double rightPower, double leftPower){
     if(rightPower < MAX_POWER && rightPower > MIN_POWER &&
             leftPower < MAX_POWER && leftPower > MIN_POWER) {
       if(startTimeNanoSeconds == -1){
@@ -39,7 +37,7 @@ public class HorizontalExtension {
       }
 
       double elapsedTimeSec = (System.nanoTime() - startTimeNanoSeconds) / 1e9;
-      if(elapsedTimeSec >= -.1){
+      if(elapsedTimeSec >= Constants.HorizontalConstants.EXTEND_DELAY_SECONDS){
         rightExtensionServo.setPower(rightPower);
       }
     }
@@ -54,11 +52,11 @@ public class HorizontalExtension {
   }
 
   public void extend() {
-    setPowerWithDelay(Constants.HorizontalConstants.RIGHT_EXTEND_POWER, Constants.HorizontalConstants.LEFT_EXTEND_POWER);
+    setPowerExtendDelay(Constants.HorizontalConstants.RIGHT_EXTEND_POWER, Constants.HorizontalConstants.LEFT_EXTEND_POWER);
   }
 
   public void retract() {
-    setPower(Constants.HorizontalConstants.RIGHT_RETRACT_POWER, Constants.HorizontalConstants.LEFT_RETRACT_POWER);
+    setPowerExtendDelay(Constants.HorizontalConstants.RIGHT_RETRACT_POWER, Constants.HorizontalConstants.LEFT_RETRACT_POWER);
   }
 
   public void stopServos(){

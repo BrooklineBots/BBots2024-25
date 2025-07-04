@@ -23,10 +23,10 @@ public class Constants {
   }
 
   public enum ArmPosition {
-    TRANSFER(250),
-    STOWED(250),
+    STOWED(100),
+    GO_TO_HIGH_BAR(250),
     SCORE_HIGH_BUCKET(3000),
-    GO_TO_HIGH_BAR(2200),
+    //GO_TO_HIGH_BAR(2200),
     SCORE_HIGH_BAR(1500); // TODO: check value (could be not-updated)
 
     public final int encoderTicks;
@@ -41,8 +41,8 @@ public class Constants {
   }
 
   public enum OuttakePosition {
-    CLOSE_POSITION(0.7),
-    OPEN_POSITION(0.7);
+    CLOSE_POSITION(0.25),
+    OPEN_POSITION(0.0);
 
     public final double position;
 
@@ -77,7 +77,7 @@ public class Constants {
     public static final String RIGHT_FLIP_SERVO_ID = "rightFlipServo";
     public static final double LEFT_UP_POSITION = 0.82; // TODO: change
     public static final double LEFT_DOWN_POSITION = 0.37; // TODO: change
-    public static final double RIGHT_UP_POSITION = 0.9;
+    public static final double RIGHT_UP_POSITION = 0.95;
     public static final double RIGHT_DOWN_POSITION = 0.45;
     public static final double MAX_VOLTAGE = 5; // TODO: change
     public static final double SERVO_POWER = 0.5;
@@ -113,6 +113,8 @@ public class Constants {
     public static final double LEFT_EXTEND_POWER = 0.75;
     public static final double RIGHT_RETRACT_POWER = -0.6;
     public static final double LEFT_RETRACT_POWER = -0.75;
+    public static final double RETRACT_DELAY_SECONDS = 0.1;
+    public static final double EXTEND_DELAY_SECONDS = 0.005;
   }
 
 }

@@ -71,8 +71,8 @@ public class RobotContainer extends OpMode {
   public void loop() {
     //default vert arm and clawArm
     if(!hasDefaulted){
-      verticalArm.goToPosition(Constants.ArmPosition.STOWED);
-      clawArm.moveToTransfer();
+      verticalArm.goToPosition(Constants.ArmPosition.GO_TO_HIGH_BAR);
+      clawArm.goToPosition(Constants.ClawArmPosition.TRANSFER_POSITION);
       hasDefaulted = true;
     }
 
@@ -186,14 +186,15 @@ public class RobotContainer extends OpMode {
         startTimeNs = System.nanoTime();
         verticalArm.goToPosition(Constants.ArmPosition.SCORE_HIGH_BUCKET);
         verticalMoved = true;
+        clawArmMoved = false;
       } else if (gamepad2.dpad_down){
-        verticalArm.goToPosition(Constants.ArmPosition.STOWED);
+        verticalArm.goToPosition(Constants.ArmPosition.GO_TO_HIGH_BAR);
         clawArm.goToPosition(Constants.ClawArmPosition.SCORE_LOW_BUCKET_POSITION);
       } else if(gamepad2.dpad_right){
-        verticalArm.goToPosition(Constants.ArmPosition.STOWED);
+        verticalArm.goToPosition(Constants.ArmPosition.GO_TO_HIGH_BAR);
         clawArm.goToPosition(Constants.ClawArmPosition.SCORE_HIGH_BAR_POSITION);
       } else if(gamepad2.dpad_left){
-        verticalArm.goToPosition(Constants.ArmPosition.STOWED);
+        verticalArm.goToPosition(Constants.ArmPosition.GO_TO_HIGH_BAR);
         clawArm.goToPosition(Constants.ClawArmPosition.TRANSFER_POSITION);
       }
     }
