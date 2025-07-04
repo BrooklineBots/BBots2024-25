@@ -71,7 +71,7 @@ public class RobotContainer extends OpMode {
   public void loop() {
     //default vert arm and clawArm
     if(!hasDefaulted){
-      verticalArm.goToPosition(Constants.ArmPosition.GO_TO_HIGH_BAR);
+      verticalArm.goToPosition(Constants.ArmPosition.STOWED);
       clawArm.goToPosition(Constants.ClawArmPosition.TRANSFER_POSITION);
       hasDefaulted = true;
     }
@@ -170,7 +170,7 @@ public class RobotContainer extends OpMode {
 
       if(!isWithinTolerance(0, gamepad2.left_stick_y, 0.1)){
         verticalArm.setModeRunWithEncoder();
-        double power = gamepad2.left_stick_x;
+        double power = -gamepad2.left_stick_y;
         //limit power
         power *= 0.5;
         verticalArm.setArmPowers(power);
@@ -181,20 +181,20 @@ public class RobotContainer extends OpMode {
       }
     }
     else{
-      if(gamepad2.dpad_up && !highBucketTriggered){
+      if(gamepad2.dpad_up && !highBucketTriggered){ //high bucket
         highBucketTriggered = true;
         startTimeNs = System.nanoTime();
         verticalArm.goToPosition(Constants.ArmPosition.SCORE_HIGH_BUCKET);
         verticalMoved = true;
         clawArmMoved = false;
-      } else if (gamepad2.dpad_down){
+      } else if (gamepad2.dpad_down){ //low bucket
         verticalArm.goToPosition(Constants.ArmPosition.GO_TO_HIGH_BAR);
         clawArm.goToPosition(Constants.ClawArmPosition.SCORE_LOW_BUCKET_POSITION);
-      } else if(gamepad2.dpad_right){
+      } else if(gamepad2.dpad_right){ //high bar
         verticalArm.goToPosition(Constants.ArmPosition.GO_TO_HIGH_BAR);
         clawArm.goToPosition(Constants.ClawArmPosition.SCORE_HIGH_BAR_POSITION);
-      } else if(gamepad2.dpad_left){
-        verticalArm.goToPosition(Constants.ArmPosition.GO_TO_HIGH_BAR);
+      } else if(gamepad2.dpad_left){ //transfer
+        verticalArm.goToPosition(Constants.ArmPosition.STOWED);
         clawArm.goToPosition(Constants.ClawArmPosition.TRANSFER_POSITION);
       }
     }
@@ -244,9 +244,9 @@ public class RobotContainer extends OpMode {
     }
 
     //horizontal extension
-    if (!isWithinTolerance(0, gamepad2.right_trigger, 0.1)) {
+    if (gamepad2.right_bumper) {
       horizontal.extend();
-    } else if (!isWithinTolerance(0, gamepad2.left_trigger, 0.1)) {
+    } else if (gamepad2.left_bumper) {
       horizontal.retract();
     } else{
       horizontal.stopServos();

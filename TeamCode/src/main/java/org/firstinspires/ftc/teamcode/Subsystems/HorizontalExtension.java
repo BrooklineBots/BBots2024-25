@@ -28,7 +28,7 @@ public class HorizontalExtension {
     rightExtensionServo.setDirection(CRServo.Direction.REVERSE); // TODO: choose which servo
   }
 
-  public void setPowerExtendDelay(double rightPower, double leftPower){
+  public void setPowerWithDelay(double rightPower, double leftPower){
     if(rightPower < MAX_POWER && rightPower > MIN_POWER &&
             leftPower < MAX_POWER && leftPower > MIN_POWER) {
       if(startTimeNanoSeconds == -1){
@@ -52,11 +52,11 @@ public class HorizontalExtension {
   }
 
   public void extend() {
-    setPowerExtendDelay(Constants.HorizontalConstants.RIGHT_EXTEND_POWER, Constants.HorizontalConstants.LEFT_EXTEND_POWER);
+    setPowerWithDelay(Constants.HorizontalConstants.RIGHT_EXTEND_POWER, Constants.HorizontalConstants.LEFT_EXTEND_POWER);
   }
 
   public void retract() {
-    setPowerExtendDelay(Constants.HorizontalConstants.RIGHT_RETRACT_POWER, Constants.HorizontalConstants.LEFT_RETRACT_POWER);
+    setPowerWithDelay(Constants.HorizontalConstants.RIGHT_RETRACT_POWER, Constants.HorizontalConstants.LEFT_RETRACT_POWER);
   }
 
   public void stopServos(){

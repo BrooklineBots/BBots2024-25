@@ -23,7 +23,7 @@ public class Constants {
   }
 
   public enum ArmPosition {
-    STOWED(100),
+    STOWED(10),
     GO_TO_HIGH_BAR(250),
     SCORE_HIGH_BUCKET(3000),
     //GO_TO_HIGH_BAR(2200),
