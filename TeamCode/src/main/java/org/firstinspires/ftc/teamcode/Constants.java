@@ -14,7 +14,7 @@ public class Constants {
     public static final String RIGHT_ARM_ID = "rightArm";
     public static final int VERTICAL_MIN_POSITION = 0; // TODO: change
     public static final int VERTICAL_MAX_POSITION = 4100;
-    public static final double VERTICAL_MOVE_POWER = 0.9;
+    public static final double VERTICAL_MOVE_POWER = 1;
     public static final int MAX_ALLOWED_DIFFERENCE = 10;
 
 
@@ -23,11 +23,11 @@ public class Constants {
   }
 
   public enum ArmPosition {
-    STOWED(10),
-    GO_TO_HIGH_BAR(250),
-    SCORE_HIGH_BUCKET(3000),
+    STOWED(25),
+    GO_TO_HIGH_BAR(1000),
+    SCORE_HIGH_BUCKET(3100),
     //GO_TO_HIGH_BAR(2200),
-    SCORE_HIGH_BAR(1500); // TODO: check value (could be not-updated)
+    SCORE_HIGH_BAR(650); // TODO: check value (could be not-updated)
 
     public final int encoderTicks;
 
@@ -41,7 +41,7 @@ public class Constants {
   }
 
   public enum OuttakePosition {
-    CLOSE_POSITION(0.25),
+    CLOSE_POSITION(0.26),
     OPEN_POSITION(0.0);
 
     public final double position;
@@ -53,15 +53,16 @@ public class Constants {
 
   public static class ClawArmConstants{
     public static final String CLAW_ARM_SERVO_ID = "clawArmServo";
-    public static final double CLAW_ARM_DELAY_BUCKET = 0.5;
+    public static final double CLAW_ARM_DELAY_BUCKET = 0.2;
+    public static final double CLAW_ARM_DELAY_TRANSFER = 0.3;
   }
 
   public enum ClawArmPosition {
-    TRANSFER_POSITION(0.5),
-    SCORE_HIGH_BAR_POSITION(0.3),
+    TRANSFER_POSITION(0.4),
+    GO_TO_HIGH_BAR_POSITION(0.3),
     SCORE_HIGH_BUCKET_POSITION(0.25),
-    SCORE_LOW_BUCKET_POSITION(0.3), //TODO: change
-    PICKUP_POSITION(0.0); //TODO: change
+    SCORE_HIGH_BAR_POSITION(0.25), //TODO: change
+    PICKUP_POSITION(0.15); //TODO: change
 
     public final double position;
 

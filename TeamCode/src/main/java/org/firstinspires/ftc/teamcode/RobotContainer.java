@@ -35,9 +35,13 @@ public class RobotContainer extends OpMode {
 
   //delay variables
   private boolean highBucketTriggered = false;
+  private boolean transferTriggered = false;
+  private boolean clawArmMovedToTransfer = false;
+  private boolean verticalMovedToTransfer = false;
   private long startTimeNs = -1;
-  private boolean verticalMoved = false;
-  private boolean clawArmMoved = false;
+  private boolean movedToBucket = false;
+  private boolean clawClosed = false;
+  private boolean didClawArmMove = false;
 
   public void setAlliance(boolean isRedAlliance) {
     this.isRedAlliance = isRedAlliance;
@@ -70,11 +74,11 @@ public class RobotContainer extends OpMode {
   @Override
   public void loop() {
     //default vert arm and clawArm
-    if(!hasDefaulted){
-      verticalArm.goToPosition(Constants.ArmPosition.STOWED);
-      clawArm.goToPosition(Constants.ClawArmPosition.TRANSFER_POSITION);
-      hasDefaulted = true;
-    }
+//    if(!hasDefaulted){
+//      verticalArm.goToPosition(Constants.ArmPosition.STOWED);
+//      clawArm.goToPosition(Constants.ClawArmPosition.TRANSFER_POSITION);
+//      hasDefaulted = true;
+//    }
 
     /*
     if (gamepad1.x) {
@@ -156,9 +160,8 @@ public class RobotContainer extends OpMode {
 
      */ //limelight
 
-    telemetry.addData("Claw Arm Moved: ", clawArmMoved);
-    telemetry.addData("Vertical Arm Moved: ", verticalMoved);
     telemetry.addData("Start Time Nano Seconds: ", startTimeNs);
+    telemetry.addData("ClawArm: ", didClawArmMove);
 
 
     //scoring
@@ -181,21 +184,27 @@ public class RobotContainer extends OpMode {
       }
     }
     else{
-      if(gamepad2.dpad_up && !highBucketTriggered){ //high bucket
+      if(gamepad2.dpad_up ){ //high bucket
         highBucketTriggered = true;
         startTimeNs = System.nanoTime();
-        verticalArm.goToPosition(Constants.ArmPosition.SCORE_HIGH_BUCKET);
-        verticalMoved = true;
-        clawArmMoved = false;
-      } else if (gamepad2.dpad_down){ //low bucket
-        verticalArm.goToPosition(Constants.ArmPosition.GO_TO_HIGH_BAR);
-        clawArm.goToPosition(Constants.ClawArmPosition.SCORE_LOW_BUCKET_POSITION);
+        outtake.closeClaw();
+        clawClosed = true;
+        movedToBucket = false;
+      } else if (gamepad2.dpad_down){ //pickup specimen
+        verticalArm.goToPosition(Constants.ArmPosition.STOWED);
+        outtake.openClaw();
+        clawArm.goToPosition(Constants.ClawArmPosition.PICKUP_POSITION);
       } else if(gamepad2.dpad_right){ //high bar
         verticalArm.goToPosition(Constants.ArmPosition.GO_TO_HIGH_BAR);
-        clawArm.goToPosition(Constants.ClawArmPosition.SCORE_HIGH_BAR_POSITION);
-      } else if(gamepad2.dpad_left){ //transfer
-        verticalArm.goToPosition(Constants.ArmPosition.STOWED);
+        clawArm.goToPosition(Constants.ClawArmPosition.GO_TO_HIGH_BAR_POSITION);
+      } else if(gamepad2.dpad_left && !transferTriggered){ //transfer
+        startTimeNs = System.nanoTime();
+        outtake.openClaw();
         clawArm.goToPosition(Constants.ClawArmPosition.TRANSFER_POSITION);
+        transferTriggered = true;
+        clawArmMovedToTransfer = true;
+        verticalMovedToTransfer = false;
+
       }
     }
     
@@ -205,14 +214,39 @@ public class RobotContainer extends OpMode {
       double elapsedTime = (currentTime - startTimeNs) / 1e9;
       telemetry.addData("Elapsed time", elapsedTime);
 
-      if (verticalMoved && !clawArmMoved && elapsedTime >= Constants.ClawArmConstants.CLAW_ARM_DELAY_BUCKET) {
+      if (clawClosed && !movedToBucket && elapsedTime >= Constants.ClawArmConstants.CLAW_ARM_DELAY_BUCKET) {
         clawArm.goToPosition(Constants.ClawArmPosition.SCORE_HIGH_BUCKET_POSITION);
-        clawArmMoved = true;
+        didClawArmMove = true;
+        verticalArm.goToPosition(Constants.ArmPosition.SCORE_HIGH_BUCKET);
+        telemetry.update();
+        movedToBucket = true;
         highBucketTriggered = false;
-        verticalMoved = false;
+        clawClosed = false;
       }
     }
 
+    if(transferTriggered){
+      long currentTime = System.nanoTime();
+      double elapsedTime = (currentTime - startTimeNs) / 1e9;
+
+      if(clawArmMovedToTransfer && !verticalMovedToTransfer && elapsedTime >= Constants.ClawArmConstants.CLAW_ARM_DELAY_TRANSFER){
+        verticalArm.goToPosition(Constants.ArmPosition.STOWED);
+        verticalMovedToTransfer = true;
+        transferTriggered = false;
+        clawArmMovedToTransfer = false;
+      }
+    }
+
+    if(gamepad2.y){
+      verticalArm.goToPosition(Constants.ArmPosition.GO_TO_HIGH_BAR);
+      clawArm.goToPosition(Constants.ClawArmPosition.SCORE_HIGH_BAR_POSITION);
+      //outtake.openClaw();
+    }
+
+    if(gamepad2.x){
+      clawArm.goToPosition(Constants.ClawArmPosition.SCORE_HIGH_BAR_POSITION);
+      verticalArm.goToPosition(Constants.ArmPosition.SCORE_HIGH_BAR);
+    }
 
 
 //    if (gamepad2.dpad_up) { //SCORE HIGH BUCKET
