@@ -23,11 +23,11 @@ public class Constants {
   }
 
   public enum ArmPosition {
-    STOWED(25),
-    GO_TO_HIGH_BAR(1000),
-    SCORE_HIGH_BUCKET(3100),
+    STOWED(15),
+    GO_TO_HIGH_BAR(1100),
+    SCORE_HIGH_BUCKET(3200),
     //GO_TO_HIGH_BAR(2200),
-    SCORE_HIGH_BAR(650); // TODO: check value (could be not-updated)
+    SCORE_HIGH_BAR(200); // TODO: check value (could be not-updated)
 
     public final int encoderTicks;
 
@@ -41,7 +41,7 @@ public class Constants {
   }
 
   public enum OuttakePosition {
-    CLOSE_POSITION(0.26),
+    CLOSE_POSITION(0.28),
     OPEN_POSITION(0.0);
 
     public final double position;
@@ -58,11 +58,11 @@ public class Constants {
   }
 
   public enum ClawArmPosition {
-    TRANSFER_POSITION(0.4),
-    GO_TO_HIGH_BAR_POSITION(0.3),
-    SCORE_HIGH_BUCKET_POSITION(0.25),
-    SCORE_HIGH_BAR_POSITION(0.25), //TODO: change
-    PICKUP_POSITION(0.15); //TODO: change
+    TRANSFER_POSITION(0.57),
+    GO_TO_HIGH_BAR_POSITION(0.7),
+    SCORE_HIGH_BUCKET_POSITION(0.7),
+    SCORE_HIGH_BAR_POSITION(0.05), //TODO: change
+    PICKUP_POSITION(0.75); //TODO: change
 
     public final double position;
 

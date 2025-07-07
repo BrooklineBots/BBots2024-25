@@ -161,7 +161,6 @@ public class RobotContainer extends OpMode {
      */ //limelight
 
     telemetry.addData("Start Time Nano Seconds: ", startTimeNs);
-    telemetry.addData("ClawArm: ", didClawArmMove);
 
 
     //scoring
@@ -175,7 +174,7 @@ public class RobotContainer extends OpMode {
         verticalArm.setModeRunWithEncoder();
         double power = -gamepad2.left_stick_y;
         //limit power
-        power *= 0.5;
+        //power *= 0.5;
         verticalArm.setArmPowers(power);
 
       }
@@ -237,15 +236,12 @@ public class RobotContainer extends OpMode {
       }
     }
 
-    if(gamepad2.y){
-      verticalArm.goToPosition(Constants.ArmPosition.GO_TO_HIGH_BAR);
-      clawArm.goToPosition(Constants.ClawArmPosition.SCORE_HIGH_BAR_POSITION);
-      //outtake.openClaw();
-    }
-
-    if(gamepad2.x){
+    if(gamepad2.x){ //score high bar
       clawArm.goToPosition(Constants.ClawArmPosition.SCORE_HIGH_BAR_POSITION);
       verticalArm.goToPosition(Constants.ArmPosition.SCORE_HIGH_BAR);
+    }
+    if(!isWithinTolerance(0, gamepad2.right_trigger, 0.1)){ //score high bar
+      clawArm.goToPosition(Constants.ClawArmPosition.SCORE_HIGH_BUCKET_POSITION);
     }
 
 

@@ -8,8 +8,6 @@ import org.firstinspires.ftc.teamcode.Constants.*;
 
 public class ClawArm {
 
-    private final double MAX_POSITION = 1;
-    private final double MIN_POSITION = 0;
     private ClawArmPosition goalPosition;
     private final Servo clawArm;
 
@@ -20,29 +18,21 @@ public class ClawArm {
     public ClawArm(final HardwareMap hwMap, final Telemetry telemetry) {
         this.telemetry = telemetry;
         clawArm = hwMap.get(Servo.class, ClawArmConstants.CLAW_ARM_SERVO_ID);
-
-        telemetry.addData("Position:", clawArm.getPosition());
+        clawArm.setDirection(Servo.Direction.REVERSE);
+        telemetry.addData("Position:", clawArm.getDirection());
     }
 
     public void goToPosition(ClawArmPosition position){
-        setPosition(position.position);
+        if (position.position >= Servo.MIN_POSITION && position.position <= Servo.MAX_POSITION) {
+            clawArm.setPosition(position.position);
+        }
         goalPosition = position;
     }
-    public void moveToTransfer(){
 
-    }
 
     public ClawArmPosition getGoalPosition() {
         return goalPosition;
     }
 
-    public void setPosition(final double position) {
-        if (position >= MIN_POSITION && position <= MAX_POSITION) {
-            clawArm.setPosition(position);
-        }
-    }
-
-    public double getClawArmPosition() {
-        return clawArm.getPosition();
-    }
+    
 }
