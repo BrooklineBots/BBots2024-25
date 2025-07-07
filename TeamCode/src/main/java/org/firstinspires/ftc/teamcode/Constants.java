@@ -16,17 +16,13 @@ public class Constants {
     public static final int VERTICAL_MAX_POSITION = 4100;
     public static final double VERTICAL_MOVE_POWER = 1;
     public static final int MAX_ALLOWED_DIFFERENCE = 10;
-
-
-
-
   }
 
   public enum ArmPosition {
     STOWED(15),
     GO_TO_HIGH_BAR(1100),
     SCORE_HIGH_BUCKET(3200),
-    //GO_TO_HIGH_BAR(2200),
+    // GO_TO_HIGH_BAR(2200),
     SCORE_HIGH_BAR(200); // TODO: check value (could be not-updated)
 
     public final int encoderTicks;
@@ -51,7 +47,7 @@ public class Constants {
     }
   }
 
-  public static class ClawArmConstants{
+  public static class ClawArmConstants {
     public static final String CLAW_ARM_SERVO_ID = "clawArmServo";
     public static final double CLAW_ARM_DELAY_BUCKET = 0.2;
     public static final double CLAW_ARM_DELAY_TRANSFER = 0.3;
@@ -117,5 +113,4 @@ public class Constants {
     public static final double RETRACT_DELAY_SECONDS = 0.1;
     public static final double EXTEND_DELAY_SECONDS = 0.005;
   }
-
 }

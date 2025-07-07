@@ -20,7 +20,6 @@ public class Outtake {
     outtake.setDirection(Servo.Direction.REVERSE);
     goalPosition = OuttakePosition.OPEN_POSITION;
     telemetry.addData("Position:", outtake.getPosition());
-
   }
 
   public void openClaw() {
