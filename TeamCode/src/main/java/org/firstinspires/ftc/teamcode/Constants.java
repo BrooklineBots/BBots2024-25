@@ -61,8 +61,8 @@ public class Constants {
     TRANSFER_POSITION(0.57),
     GO_TO_HIGH_BAR_POSITION(0.7),
     SCORE_HIGH_BUCKET_POSITION(0.7),
-    SCORE_HIGH_BAR_POSITION(0.05), //TODO: change
-    PICKUP_POSITION(0.75); //TODO: change
+    SCORE_HIGH_BAR_POSITION(0.05),
+    PICKUP_POSITION(0.75);
 
     public final double position;
 

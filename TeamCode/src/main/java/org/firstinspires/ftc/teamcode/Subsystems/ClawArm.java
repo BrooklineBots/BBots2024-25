@@ -28,11 +28,10 @@ public class ClawArm {
         }
         goalPosition = position;
     }
-
-
+    
     public ClawArmPosition getGoalPosition() {
         return goalPosition;
     }
 
-    
+
 }
