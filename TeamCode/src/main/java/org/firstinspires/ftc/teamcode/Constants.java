@@ -54,11 +54,11 @@ public class Constants {
   }
 
   public enum ClawArmPosition {
-    TRANSFER_POSITION(0.57),
-    GO_TO_HIGH_BAR_POSITION(0.7),
-    SCORE_HIGH_BUCKET_POSITION(0.7),
-    SCORE_HIGH_BAR_POSITION(0.05),
-    PICKUP_POSITION(0.75);
+    TRANSFER_POSITION(0.34),
+    GO_TO_HIGH_BAR_POSITION(0.6),
+    SCORE_HIGH_BUCKET_POSITION(0.6),
+    SCORE_HIGH_BAR_POSITION(0.67),
+    PICKUP_POSITION(0.67);
 
     public final double position;
 
