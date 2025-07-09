@@ -12,8 +12,6 @@ public class ClawArm {
 
   private final Telemetry telemetry;
 
-  private final long startTimeNs = -1;
-
   public ClawArm(final HardwareMap hwMap, final Telemetry telemetry) {
     this.telemetry = telemetry;
     clawArm = hwMap.get(Servo.class, ClawArmConstants.CLAW_ARM_SERVO_ID);

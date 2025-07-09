@@ -106,6 +106,7 @@ public class Constants {
   public static class HorizontalConstants {
     public static final String RIGHT_EXTENSION_ID = "right_extension_servo";
     public static final String LEFT_EXTENSION_ID = "left_extension_servo";
+    public static final double EXTENSION_POWER = 0.7;
     public static final double RIGHT_EXTEND_POWER = 0.6;
     public static final double LEFT_EXTEND_POWER = 0.75;
     public static final double RIGHT_RETRACT_POWER = -0.6;

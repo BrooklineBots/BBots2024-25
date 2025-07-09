@@ -54,19 +54,19 @@ public class HorizontalExtension {
   }
 
   public void extend() {
-    setPowerWithDelay(
+    setPower(
         Constants.HorizontalConstants.RIGHT_EXTEND_POWER,
         Constants.HorizontalConstants.LEFT_EXTEND_POWER);
   }
 
   public void retract() {
-    setPowerWithDelay(
-        Constants.HorizontalConstants.RIGHT_RETRACT_POWER,
-        Constants.HorizontalConstants.LEFT_RETRACT_POWER);
+    setPower(
+        -Constants.HorizontalConstants.RIGHT_RETRACT_POWER,
+        -Constants.HorizontalConstants.LEFT_RETRACT_POWER);
   }
 
   public void stopServos() {
     setPower(0, 0);
-    startTimeNanoSeconds = -1;
+    //startTimeNanoSeconds = -1;
   }
 }
