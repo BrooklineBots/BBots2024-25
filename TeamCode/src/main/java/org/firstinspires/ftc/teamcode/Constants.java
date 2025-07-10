@@ -67,6 +67,25 @@ public class Constants {
     }
   }
 
+  public static class ClawIntakeConstants {
+    public static final String INTAKE_FLIP_SERVO_ID = "intakeFlipServo";
+    public static final String CLAW_INTAKE_SERVO_ID = "clawIntakeServo";
+    public static final String CLAW_ROTATION_SERVO_ID = "clawRotationServo";
+  }
+
+  public enum ClawIntakePosition {
+    FLIP_TRANSFER_POSITION(0.0),
+    FLIP_PICKUP_POSITION(0.0),
+    CLAW_OPEN_POSITION(0.0),
+    CLAW_CLOSE_POSITION(0.0);
+
+    public final double position;
+
+    ClawIntakePosition(final double position) {
+      this.position = position;
+    }
+  }
+
   public static class IntakeConstants {
     public static final String LEFT_WHEEL_ID = "leftWheel";
     public static final String RIGHT_WHEEL_ID = "rightWheel";
