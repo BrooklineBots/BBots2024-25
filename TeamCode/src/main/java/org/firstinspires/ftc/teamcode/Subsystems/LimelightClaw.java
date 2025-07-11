@@ -12,7 +12,8 @@ import org.firstinspires.ftc.teamcode.Subsystems.Claw;
 public class LimelightClaw extends LinearOpMode {
 
     private Limelight limelight;
-    private Claw claw;
+    private Servo clawRotate;
+    private Servo claw;
 
     private final boolean IS_RED_ALLIANCE = true; // Change based on alliance
 
@@ -20,7 +21,12 @@ public class LimelightClaw extends LinearOpMode {
     public void runOpMode() {
         // Initialize subsystems
         limelight = new Limelight(hardwareMap, telemetry, IS_RED_ALLIANCE);
-        claw = new Claw(hardwareMap, telemetry);
+        clawRotate = hardwareMap.get(Servo.class, "clawRotateServo");
+        clawRotate = hardwareMap.get(Servo.class, "clawServo");
+
+        double tv = limelight.limelightTable.getEntry("tv").getDouble(0);
+
+        clawRotate.setPosition(0);
 
         limelight.start();
 
@@ -29,21 +35,22 @@ public class LimelightClaw extends LinearOpMode {
         while (opModeIsActive()) {
             boolean AimActive = gamepad1.a;
 
+            telemetry.addData(limelight.tv);
             if (AimActive && limelight.hasTarget()) {
                 // Get rotation correction from Limelight
                 double rotate = limelight.getRotationCorrection();
 
                 // Rotate the claw servo based on Limelight correction
-                double currentPosition = claw.getClawPosition();
+                double currentPosition = clawRotate.getPosition();
                 double newPosition = currentPosition + rotate * 0.01; // scale rotation
-                claw.setPosition(newPosition);
+                clawRotate.setPosition(newPosition);
             }
 
             // Claw controls
             if (gamepad2.a){
-                claw.openClaw();
+                claw.setPosition(0);
             } else if (gamepad2.x) {
-                claw.closeClaw();
+                claw.setPosition(0);
             }
 
             telemetry.update();
