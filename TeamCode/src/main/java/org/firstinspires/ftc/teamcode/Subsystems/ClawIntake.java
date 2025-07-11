@@ -22,6 +22,7 @@ public class ClawIntake {
     this.telemetry = telemetry;
     clawIntakeServo = hwMap.get(Servo.class, ClawIntakeConstants.CLAW_INTAKE_SERVO_ID);
     intakeFlipServo = hwMap.get(Servo.class, ClawIntakeConstants.INTAKE_FLIP_SERVO_ID);
+    intakeFlipServo.setDirection(Servo.Direction.REVERSE);
     clawRotationServo = hwMap.get(Servo.class, ClawIntakeConstants.CLAW_ROTATION_SERVO_ID);
   }
 

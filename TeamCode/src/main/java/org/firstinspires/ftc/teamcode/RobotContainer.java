@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.HorizontalExtension;
 import org.firstinspires.ftc.teamcode.Subsystems.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.Outtake;
 import org.firstinspires.ftc.teamcode.Subsystems.VerticalArm;
+import org.firstinspires.ftc.teamcode.Subsystems.ClawIntake;
 import org.firstinspires.ftc.teamcode.autonomous.AutonomousRecorder;
 
 @TeleOp(name = "robotDrive")
@@ -18,6 +19,7 @@ public class RobotContainer extends OpMode {
   private ClawArm clawArm;
   private MecanumDrive drive;
   private HorizontalExtension horizontal;
+  private ClawIntake clawIntake;
   //  private Limelight limelight;
 
   private boolean hasDefaulted = false;
@@ -56,6 +58,7 @@ public class RobotContainer extends OpMode {
     clawArm = new ClawArm(hardwareMap, telemetry);
     drive = new MecanumDrive(hardwareMap, telemetry);
     horizontal = new HorizontalExtension(hardwareMap, telemetry);
+    clawIntake = new ClawIntake(hardwareMap, telemetry);
     //    limelight = new Limelight(hardwareMap, telemetry, isRedAlliance);
     //    limelight.start();
     recordingTimer = System.currentTimeMillis() - startTimer;
@@ -240,30 +243,12 @@ public class RobotContainer extends OpMode {
       clawArm.goToPosition(Constants.ClawArmPosition.SCORE_HIGH_BAR_POSITION);
       verticalArm.goToPosition(Constants.ArmPosition.SCORE_HIGH_BAR);
     }
-    if (!isWithinTolerance(0, gamepad2.right_trigger, 0.1)) { // score high bar
-      clawArm.goToPosition(Constants.ClawArmPosition.SCORE_HIGH_BUCKET_POSITION);
-    }
 
-    //    if (gamepad2.dpad_up) { //SCORE HIGH BUCKET
-    //      verticalArm.goToPosition(Constants.ArmPosition.SCORE_HIGH_BUCKET);
-    //      clawArm.scoreHighBucket();
-    //      outtake.openClaw();
-    //
-    //    } else if (gamepad2.dpad_down) {
-    //      verticalArm.goToPosition(Constants.ArmPosition.STOWED);
-    //      clawArm.scoreLowBucket();
-    //      outtake.openClaw();
-    //
-    //    } else if (gamepad2.dpad_right) {
-    //      verticalArm.goToPosition(Constants.ArmPosition.GO_TO_HIGH_BAR);
-    //      clawArm.scoreHighBar();
-    //      if(outtake.getGoalPosition() != Constants.OuttakePosition.CLOSE_POSITION){
-    //        outtake.closeClaw();
-    //      }
-    //    } else if(gamepad2.dpad_left){
-    //      verticalArm.goToPosition(Constants.ArmPosition.SCORE_HIGH_BAR);
-    //      outtake.openClaw();
-    //    }
+
+    //WIP intake control
+    if(gamepad2.y){
+      clawIntake.goToPositionFlip(Constants.ClawIntakePosition.FLIP_PICKUP_POSITION);
+    }
 
     // basic outtake control
     if (gamepad1.left_bumper) {
