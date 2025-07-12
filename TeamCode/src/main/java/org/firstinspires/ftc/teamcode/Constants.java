@@ -13,7 +13,7 @@ public class Constants {
     public static final String LEFT_ARM_ID = "leftArm";
     public static final String RIGHT_ARM_ID = "rightArm";
     public static final int VERTICAL_MIN_POSITION = 0; // TODO: change
-    public static final int VERTICAL_MAX_POSITION = 4100;
+    public static final int VERTICAL_MAX_POSITION = 3700;
     public static final double VERTICAL_MOVE_POWER = 1;
     public static final int MAX_ALLOWED_DIFFERENCE = 10;
 
