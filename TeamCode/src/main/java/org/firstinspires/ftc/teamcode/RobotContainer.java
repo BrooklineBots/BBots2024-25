@@ -73,6 +73,13 @@ public class RobotContainer extends OpMode {
     this.isRedAlliance = !isRedAlliance;
   }
 
+//  public void transferSamples(){
+//    if(isWithinTolerance(verticalArm.getCurrentPosition()[1], Constants.ArmPosition.STOWED.encoderTicks, 100)){
+//      outtake.closeClaw();
+//
+//    }
+//  }
+
   @Override
   public void loop() {
     // default vert arm and clawArm
@@ -234,6 +241,7 @@ public class RobotContainer extends OpMode {
           && elapsedTime >= Constants.ClawArmConstants.CLAW_ARM_DELAY_TRANSFER) {
         verticalArm.goToPosition(Constants.ArmPosition.STOWED);
         verticalMovedToTransfer = true;
+
         transferTriggered = false;
         clawArmMovedToTransfer = false;
       }
@@ -245,8 +253,11 @@ public class RobotContainer extends OpMode {
     }
 
 
-    //WIP intake control
-    if(gamepad2.y){
+    //WIP intake control on gamepad1
+    if(gamepad1.y){
+      clawIntake.goToPositionFlip(Constants.ClawIntakePosition.FLIP_TRANSFER_POSITION);
+    }
+    if(gamepad1.a){
       clawIntake.goToPositionFlip(Constants.ClawIntakePosition.FLIP_PICKUP_POSITION);
     }
 
