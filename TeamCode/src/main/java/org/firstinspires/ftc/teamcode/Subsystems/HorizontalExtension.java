@@ -67,6 +67,6 @@ public class HorizontalExtension {
 
   public void stopServos() {
     setPower(0, 0);
-    //startTimeNanoSeconds = -1;
+    // startTimeNanoSeconds = -1;
   }
 }

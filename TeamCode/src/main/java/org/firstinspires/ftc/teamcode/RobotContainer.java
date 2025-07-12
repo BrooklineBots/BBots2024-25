@@ -4,11 +4,11 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Subsystems.ClawArm;
+import org.firstinspires.ftc.teamcode.Subsystems.ClawIntake;
 import org.firstinspires.ftc.teamcode.Subsystems.HorizontalExtension;
 import org.firstinspires.ftc.teamcode.Subsystems.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.Outtake;
 import org.firstinspires.ftc.teamcode.Subsystems.VerticalArm;
-import org.firstinspires.ftc.teamcode.Subsystems.ClawIntake;
 import org.firstinspires.ftc.teamcode.autonomous.AutonomousRecorder;
 
 @TeleOp(name = "robotDrive")
@@ -22,7 +22,7 @@ public class RobotContainer extends OpMode {
   private ClawIntake clawIntake;
   //  private Limelight limelight;
 
-  private boolean hasDefaulted = false;
+  private final boolean hasDefaulted = false;
 
   private AutonomousRecorder recorder;
 
@@ -32,7 +32,7 @@ public class RobotContainer extends OpMode {
 
   private long recordingTimer;
   private final long startTimer = System.currentTimeMillis();
-  private boolean isRecording = false;
+  private final boolean isRecording = false;
 
   // delay variables
   private boolean highBucketTriggered = false;
@@ -44,7 +44,7 @@ public class RobotContainer extends OpMode {
   private boolean clawClosed = false;
   private boolean didClawArmMove = false;
 
-  public void setAlliance(boolean isRedAlliance) {
+  public void setAlliance(final boolean isRedAlliance) {
     this.isRedAlliance = isRedAlliance;
   }
 
@@ -73,12 +73,13 @@ public class RobotContainer extends OpMode {
     this.isRedAlliance = !isRedAlliance;
   }
 
-//  public void transferSamples(){
-//    if(isWithinTolerance(verticalArm.getCurrentPosition()[1], Constants.ArmPosition.STOWED.encoderTicks, 100)){
-//      outtake.closeClaw();
-//
-//    }
-//  }
+  //  public void transferSamples(){
+  //    if(isWithinTolerance(verticalArm.getCurrentPosition()[1],
+  // Constants.ArmPosition.STOWED.encoderTicks, 100)){
+  //      outtake.closeClaw();
+  //
+  //    }
+  //  }
 
   @Override
   public void loop() {
@@ -172,6 +173,12 @@ public class RobotContainer extends OpMode {
     // limelight
 
     telemetry.addData("Start Time Nano Seconds: ", startTimeNs);
+    telemetry.addData(
+        "Arm Height IN: ",
+        Utils.ticksToInches(
+            verticalArm.getCurrentPosition()[0],
+            Constants.ArmConstants.ARM_BELT_LENGTH,
+            1)); // No gear ratio
 
     // scoring
     // testing TODO: Add claw open and close
@@ -181,7 +188,7 @@ public class RobotContainer extends OpMode {
 
       if (!isWithinTolerance(0, gamepad2.left_stick_y, 0.1)) {
         verticalArm.setModeRunWithEncoder();
-        double power = -gamepad2.left_stick_y;
+        final double power = -gamepad2.left_stick_y;
         // limit power
         // power *= 0.5;
         verticalArm.setArmPowers(power);
@@ -215,8 +222,8 @@ public class RobotContainer extends OpMode {
 
     // CLAW HIGH BUCKET DELAY
     if (highBucketTriggered) {
-      long currentTime = System.nanoTime();
-      double elapsedTime = (currentTime - startTimeNs) / 1e9;
+      final long currentTime = System.nanoTime();
+      final double elapsedTime = (currentTime - startTimeNs) / 1e9;
       telemetry.addData("Elapsed time", elapsedTime);
 
       if (clawClosed
@@ -233,8 +240,8 @@ public class RobotContainer extends OpMode {
     }
 
     if (transferTriggered) {
-      long currentTime = System.nanoTime();
-      double elapsedTime = (currentTime - startTimeNs) / 1e9;
+      final long currentTime = System.nanoTime();
+      final double elapsedTime = (currentTime - startTimeNs) / 1e9;
 
       if (clawArmMovedToTransfer
           && !verticalMovedToTransfer
@@ -252,12 +259,12 @@ public class RobotContainer extends OpMode {
       verticalArm.goToPosition(Constants.ArmPosition.SCORE_HIGH_BAR);
     }
 
-
-    //WIP intake control on gamepad1
-    if(gamepad1.y){
+    // WIP intake control on gamepad1
+    if (gamepad1.y) {
       clawIntake.goToPositionFlip(Constants.ClawIntakePosition.FLIP_TRANSFER_POSITION);
     }
-    if(gamepad1.a){
+    if (gamepad1.a) {
+
       clawIntake.goToPositionFlip(Constants.ClawIntakePosition.FLIP_PICKUP_POSITION);
     }
 

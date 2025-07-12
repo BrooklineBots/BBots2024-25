@@ -2,9 +2,7 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.Constants.ClawIntakeConstants;
 import org.firstinspires.ftc.teamcode.Constants.ClawIntakePosition;
 
@@ -32,6 +30,7 @@ public class ClawIntake {
     }
     goalPositionFlip = position;
   }
+
   public void goToPositionClaw(final ClawIntakePosition position) {
     if (position.position >= Servo.MIN_POSITION && position.position <= Servo.MAX_POSITION) {
       clawIntakeServo.setPosition(position.position);
@@ -40,6 +39,6 @@ public class ClawIntake {
   }
 
   public ClawIntakePosition[] getGoalPositions() {
-    return new ClawIntakePosition[]{goalPositionClaw, goalPositionFlip};
+    return new ClawIntakePosition[] {goalPositionClaw, goalPositionFlip};
   }
 }
