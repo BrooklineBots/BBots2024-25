@@ -18,7 +18,7 @@ public class AutonomousPlayer extends LinearOpMode {
   private MecanumDrive drive;
   private VerticalArm verticalArm;
   private Outtake outtake;
-  private Intake intake; // TODO: UNcomment me
+
 
   // Data structure for recorded states
   private static class Record {
@@ -46,21 +46,17 @@ public class AutonomousPlayer extends LinearOpMode {
       drive.setPowers(record.fl, record.fr, record.bl, record.br);
       // verticalArm.setArmPowers(record.leftArm, record.rightArm); TODO: UNcomment me
       outtake.setPosition(record.claw);
-      // intake.setIntakePowers(record.intakeLeft, record.intakeRight);//TODO: UNcomment me
-      // intake.setFlipperPos(record.leftFlipper, record.rightFlipper);//TODO: UNcomment me
     }
 
     // Stop all motors at the end
     drive.stop();
     verticalArm.stop();
-    intake.stopWheels(); // TODO: UNcomment me
   }
 
   private void initializeSubsystems() {
     drive = new MecanumDrive(hardwareMap, telemetry);
     verticalArm = new VerticalArm(hardwareMap, telemetry);
     outtake = new Outtake(hardwareMap, telemetry);
-    intake = new Intake(hardwareMap, telemetry); // TODO: UNcomment me
   }
 
   private List<Record> readCSV(String filename) {
