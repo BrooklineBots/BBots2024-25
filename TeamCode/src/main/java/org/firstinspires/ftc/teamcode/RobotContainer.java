@@ -3,8 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.teamcode.Subsystems.ClawArm;
-import org.firstinspires.ftc.teamcode.Subsystems.ClawIntake;
+import org.firstinspires.ftc.teamcode.Subsystems.OuttakeArm;
+import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.HorizontalExtension;
 import org.firstinspires.ftc.teamcode.Subsystems.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.Outtake;
@@ -16,10 +16,10 @@ public class RobotContainer extends OpMode {
 
   private VerticalArm verticalArm;
   private Outtake outtake;
-  private ClawArm clawArm;
+  private OuttakeArm outtakeArm;
   private MecanumDrive drive;
   private HorizontalExtension horizontal;
-  private ClawIntake clawIntake;
+  private Intake intake;
   //  private Limelight limelight;
 
   private final boolean hasDefaulted = false;
@@ -55,10 +55,10 @@ public class RobotContainer extends OpMode {
 
     verticalArm = new VerticalArm(hardwareMap, telemetry);
     outtake = new Outtake(hardwareMap, telemetry);
-    clawArm = new ClawArm(hardwareMap, telemetry);
+    outtakeArm = new OuttakeArm(hardwareMap, telemetry);
     drive = new MecanumDrive(hardwareMap, telemetry);
     horizontal = new HorizontalExtension(hardwareMap, telemetry);
-    clawIntake = new ClawIntake(hardwareMap, telemetry);
+    intake = new Intake(hardwareMap, telemetry);
     //    limelight = new Limelight(hardwareMap, telemetry, isRedAlliance);
     //    limelight.start();
     recordingTimer = System.currentTimeMillis() - startTimer;
@@ -206,14 +206,14 @@ public class RobotContainer extends OpMode {
       } else if (gamepad2.dpad_down) { // pickup specimen
         verticalArm.goToPosition(Constants.ArmPosition.STOWED);
         outtake.openClaw();
-        clawArm.goToPosition(Constants.ClawArmPosition.PICKUP_POSITION);
+        outtakeArm.goToPosition(Constants.ClawArmPosition.PICKUP_POSITION);
       } else if (gamepad2.dpad_right) { // high bar
         verticalArm.goToPosition(Constants.ArmPosition.GO_TO_HIGH_BAR);
-        clawArm.goToPosition(Constants.ClawArmPosition.GO_TO_HIGH_BAR_POSITION);
+        outtakeArm.goToPosition(Constants.ClawArmPosition.GO_TO_HIGH_BAR_POSITION);
       } else if (gamepad2.dpad_left && !transferTriggered) { // transfer
         startTimeNs = System.nanoTime();
         outtake.openClaw();
-        clawArm.goToPosition(Constants.ClawArmPosition.TRANSFER_POSITION);
+        outtakeArm.goToPosition(Constants.ClawArmPosition.TRANSFER_POSITION);
         transferTriggered = true;
         clawArmMovedToTransfer = true;
         verticalMovedToTransfer = false;
@@ -229,7 +229,7 @@ public class RobotContainer extends OpMode {
       if (clawClosed
           && !movedToBucket
           && elapsedTime >= Constants.ClawArmConstants.CLAW_ARM_DELAY_BUCKET) {
-        clawArm.goToPosition(Constants.ClawArmPosition.SCORE_HIGH_BUCKET_POSITION);
+        outtakeArm.goToPosition(Constants.ClawArmPosition.SCORE_HIGH_BUCKET_POSITION);
         didClawArmMove = true;
         verticalArm.goToPosition(Constants.ArmPosition.SCORE_HIGH_BUCKET);
         telemetry.update();
@@ -255,17 +255,17 @@ public class RobotContainer extends OpMode {
     }
 
     if (gamepad2.x) { // score high bar
-      clawArm.goToPosition(Constants.ClawArmPosition.SCORE_HIGH_BAR_POSITION);
+      outtakeArm.goToPosition(Constants.ClawArmPosition.SCORE_HIGH_BAR_POSITION);
       verticalArm.goToPosition(Constants.ArmPosition.SCORE_HIGH_BAR);
     }
 
     // WIP intake control on gamepad1
     if (gamepad1.y) {
-      clawIntake.goToPositionFlip(Constants.ClawIntakePosition.FLIP_TRANSFER_POSITION);
+      intake.goToPositionFlip(Constants.ClawIntakePosition.FLIP_TRANSFER_POSITION);
     }
     if (gamepad1.a) {
 
-      clawIntake.goToPositionFlip(Constants.ClawIntakePosition.FLIP_PICKUP_POSITION);
+      intake.goToPositionFlip(Constants.ClawIntakePosition.FLIP_PICKUP_POSITION);
     }
 
     // basic outtake control

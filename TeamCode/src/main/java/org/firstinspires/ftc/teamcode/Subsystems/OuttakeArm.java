@@ -5,14 +5,14 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Constants.*;
 
-public class ClawArm {
+public class OuttakeArm {
 
   private ClawArmPosition goalPosition;
   private final Servo clawArm;
 
   private final Telemetry telemetry;
 
-  public ClawArm(final HardwareMap hwMap, final Telemetry telemetry) {
+  public OuttakeArm(final HardwareMap hwMap, final Telemetry telemetry) {
     this.telemetry = telemetry;
     clawArm = hwMap.get(Servo.class, ClawArmConstants.CLAW_ARM_SERVO_ID);
     clawArm.setDirection(Servo.Direction.REVERSE);
