@@ -49,13 +49,13 @@ public class Constants {
     }
   }
 
-  public static class ClawArmConstants {
+  public static class OuttakeArmConstants {
     public static final String CLAW_ARM_SERVO_ID = "clawArmServo";
     public static final double CLAW_ARM_DELAY_BUCKET = 0.2;
     public static final double CLAW_ARM_DELAY_TRANSFER = 0.3;
   }
 
-  public enum ClawArmPosition {
+  public enum OuttakeArmPosition {
     TRANSFER_POSITION(0.34),
     GO_TO_HIGH_BAR_POSITION(0.6),
     SCORE_HIGH_BUCKET_POSITION(0.6),
@@ -64,18 +64,18 @@ public class Constants {
 
     public final double position;
 
-    ClawArmPosition(final double position) {
+    OuttakeArmPosition(final double position) {
       this.position = position;
     }
   }
 
-  public static class ClawIntakeConstants {
+  public static class IntakeConstants {
     public static final String INTAKE_FLIP_SERVO_ID = "intakeFlipServo";
     public static final String CLAW_INTAKE_SERVO_ID = "clawIntakeServo";
     public static final String CLAW_ROTATION_SERVO_ID = "clawRotationServo";
   }
 
-  public enum ClawIntakePosition {
+  public enum IntakePosition {
     FLIP_TRANSFER_POSITION(0.4),
     FLIP_PICKUP_POSITION(1.0),
     CLAW_OPEN_POSITION(0.0),
@@ -83,23 +83,11 @@ public class Constants {
 
     public final double position;
 
-    ClawIntakePosition(final double position) {
+    IntakePosition(final double position) {
       this.position = position;
     }
   }
 
-  public static class IntakeConstants {
-    public static final String LEFT_WHEEL_ID = "leftWheel";
-    public static final String RIGHT_WHEEL_ID = "rightWheel";
-    public static final String LEFT_FLIP_SERVO_ID = "leftFlipServo";
-    public static final String RIGHT_FLIP_SERVO_ID = "rightFlipServo";
-    public static final double LEFT_UP_POSITION = 0.82; // TODO: change
-    public static final double LEFT_DOWN_POSITION = 0.37; // TODO: change
-    public static final double RIGHT_UP_POSITION = 0.95;
-    public static final double RIGHT_DOWN_POSITION = 0.45;
-    public static final double MAX_VOLTAGE = 5; // TODO: change
-    public static final double SERVO_POWER = 0.5;
-  }
 
   public static class LimelightConstants {
     /** Pipelines configured on the Limelight UI. */
