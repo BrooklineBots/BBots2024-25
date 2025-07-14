@@ -56,11 +56,11 @@ public class Constants {
   }
 
   public enum OuttakeArmPosition {
-    TRANSFER_POSITION(0.345),
+    TRANSFER_POSITION(0.34),
     GO_TO_HIGH_BAR_POSITION(0.6),
     SCORE_HIGH_BUCKET_POSITION(0.6),
     SCORE_HIGH_BAR_POSITION(0.67),
-    PICKUP_POSITION(0.68);
+    PICKUP_POSITION(0.67);
 
     public final double position;
 
@@ -76,10 +76,10 @@ public class Constants {
   }
 
   public enum IntakePosition {
-    FLIP_TRANSFER_POSITION(0.4),
-    FLIP_PICKUP_POSITION(0.95),
-    CLAW_OPEN_POSITION(0.3),
-    CLAW_CLOSE_POSITION(0.1);
+    FLIP_TRANSFER_POSITION(0.6),
+    FLIP_PICKUP_POSITION(0.8),
+    CLAW_OPEN_POSITION(0.0),
+    CLAW_CLOSE_POSITION(0.0);
 
     public final double position;
 
