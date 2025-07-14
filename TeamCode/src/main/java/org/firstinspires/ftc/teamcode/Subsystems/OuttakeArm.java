@@ -7,26 +7,26 @@ import org.firstinspires.ftc.teamcode.Constants.*;
 
 public class OuttakeArm {
 
-  private ClawArmPosition goalPosition;
+  private OuttakeArmPosition goalPosition;
   private final Servo clawArm;
 
   private final Telemetry telemetry;
 
   public OuttakeArm(final HardwareMap hwMap, final Telemetry telemetry) {
     this.telemetry = telemetry;
-    clawArm = hwMap.get(Servo.class, ClawArmConstants.CLAW_ARM_SERVO_ID);
+    clawArm = hwMap.get(Servo.class, OuttakeArmConstants.CLAW_ARM_SERVO_ID);
     clawArm.setDirection(Servo.Direction.REVERSE);
     this.telemetry.addData("Direction:", clawArm.getDirection());
   }
 
-  public void goToPosition(final ClawArmPosition position) {
+  public void goToPosition(final OuttakeArmPosition position) {
     if (position.position >= Servo.MIN_POSITION && position.position <= Servo.MAX_POSITION) {
       clawArm.setPosition(position.position);
     }
     goalPosition = position;
   }
 
-  public ClawArmPosition getGoalPosition() {
+  public OuttakeArmPosition getGoalPosition() {
     return goalPosition;
   }
 }
