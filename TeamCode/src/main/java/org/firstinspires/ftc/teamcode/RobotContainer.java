@@ -184,42 +184,51 @@ public class RobotContainer extends OpMode {
     // testing TODO: Add claw open and close
 
     // emergency vertical arm control:
-    if (!isWithinTolerance(0, gamepad2.left_trigger, 0.1)) {
+//    if (!isWithinTolerance(0, gamepad2.left_trigger, 0.1)) {
+//
+//      if (!isWithinTolerance(0, gamepad2.left_stick_y, 0.1)) {
+//        verticalArm.setModeRunWithEncoder();
+//        final double power = -gamepad2.left_stick_y;
+//        // limit power
+//        // power *= 0.5;
+//        verticalArm.setArmPowers(power);
+//
+//      } else {
+//        verticalArm.stop();
+//      }
+//    } else {
+//      if (gamepad2.dpad_up) { // high bucket
+//        highBucketTriggered = true;
+//        startTimeNs = System.nanoTime();
+//        outtake.closeClaw();
+//        clawClosed = true;
+//        movedToBucket = false;
+//      } else if (gamepad2.dpad_down) { // pickup specimen
+//        verticalArm.goToPosition(Constants.ArmPosition.STOWED);
+//        outtake.openClaw();
+//        outtakeArm.goToPosition(Constants.OuttakeArmPosition.PICKUP_POSITION);
+//      } else if (gamepad2.dpad_right) { // high bar
+//        verticalArm.goToPosition(Constants.ArmPosition.GO_TO_HIGH_BAR);
+//        outtakeArm.goToPosition(Constants.OuttakeArmPosition.GO_TO_HIGH_BAR_POSITION);
+//      } else if (gamepad2.dpad_left && !transferTriggered) { // transfer
+//        startTimeNs = System.nanoTime();
+//        outtake.openClaw();
+//        outtakeArm.goToPosition(Constants.OuttakeArmPosition.TRANSFER_POSITION);
+//        transferTriggered = true;
+//        clawArmMovedToTransfer = true;
+//        verticalMovedToTransfer = false;
+//      }
+//    }
 
-      if (!isWithinTolerance(0, gamepad2.left_stick_y, 0.1)) {
-        verticalArm.setModeRunWithEncoder();
-        final double power = -gamepad2.left_stick_y;
-        // limit power
-        // power *= 0.5;
-        verticalArm.setArmPowers(power);
-
-      } else {
-        verticalArm.stop();
-      }
-    } else {
-      if (gamepad2.dpad_up) { // high bucket
-        highBucketTriggered = true;
-        startTimeNs = System.nanoTime();
-        outtake.closeClaw();
-        clawClosed = true;
-        movedToBucket = false;
-      } else if (gamepad2.dpad_down) { // pickup specimen
-        verticalArm.goToPosition(Constants.ArmPosition.STOWED);
-        outtake.openClaw();
-        outtakeArm.goToPosition(Constants.OuttakeArmPosition.PICKUP_POSITION);
-      } else if (gamepad2.dpad_right) { // high bar
-        verticalArm.goToPosition(Constants.ArmPosition.GO_TO_HIGH_BAR);
-        outtakeArm.goToPosition(Constants.OuttakeArmPosition.GO_TO_HIGH_BAR_POSITION);
-      } else if (gamepad2.dpad_left && !transferTriggered) { // transfer
-        startTimeNs = System.nanoTime();
-        outtake.openClaw();
-        outtakeArm.goToPosition(Constants.OuttakeArmPosition.TRANSFER_POSITION);
-        transferTriggered = true;
-        clawArmMovedToTransfer = true;
-        verticalMovedToTransfer = false;
-      }
+    if(gamepad2.dpad_up){
+      outtakeArm.goToPosition(Constants.OuttakeArmPosition.SCORE_HIGH_BUCKET_POSITION);
+    } else if(gamepad2.dpad_right){
+       outtakeArm.goToPosition(Constants.OuttakeArmPosition.SCORE_HIGH_BAR_POSITION);
+    } else if(gamepad2.dpad_left){
+      outtakeArm.goToPosition(Constants.OuttakeArmPosition.TRANSFER_POSITION);
+    } else if(gamepad2.dpad_down){
+      outtakeArm.goToPosition(Constants.OuttakeArmPosition.PICKUP_POSITION);
     }
-
     // CLAW HIGH BUCKET DELAY
     if (highBucketTriggered) {
       final long currentTime = System.nanoTime();
@@ -267,6 +276,16 @@ public class RobotContainer extends OpMode {
 
       intake.goToPositionFlip(Constants.IntakePosition.FLIP_PICKUP_POSITION);
     }
+
+    if (gamepad1.x) {
+      intake.goToPositionClaw(Constants.IntakePosition.CLAW_OPEN_POSITION);
+    }
+    if (gamepad1.b) {
+
+      intake.goToPositionClaw(Constants.IntakePosition.CLAW_CLOSE_POSITION);
+    }
+
+
 
     // basic outtake control
     if (gamepad1.left_bumper) {
