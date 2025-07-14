@@ -76,8 +76,8 @@ public class Constants {
   }
 
   public enum IntakePosition {
-    FLIP_TRANSFER_POSITION(0.4),
-    FLIP_PICKUP_POSITION(1.0),
+    FLIP_TRANSFER_POSITION(0.6),
+    FLIP_PICKUP_POSITION(0.8),
     CLAW_OPEN_POSITION(0.0),
     CLAW_CLOSE_POSITION(0.0);
 
