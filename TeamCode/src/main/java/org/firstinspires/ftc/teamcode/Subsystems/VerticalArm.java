@@ -63,11 +63,11 @@ public class VerticalArm {
       final double leftDistance = Math.abs(getCurrentPosition()[0] - targetPosition);
       final double rightDistance = Math.abs(getCurrentPosition()[1] - targetPosition);
 
-      if (leftDistance >= rightDistance) {
-        rightArm.setPower(0);
-      } else {
-        leftArm.setPower(0);
-      }
+//      if (leftDistance >= rightDistance) {
+//        rightArm.setPower(0);
+//      } else {
+//        leftArm.setPower(0);
+//      }
     }
 
     leftArm.setTargetPosition(targetPosition);
