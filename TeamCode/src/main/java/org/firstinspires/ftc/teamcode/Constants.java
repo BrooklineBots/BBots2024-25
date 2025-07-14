@@ -60,7 +60,7 @@ public class Constants {
     GO_TO_HIGH_BAR_POSITION(0.6),
     SCORE_HIGH_BUCKET_POSITION(0.6),
     SCORE_HIGH_BAR_POSITION(0.67),
-    PICKUP_POSITION(0.67);
+    PICKUP_POSITION(0.70);
 
     public final double position;
 
