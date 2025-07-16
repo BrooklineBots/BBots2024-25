@@ -35,14 +35,10 @@ public class RobotContainer extends OpMode {
   private final boolean isRecording = false;
 
   // delay variables
-  private boolean highBucketTriggered = false;
   private boolean transferTriggered = false;
-  private boolean clawArmMovedToTransfer = false;
-  private boolean verticalMovedToTransfer = false;
+  private boolean intakeMovedToTransfer = false;
+  private boolean outtakeMovedToTransfer = false;
   private long startTimeNs = -1;
-  private boolean movedToBucket = false;
-  private boolean clawClosed = false;
-  private boolean didClawArmMove = false;
 
   public void setAlliance(final boolean isRedAlliance) {
     this.isRedAlliance = isRedAlliance;
@@ -184,25 +180,24 @@ public class RobotContainer extends OpMode {
     // testing TODO: Add claw open and close
 
     // emergency vertical arm control:
-//    if (!isWithinTolerance(0, gamepad2.left_trigger, 0.1)) {
-//
-//      if (!isWithinTolerance(0, gamepad2.left_stick_y, 0.1)) {
-//        verticalArm.setModeRunWithEncoder();
-//        final double power = -gamepad2.left_stick_y;
-//        // limit power
-//        // power *= 0.5;
-//        verticalArm.setArmPowers(power);
-//
-//      } else {
-//        verticalArm.stop();
-//      }
-//    } else {
+    //if (!isWithinTolerance(0, gamepad2.left_trigger, 0.1)) {
+
+      if (!isWithinTolerance(0, gamepad2.left_stick_y, 0.1)) {
+        verticalArm.setModeRunWithoutEncoder();
+        final double power = -gamepad2.left_stick_y;
+        // limit power
+        // power *= 0.5;
+        verticalArm.setArmPowers(power);
+
+      } else {        
+        verticalArm.stop();
+      }
+    //}
+//    else {
 //      if (gamepad2.dpad_up) { // high bucket
-//        highBucketTriggered = true;
-//        startTimeNs = System.nanoTime();
 //        outtake.closeClaw();
-//        clawClosed = true;
-//        movedToBucket = false;
+//        outtakeArm.goToPosition(Constants.OuttakeArmPosition.SCORE_HIGH_BUCKET_POSITION);
+//        verticalArm.goToPosition(Constants.ArmPosition.SCORE_HIGH_BUCKET);
 //      } else if (gamepad2.dpad_down) { // pickup specimen
 //        verticalArm.goToPosition(Constants.ArmPosition.STOWED);
 //        outtake.openClaw();
@@ -212,54 +207,39 @@ public class RobotContainer extends OpMode {
 //        outtakeArm.goToPosition(Constants.OuttakeArmPosition.GO_TO_HIGH_BAR_POSITION);
 //      } else if (gamepad2.dpad_left && !transferTriggered) { // transfer
 //        startTimeNs = System.nanoTime();
+//        intake.goToPositionFlip(Constants.IntakePosition.FLIP_TRANSFER_POSITION);
 //        outtake.openClaw();
-//        outtakeArm.goToPosition(Constants.OuttakeArmPosition.TRANSFER_POSITION);
+//        verticalArm.goToPosition(Constants.ArmPosition.STOWED);
 //        transferTriggered = true;
-//        clawArmMovedToTransfer = true;
-//        verticalMovedToTransfer = false;
+//        intakeMovedToTransfer = true;
+//        outtakeMovedToTransfer = false;
 //      }
 //    }
 
     if(gamepad2.dpad_up){
       outtakeArm.goToPosition(Constants.OuttakeArmPosition.SCORE_HIGH_BUCKET_POSITION);
     } else if(gamepad2.dpad_right){
-       outtakeArm.goToPosition(Constants.OuttakeArmPosition.SCORE_HIGH_BAR_POSITION);
+       outtakeArm.goToPosition(Constants.OuttakeArmPosition.GO_TO_HIGH_BAR_POSITION);
     } else if(gamepad2.dpad_left){
       outtakeArm.goToPosition(Constants.OuttakeArmPosition.TRANSFER_POSITION);
     } else if(gamepad2.dpad_down){
       outtakeArm.goToPosition(Constants.OuttakeArmPosition.PICKUP_POSITION);
     }
-    // CLAW HIGH BUCKET DELAY
-    if (highBucketTriggered) {
-      final long currentTime = System.nanoTime();
-      final double elapsedTime = (currentTime - startTimeNs) / 1e9;
-      telemetry.addData("Elapsed time", elapsedTime);
 
-      if (clawClosed
-          && !movedToBucket
-          && elapsedTime >= Constants.OuttakeArmConstants.CLAW_ARM_DELAY_BUCKET) {
-        outtakeArm.goToPosition(Constants.OuttakeArmPosition.SCORE_HIGH_BUCKET_POSITION);
-        didClawArmMove = true;
-        verticalArm.goToPosition(Constants.ArmPosition.SCORE_HIGH_BUCKET);
-        telemetry.update();
-        movedToBucket = true;
-        highBucketTriggered = false;
-        clawClosed = false;
-      }
-    }
+
+    // CLAW HIGH BUCKET DELAY
 
     if (transferTriggered) {
       final long currentTime = System.nanoTime();
       final double elapsedTime = (currentTime - startTimeNs) / 1e9;
 
-      if (clawArmMovedToTransfer
-          && !verticalMovedToTransfer
-          && elapsedTime >= Constants.OuttakeArmConstants.CLAW_ARM_DELAY_TRANSFER) {
-        verticalArm.goToPosition(Constants.ArmPosition.STOWED);
-        verticalMovedToTransfer = true;
-
+      if (intakeMovedToTransfer
+          && !outtakeMovedToTransfer
+          && elapsedTime >= Constants.OuttakeArmConstants.OUTTAKE_DELAY_TRANSFER) {
+        outtakeArm.goToPosition(Constants.OuttakeArmPosition.TRANSFER_POSITION);
+        outtakeMovedToTransfer = true;
         transferTriggered = false;
-        clawArmMovedToTransfer = false;
+        intakeMovedToTransfer = false;
       }
     }
 
@@ -278,26 +258,33 @@ public class RobotContainer extends OpMode {
     }
 
     if (gamepad1.x) {
-      intake.goToPositionClaw(Constants.IntakePosition.CLAW_OPEN_POSITION);
+      intake.openClaw();
     }
     if (gamepad1.b) {
 
-      intake.goToPositionClaw(Constants.IntakePosition.CLAW_CLOSE_POSITION);
+      intake.closeClaw();
+    }
+
+    if(!isWithinTolerance(0, gamepad2.right_stick_x, 0.1)){
+      intake.rotateIntake(gamepad2.right_stick_x);
+    }
+    else{
+      intake.stopRotate();
     }
 
 
 
     // basic outtake control
-    if (gamepad1.left_bumper) {
+    if (gamepad2.left_bumper) {
       outtake.closeClaw();
-    } else if (gamepad1.right_bumper) {
+    } else if (gamepad2.right_bumper) {
       outtake.openClaw();
     }
 
     // horizontal extension
-    if (gamepad2.right_bumper) {
+    if (gamepad1.right_bumper) {
       horizontal.extend();
-    } else if (gamepad2.left_bumper) {
+    } else if (gamepad1.left_bumper) {
       horizontal.retract();
     } else {
       horizontal.stopServos();
