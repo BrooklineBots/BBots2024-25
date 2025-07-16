@@ -21,7 +21,7 @@ public class Constants {
   }
 
   public enum ArmPosition {
-    STOWED(15),
+    STOWED(20),
     GO_TO_HIGH_BAR(1100),
     SCORE_HIGH_BUCKET(3200),
     // GO_TO_HIGH_BAR(2200),
@@ -39,7 +39,7 @@ public class Constants {
   }
 
   public enum OuttakePosition {
-    CLOSE_POSITION(0.28),
+    CLOSE_POSITION(0.26),
     OPEN_POSITION(0.0);
 
     public final double position;
@@ -51,15 +51,14 @@ public class Constants {
 
   public static class OuttakeArmConstants {
     public static final String CLAW_ARM_SERVO_ID = "clawArmServo";
-    public static final double CLAW_ARM_DELAY_BUCKET = 0.2;
-    public static final double CLAW_ARM_DELAY_TRANSFER = 0.3;
+    public static final double OUTTAKE_DELAY_TRANSFER = 0.5;
   }
 
   public enum OuttakeArmPosition {
     TRANSFER_POSITION(0.345),
-    GO_TO_HIGH_BAR_POSITION(0.6),
-    SCORE_HIGH_BUCKET_POSITION(0.6),
-    SCORE_HIGH_BAR_POSITION(0.67),
+    GO_TO_HIGH_BAR_POSITION(0.665),
+    SCORE_HIGH_BUCKET_POSITION(0.64),
+    SCORE_HIGH_BAR_POSITION(0.68), //TODO: don't use this
     PICKUP_POSITION(0.68);
 
     public final double position;
@@ -76,10 +75,10 @@ public class Constants {
   }
 
   public enum IntakePosition {
-    FLIP_TRANSFER_POSITION(0.6),
-    FLIP_PICKUP_POSITION(0.8),
-    CLAW_OPEN_POSITION(0.0),
-    CLAW_CLOSE_POSITION(0.0);
+    FLIP_TRANSFER_POSITION(0.4),
+    FLIP_PICKUP_POSITION(0.93),
+    CLAW_OPEN_POSITION(0.49),
+    CLAW_CLOSE_POSITION(0.52);
 
     public final double position;
 
@@ -115,12 +114,6 @@ public class Constants {
   public static class HorizontalConstants {
     public static final String RIGHT_EXTENSION_ID = "right_extension_servo";
     public static final String LEFT_EXTENSION_ID = "left_extension_servo";
-    public static final double EXTENSION_POWER = 0.7;
-    public static final double RIGHT_EXTEND_POWER = 0.6;
-    public static final double LEFT_EXTEND_POWER = 0.75;
-    public static final double RIGHT_RETRACT_POWER = -0.6;
-    public static final double LEFT_RETRACT_POWER = -0.75;
-    public static final double RETRACT_DELAY_SECONDS = 0.1;
-    public static final double EXTEND_DELAY_SECONDS = 0.005;
+    public static final double EXTENSION_POWER = 0.5;
   }
 }
