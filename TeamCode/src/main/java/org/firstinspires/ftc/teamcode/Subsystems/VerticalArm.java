@@ -18,12 +18,12 @@ public class VerticalArm {
     this.telemetry = telemetry;
     leftArm = hwMap.dcMotor.get(Constants.ArmConstants.LEFT_ARM_ID);
     rightArm = hwMap.dcMotor.get(Constants.ArmConstants.RIGHT_ARM_ID);
-    goalPosition = ArmPosition.STOWED;
 
-    leftArm.setDirection(DcMotor.Direction.REVERSE);
+
+    //leftArm.setDirection(DcMotor.Direction.REVERSE);
 
     leftArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-    rightArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+    rightArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //TODO: change back to Break
 
     resetEncoders();
     setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -47,47 +47,69 @@ public class VerticalArm {
       stop();
     }
 
+    if (getCurrentPosition()[1] < ArmConstants.VERTICAL_MIN_POSITION
+            || getCurrentPosition()[1] > ArmConstants.VERTICAL_MAX_POSITION) {
+      stop();
+    }
+    else if(getCurrentPosition()[0] < ArmConstants.VERTICAL_MIN_POSITION
+            || getCurrentPosition()[0] > ArmConstants.VERTICAL_MAX_POSITION){
+      stop();
+    }
+
+
+
     if (Math.abs(leftArm.getCurrentPosition() - rightArm.getCurrentPosition())
         > ArmConstants.MAX_ALLOWED_DIFFERENCE) {
-      final double leftDistance = Math.abs(leftArm.getCurrentPosition() - targetPosition);
-      final double rightDistance = Math.abs(rightArm.getCurrentPosition() - targetPosition);
+      final double leftDistance = Math.abs(getCurrentPosition()[0] - targetPosition);
+      final double rightDistance = Math.abs(getCurrentPosition()[1] - targetPosition);
 
-      if (leftDistance >= rightDistance) {
-        rightArm.setPower(0);
-      } else {
-        leftArm.setPower(0);
-      }
+//      if (leftDistance >= rightDistance) {
+//        rightArm.setPower(0);
+//      } else {
+//        leftArm.setPower(0);
+//      }
     }
 
     leftArm.setTargetPosition(targetPosition);
     rightArm.setTargetPosition(targetPosition);
 
     setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-
     leftArm.setPower(ArmConstants.VERTICAL_MOVE_POWER);
     rightArm.setPower(ArmConstants.VERTICAL_MOVE_POWER);
+
+//    leftArm.setPower(ArmConstants.VERTICAL_MOVE_POWER);
+//    rightArm.setPower(ArmConstants.VERTICAL_MOVE_POWER);
   }
 
   public ArmPosition getGoalPosition() {
     return goalPosition;
   }
 
+  /***
+   * Returns an array with the  absolute value of the leftArm and the rightArm
+   * @return
+   */
   public double[] getCurrentPosition() {
-    return new double[] {leftArm.getCurrentPosition(), rightArm.getCurrentPosition()};
+    return new double[] {Math.abs(leftArm.getCurrentPosition()), Math.abs(rightArm.getCurrentPosition())};
   }
 
   public double[] getArmPowers() {
     return new double[] {leftArm.getPower(), rightArm.getPower()};
   }
 
-  public void moveUp(final double power) {
-    leftArm.setPower(-power);
-    rightArm.setPower(-power);
+  public void setModeRunWithoutEncoder() {
+    leftArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    rightArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
   }
 
-  public void setArmPowers(final double left, final double right) {
-    leftArm.setPower(left);
-    rightArm.setPower(right);
+  public void setModeRunWithEncoder() {
+    leftArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    rightArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+  }
+
+  public void setArmPowers(final double power) {
+    leftArm.setPower(power);
+    rightArm.setPower(power);
   }
 
   public void stop() {

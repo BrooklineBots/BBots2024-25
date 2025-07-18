@@ -13,21 +13,19 @@ public class Constants {
     public static final String LEFT_ARM_ID = "leftArm";
     public static final String RIGHT_ARM_ID = "rightArm";
     public static final int VERTICAL_MIN_POSITION = 0; // TODO: change
-    public static final int VERTICAL_MAX_POSITION = 4100;
-    public static final double VERTICAL_MOVE_POWER = 0.5;
-    public static final int MAX_ALLOWED_DIFFERENCE = 10;
+    public static final int VERTICAL_MAX_POSITION = 3700;
+    public static final double VERTICAL_MOVE_POWER = 0.4;
+    public static final int MAX_ALLOWED_DIFFERENCE = 50;
 
-
-
-
+    public static final double ARM_BELT_LENGTH = 54; // in
   }
 
   public enum ArmPosition {
-    INTAKE(250),
-    STOWED(250),
-    SCORE_HIGH_BUCKET(4100),
-    GO_TO_HIGH_BAR(2200),
-    SCORE_HIGH_BAR(1500); // TODO: check value (could be not-updated)
+    STOWED(20),
+    GO_TO_HIGH_BAR(1100),
+    SCORE_HIGH_BUCKET(3200),
+    // GO_TO_HIGH_BAR(2200),
+    SCORE_HIGH_BAR(200); // TODO: check value (could be not-updated)
 
     public final int encoderTicks;
 
@@ -36,49 +34,59 @@ public class Constants {
     }
   }
 
-  public static class ClawConstants {
-    public static final String CLAW_SERVO_ID = "servo1";
+  public static class OuttakeConstants {
+    public static final String CLAW_SERVO_ID = "outtakeClaw";
   }
 
-  public enum ClawPosition {
-    CLOSE_POSITION(1.0),
-    OPEN_POSITION(0.7);
+  public enum OuttakePosition {
+    CLOSE_POSITION(0.26),
+    OPEN_POSITION(0.0);
 
     public final double position;
 
-    ClawPosition(final double position) {
+    OuttakePosition(final double position) {
       this.position = position;
     }
   }
 
-  public static class ClawArmConstants{
+  public static class OuttakeArmConstants {
     public static final String CLAW_ARM_SERVO_ID = "clawArmServo";
+    public static final double OUTTAKE_DELAY_TRANSFER = 0.5;
   }
 
-  public enum ClawArmPosition { //TODO: change values
-    TRANSFER_POSITION(0.0),
-    SCORE_POSITION(0.0),
-    PICKUP_POSITION(0.0);
+  public enum OuttakeArmPosition {
+    TRANSFER_POSITION(0.345),
+    GO_TO_HIGH_BAR_POSITION(0.665),
+    SCORE_HIGH_BUCKET_POSITION(0.64),
+    SCORE_HIGH_BAR_POSITION(0.68), //TODO: don't use this
+    PICKUP_POSITION(0.68);
 
     public final double position;
 
-    ClawArmPosition(final double position) {
+    OuttakeArmPosition(final double position) {
       this.position = position;
     }
   }
 
   public static class IntakeConstants {
-    public static final String LEFT_WHEEL_ID = "leftWheel";
-    public static final String RIGHT_WHEEL_ID = "rightWheel";
-    public static final String LEFT_FLIP_SERVO_ID = "leftFlipServo";
-    public static final String RIGHT_FLIP_SERVO_ID = "rightFlipServo";
-    public static final double LEFT_UP_POSITION = 0.82; // TODO: change
-    public static final double LEFT_DOWN_POSITION = 0.37; // TODO: change
-    public static final double RIGHT_UP_POSITION = 0.9;
-    public static final double RIGHT_DOWN_POSITION = 0.45;
-    public static final double MAX_VOLTAGE = 5; // TODO: change
-    public static final double SERVO_POWER = 0.5;
+    public static final String INTAKE_FLIP_SERVO_ID = "intakeFlipServo";
+    public static final String CLAW_INTAKE_SERVO_ID = "clawIntakeServo";
+    public static final String CLAW_ROTATION_SERVO_ID = "clawRotationServo";
   }
+
+  public enum IntakePosition {
+    FLIP_TRANSFER_POSITION(0.4),
+    FLIP_PICKUP_POSITION(0.93),
+    CLAW_OPEN_POSITION(0.49),
+    CLAW_CLOSE_POSITION(0.52);
+
+    public final double position;
+
+    IntakePosition(final double position) {
+      this.position = position;
+    }
+  }
+
 
   public static class LimelightConstants {
     /** Pipelines configured on the Limelight UI. */
@@ -106,10 +114,8 @@ public class Constants {
   public static class HorizontalConstants {
     public static final String RIGHT_EXTENSION_ID = "right_extension_servo";
     public static final String LEFT_EXTENSION_ID = "left_extension_servo";
-    public static final double RIGHT_EXTEND_POWER = 0.55;
-    public static final double LEFT_EXTEND_POWER = 0.6;
-    public static final double RIGHT_RETRACT_POWER = -0.4;
-    public static final double LEFT_RETRACT_POWER = -0.55;
+    public static final double EXTENSION_POWER = 0.5;
   }
+
 
 }

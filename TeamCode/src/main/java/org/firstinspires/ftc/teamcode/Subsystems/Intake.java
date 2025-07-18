@@ -1,94 +1,57 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Constants;
+import org.firstinspires.ftc.teamcode.Constants.IntakeConstants;
+import org.firstinspires.ftc.teamcode.Constants.IntakePosition;
 
 public class Intake {
-  private final Servo leftWheel;
-  private final Servo rightWheel;
-  private final Servo leftFlipServo;
-  private final Servo rightFlipServo;
+
+  private IntakePosition goalPositionClaw;
+  private IntakePosition goalPositionFlip;
+  private final Servo clawIntakeServo;
+  private final Servo intakeFlipServo;
+  private final CRServo clawRotationServo;
 
   private final Telemetry telemetry;
 
   public Intake(final HardwareMap hwMap, final Telemetry telemetry) {
     this.telemetry = telemetry;
-    leftWheel = hwMap.get(Servo.class, Constants.IntakeConstants.LEFT_WHEEL_ID);
-    rightWheel = hwMap.get(Servo.class, Constants.IntakeConstants.RIGHT_WHEEL_ID);
-    leftFlipServo = hwMap.get(Servo.class, Constants.IntakeConstants.LEFT_FLIP_SERVO_ID);
-    rightFlipServo = hwMap.get(Servo.class, Constants.IntakeConstants.RIGHT_FLIP_SERVO_ID);
-    //        leftFlipServo.setDirection(Servo.Direction.REVERSE);
-
-    leftWheel.setDirection(Servo.Direction.FORWARD);
-    rightWheel.setDirection(Servo.Direction.REVERSE);
+    clawIntakeServo = hwMap.get(Servo.class, IntakeConstants.CLAW_INTAKE_SERVO_ID);
+    intakeFlipServo = hwMap.get(Servo.class, IntakeConstants.INTAKE_FLIP_SERVO_ID);
+    //intakeFlipServo.setDirection(Servo.Direction.REVERSE);
+    clawRotationServo = hwMap.get(CRServo.class, IntakeConstants.CLAW_ROTATION_SERVO_ID);
+    clawRotationServo.setDirection(DcMotorSimple.Direction.REVERSE);
   }
 
-  public void collect() {
-    wheelSetPos(Constants.IntakeConstants.SERVO_POWER);
+  public void goToPositionFlip(final IntakePosition position) {
+    if (position.position >= Servo.MIN_POSITION && position.position <= Servo.MAX_POSITION) {
+      intakeFlipServo.setPosition(position.position);
+    }
+    goalPositionFlip = position;
   }
 
-  public double[] getWheelPowers() {
-    return new double[] {leftWheel.getPosition(), rightWheel.getPosition()};
+  public void openClaw(){
+    clawIntakeServo.setPosition(IntakePosition.CLAW_OPEN_POSITION.position);
   }
 
-  public double[] getFlipperPos() {
-    return new double[] {leftFlipServo.getPosition(), rightFlipServo.getPosition()};
+  public void closeClaw(){
+    clawIntakeServo.setPosition(IntakePosition.CLAW_CLOSE_POSITION.position);
   }
 
-  public void release() {
-    wheelSetPos(1); // Constants.IntakeConstants.SERVO_POWER
+  public void rotateIntake(double power){
+    clawRotationServo.setPower(power);
   }
 
-  public void rotateUp() {
-    setFlipperPos(
-        Constants.IntakeConstants.LEFT_UP_POSITION, Constants.IntakeConstants.RIGHT_UP_POSITION);
+  public void stopRotate(){
+    clawRotationServo.setPower(0);
   }
 
-  public void rotateDown() {
-    setFlipperPos(
-        Constants.IntakeConstants.LEFT_DOWN_POSITION,
-        Constants.IntakeConstants.RIGHT_DOWN_POSITION);
-  }
-
-  public void wheelSetPos(final double position) {
-    final Thread thread =
-        new Thread(
-            () -> {
-              leftWheel.setPosition(position);
-              rightWheel.setPosition(position);
-            });
-    thread.start();
-  }
-
-  public void setIntakePowers(final double leftPower, final double rightPower) {
-    final Thread thread =
-        new Thread(
-            () -> {
-              leftWheel.setPosition(leftPower);
-              rightWheel.setPosition(rightPower);
-            });
-    thread.start();
-  }
-
-  public void setFlipperPos(final double position1, final double position2) {
-    final Thread thread =
-        new Thread(
-            () -> {
-              leftFlipServo.setPosition(position1);
-              rightFlipServo.setPosition(position2);
-            });
-    thread.start();
-  }
-
-  public void stopWheels() {
-    final Thread thread =
-        new Thread(
-            () -> {
-              leftWheel.setPosition(0);
-              rightWheel.setPosition(0);
-            });
-    thread.start();
+  public IntakePosition[] getGoalPositions() {
+    return new IntakePosition[] {goalPositionClaw, goalPositionFlip};
   }
 }
