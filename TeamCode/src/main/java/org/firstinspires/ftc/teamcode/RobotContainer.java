@@ -300,5 +300,6 @@ public class RobotContainer extends OpMode {
     telemetry.addData("Left Arm Position: ", verticalArm.getCurrentPosition()[0]);
     telemetry.addData("Right Arm Position: ", verticalArm.getCurrentPosition()[1]);
     telemetry.update();
+
   }
 }
