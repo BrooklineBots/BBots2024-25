@@ -58,7 +58,7 @@ public class Constants {
     TRANSFER_POSITION(0.345),
     GO_TO_HIGH_BAR_POSITION(0.665),
     SCORE_HIGH_BUCKET_POSITION(0.64),
-    SCORE_HIGH_BAR_POSITION(0.68), //TODO: don't use this
+    SCORE_HIGH_BAR_POSITION(0.68), // TODO: don't use this
     PICKUP_POSITION(0.68);
 
     public final double position;
@@ -86,7 +86,6 @@ public class Constants {
       this.position = position;
     }
   }
-
 
   public static class LimelightConstants {
     /** Pipelines configured on the Limelight UI. */
@@ -116,6 +115,4 @@ public class Constants {
     public static final String LEFT_EXTENSION_ID = "left_extension_servo";
     public static final double EXTENSION_POWER = 0.5;
   }
-
-
 }

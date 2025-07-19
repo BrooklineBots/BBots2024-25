@@ -3,11 +3,11 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.teamcode.Subsystems.OuttakeArm;
-import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.HorizontalExtension;
+import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.Outtake;
+import org.firstinspires.ftc.teamcode.Subsystems.OuttakeArm;
 import org.firstinspires.ftc.teamcode.Subsystems.VerticalArm;
 import org.firstinspires.ftc.teamcode.autonomous.AutonomousRecorder;
 
@@ -180,52 +180,51 @@ public class RobotContainer extends OpMode {
     // testing TODO: Add claw open and close
 
     // emergency vertical arm control:
-    //if (!isWithinTolerance(0, gamepad2.left_trigger, 0.1)) {
+    // if (!isWithinTolerance(0, gamepad2.left_trigger, 0.1)) {
 
-      if (!isWithinTolerance(0, gamepad2.left_stick_y, 0.1)) {
-        verticalArm.setModeRunWithoutEncoder();
-        final double power = -gamepad2.left_stick_y;
-        // limit power
-        // power *= 0.5;
-        verticalArm.setArmPowers(power);
+    if (!isWithinTolerance(0, gamepad2.left_stick_y, 0.1)) {
+      verticalArm.setModeRunWithoutEncoder();
+      final double power = -gamepad2.left_stick_y;
+      // limit power
+      // power *= 0.5;
+      verticalArm.setArmPowers(power);
 
-      } else {        
-        verticalArm.stop();
-      }
-    //}
-//    else {
-//      if (gamepad2.dpad_up) { // high bucket
-//        outtake.closeClaw();
-//        outtakeArm.goToPosition(Constants.OuttakeArmPosition.SCORE_HIGH_BUCKET_POSITION);
-//        verticalArm.goToPosition(Constants.ArmPosition.SCORE_HIGH_BUCKET);
-//      } else if (gamepad2.dpad_down) { // pickup specimen
-//        verticalArm.goToPosition(Constants.ArmPosition.STOWED);
-//        outtake.openClaw();
-//        outtakeArm.goToPosition(Constants.OuttakeArmPosition.PICKUP_POSITION);
-//      } else if (gamepad2.dpad_right) { // high bar
-//        verticalArm.goToPosition(Constants.ArmPosition.GO_TO_HIGH_BAR);
-//        outtakeArm.goToPosition(Constants.OuttakeArmPosition.GO_TO_HIGH_BAR_POSITION);
-//      } else if (gamepad2.dpad_left && !transferTriggered) { // transfer
-//        startTimeNs = System.nanoTime();
-//        intake.goToPositionFlip(Constants.IntakePosition.FLIP_TRANSFER_POSITION);
-//        outtake.openClaw();
-//        verticalArm.goToPosition(Constants.ArmPosition.STOWED);
-//        transferTriggered = true;
-//        intakeMovedToTransfer = true;
-//        outtakeMovedToTransfer = false;
-//      }
-//    }
+    } else {
+      verticalArm.stop();
+    }
+    // }
+    //    else {
+    //      if (gamepad2.dpad_up) { // high bucket
+    //        outtake.closeClaw();
+    //        outtakeArm.goToPosition(Constants.OuttakeArmPosition.SCORE_HIGH_BUCKET_POSITION);
+    //        verticalArm.goToPosition(Constants.ArmPosition.SCORE_HIGH_BUCKET);
+    //      } else if (gamepad2.dpad_down) { // pickup specimen
+    //        verticalArm.goToPosition(Constants.ArmPosition.STOWED);
+    //        outtake.openClaw();
+    //        outtakeArm.goToPosition(Constants.OuttakeArmPosition.PICKUP_POSITION);
+    //      } else if (gamepad2.dpad_right) { // high bar
+    //        verticalArm.goToPosition(Constants.ArmPosition.GO_TO_HIGH_BAR);
+    //        outtakeArm.goToPosition(Constants.OuttakeArmPosition.GO_TO_HIGH_BAR_POSITION);
+    //      } else if (gamepad2.dpad_left && !transferTriggered) { // transfer
+    //        startTimeNs = System.nanoTime();
+    //        intake.goToPositionFlip(Constants.IntakePosition.FLIP_TRANSFER_POSITION);
+    //        outtake.openClaw();
+    //        verticalArm.goToPosition(Constants.ArmPosition.STOWED);
+    //        transferTriggered = true;
+    //        intakeMovedToTransfer = true;
+    //        outtakeMovedToTransfer = false;
+    //      }
+    //    }
 
-    if(gamepad2.dpad_up){
+    if (gamepad2.dpad_up) {
       outtakeArm.goToPosition(Constants.OuttakeArmPosition.SCORE_HIGH_BUCKET_POSITION);
-    } else if(gamepad2.dpad_right){
-       outtakeArm.goToPosition(Constants.OuttakeArmPosition.GO_TO_HIGH_BAR_POSITION);
-    } else if(gamepad2.dpad_left){
+    } else if (gamepad2.dpad_right) {
+      outtakeArm.goToPosition(Constants.OuttakeArmPosition.GO_TO_HIGH_BAR_POSITION);
+    } else if (gamepad2.dpad_left) {
       outtakeArm.goToPosition(Constants.OuttakeArmPosition.TRANSFER_POSITION);
-    } else if(gamepad2.dpad_down){
+    } else if (gamepad2.dpad_down) {
       outtakeArm.goToPosition(Constants.OuttakeArmPosition.PICKUP_POSITION);
     }
-
 
     // CLAW HIGH BUCKET DELAY
 
@@ -265,14 +264,11 @@ public class RobotContainer extends OpMode {
       intake.closeClaw();
     }
 
-    if(!isWithinTolerance(0, gamepad2.right_stick_x, 0.1)){
+    if (!isWithinTolerance(0, gamepad2.right_stick_x, 0.1)) {
       intake.rotateIntake(gamepad2.right_stick_x);
-    }
-    else{
+    } else {
       intake.stopRotate();
     }
-
-
 
     // basic outtake control
     if (gamepad2.left_bumper) {
@@ -300,6 +296,5 @@ public class RobotContainer extends OpMode {
     telemetry.addData("Left Arm Position: ", verticalArm.getCurrentPosition()[0]);
     telemetry.addData("Right Arm Position: ", verticalArm.getCurrentPosition()[1]);
     telemetry.update();
-
   }
 }

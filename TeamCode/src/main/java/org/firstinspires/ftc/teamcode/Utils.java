@@ -5,7 +5,7 @@ public class Utils {
     return Math.max(min, Math.min(max, val));
   }
 
-  public boolean isWithinTolerance(
+  public static boolean isWithinTolerance(
       final double targetValue, final double currentValue, final double tolerance) {
     return Math.abs(targetValue - currentValue) <= tolerance;
   }

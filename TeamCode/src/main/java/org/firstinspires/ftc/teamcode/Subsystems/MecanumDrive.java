@@ -41,7 +41,7 @@ public class MecanumDrive {
     // Retrieve the IMU from the hardware map
     imu = hwMap.get(IMU.class, "imu");
     // Adjust the orientation parameters to match your robot
-    IMU.Parameters parameters =
+    final IMU.Parameters parameters =
         new IMU.Parameters(
             new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
@@ -57,23 +57,25 @@ public class MecanumDrive {
    * @param x = left/right speed, -1 to 1
    * @param rx = rotation speed, -1 to 1
    */
-  public void driveFieldRelative(double y, double x, double rx) {
-
+  public void driveFieldRelative(final double forward, final double right, final double rotate) {
+    final double y = forward;
+    final double x = right;
+    final double rx = rotate;
     // Rotate the movement direction counter to the bot's rotation
 
     double rotX = x * Math.cos(-getBotHeading()) - y * Math.sin(-getBotHeading());
-    double rotY = x * Math.sin(-getBotHeading()) + y * Math.cos(-getBotHeading());
+    final double rotY = x * Math.sin(-getBotHeading()) + y * Math.cos(-getBotHeading());
 
     rotX = rotX * 1.1; // Counteract imperfect strafing
 
     // Denominator is the largest motor power (absolute value) or 1
     // This ensures all the powers maintain the same ratio,
     // but only if at least one is out of the range [-1, 1]
-    double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
-    double frontLeftPower = (rotY + rotX + rx) / denominator;
-    double backLeftPower = (rotY - rotX + rx) / denominator;
-    double frontRightPower = (rotY - rotX - rx) / denominator;
-    double backRightPower = (rotY + rotX - rx) / denominator;
+    final double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
+    final double frontLeftPower = (rotY + rotX + rx) / denominator;
+    final double backLeftPower = (rotY - rotX + rx) / denominator;
+    final double frontRightPower = (rotY - rotX - rx) / denominator;
+    final double backRightPower = (rotY + rotX - rx) / denominator;
 
     frontLeftMotor.setPower(frontLeftPower);
     backLeftMotor.setPower(backLeftPower);
@@ -102,7 +104,7 @@ public class MecanumDrive {
   }
 
   public double getBotHeading() {
-    double botHeading =
+    final double botHeading =
         imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS) + fieldHeadingOffset;
     return botHeading;
   }
@@ -119,7 +121,8 @@ public class MecanumDrive {
    * @param bLPower = backLeft speed, -1 to 1
    * @param bRPower = backRight speed, -1 to 1
    */
-  public void setPowers(double fLPower, double fRPower, double bLPower, double bRPower) {
+  public void setPowers(
+      final double fLPower, final double fRPower, final double bLPower, final double bRPower) {
     frontLeftMotor.setPower(fLPower);
     frontRightMotor.setPower(fRPower);
     backLeftMotor.setPower(bLPower);

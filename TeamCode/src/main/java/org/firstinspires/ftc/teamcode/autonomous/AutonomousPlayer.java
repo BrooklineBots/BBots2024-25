@@ -19,7 +19,6 @@ public class AutonomousPlayer extends LinearOpMode {
   private VerticalArm verticalArm;
   private Outtake outtake;
 
-
   // Data structure for recorded states
   private static class Record {
     long timestamp;
