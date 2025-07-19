@@ -23,7 +23,7 @@ public class VerticalArm {
     //leftArm.setDirection(DcMotor.Direction.REVERSE);
 
     leftArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-    rightArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //TODO: change back to Break
+    rightArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); 
 
     resetEncoders();
     setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);

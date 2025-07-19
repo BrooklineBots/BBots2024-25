@@ -36,10 +36,10 @@ public class MecanumDrive {
 
     frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
     backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-    backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+    //backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
     // Retrieve the IMU from the hardware map
-    imu = hwMap.get(IMU.class, "imu");
+    imu = hwMap.get(IMU.class, Constants.DriveConstants.IMU_ID);
     // Adjust the orientation parameters to match your robot
     IMU.Parameters parameters =
         new IMU.Parameters(
@@ -60,20 +60,20 @@ public class MecanumDrive {
   public void driveFieldRelative(double y, double x, double rx) {
 
     // Rotate the movement direction counter to the bot's rotation
+    double heading = getBotHeading();
+    double rotX = x * Math.cos(heading) - y * Math.sin(heading);
+    double rotY = x * Math.sin(heading) + y * Math.cos(heading);
 
-    double rotX = x * Math.cos(-getBotHeading()) - y * Math.sin(-getBotHeading());
-    double rotY = x * Math.sin(-getBotHeading()) + y * Math.cos(-getBotHeading());
-
-    rotX = rotX * 1.1; // Counteract imperfect strafing
+    double rotXa = rotX * 1.12;// Counteract imperfect strafing
 
     // Denominator is the largest motor power (absolute value) or 1
     // This ensures all the powers maintain the same ratio,
     // but only if at least one is out of the range [-1, 1]
     double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
-    double frontLeftPower = (rotY + rotX + rx) / denominator;
+    double frontLeftPower = (rotY + rotXa + rx) / denominator;
     double backLeftPower = (rotY - rotX + rx) / denominator;
     double frontRightPower = (rotY - rotX - rx) / denominator;
-    double backRightPower = (rotY + rotX - rx) / denominator;
+    double backRightPower = (rotY + rotXa - rx) / denominator;
 
     frontLeftMotor.setPower(frontLeftPower);
     backLeftMotor.setPower(backLeftPower);
@@ -103,7 +103,7 @@ public class MecanumDrive {
 
   public double getBotHeading() {
     double botHeading =
-        imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS) + fieldHeadingOffset;
+            -(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS)) + fieldHeadingOffset;
     return botHeading;
   }
 

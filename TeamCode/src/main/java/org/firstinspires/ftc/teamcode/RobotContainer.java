@@ -22,7 +22,8 @@ public class RobotContainer extends OpMode {
   private Intake intake;
   //  private Limelight limelight;
 
-  private final boolean hasDefaulted = false;
+  private double initialHeading;
+
 
   private AutonomousRecorder recorder;
 
@@ -58,6 +59,8 @@ public class RobotContainer extends OpMode {
     //    limelight = new Limelight(hardwareMap, telemetry, isRedAlliance);
     //    limelight.start();
     recordingTimer = System.currentTimeMillis() - startTimer;
+
+
   }
 
   public boolean isWithinTolerance(
@@ -79,12 +82,6 @@ public class RobotContainer extends OpMode {
 
   @Override
   public void loop() {
-    // default vert arm and clawArm
-    //    if(!hasDefaulted){
-    //      verticalArm.goToPosition(Constants.ArmPosition.STOWED);
-    //      clawArm.goToPosition(Constants.ClawArmPosition.TRANSFER_POSITION);
-    //      hasDefaulted = true;
-    //    }
 
     /*
     if (gamepad1.x) {
@@ -147,7 +144,9 @@ public class RobotContainer extends OpMode {
     }
 
     if (gamepad2.b) {
+      initialHeading = drive.getBotHeading();
       drive.resetYaw();
+      drive.setFieldHeadingOffset(initialHeading + Math.PI);
     }
 
     /*limelight

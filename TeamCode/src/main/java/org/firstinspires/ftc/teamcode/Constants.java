@@ -6,6 +6,7 @@ public class Constants {
     public static final String FRONT_RIGHT_MOTOR_ID = "frontRightMotor";
     public static final String BACK_LEFT_MOTOR_ID = "backLeftMotor";
     public static final String BACK_RIGHT_MOTOR_ID = "backRightMotor";
+    public static final String IMU_ID = "imu";
   }
 
   public static class ArmConstants {
