@@ -38,14 +38,20 @@ public class MecanumDrive {
     backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
     //backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
+
+    frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
     // Retrieve the IMU from the hardware map
     imu = hwMap.get(IMU.class, Constants.DriveConstants.IMU_ID);
     // Adjust the orientation parameters to match your robot
     IMU.Parameters parameters =
         new IMU.Parameters(
             new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
-                RevHubOrientationOnRobot.UsbFacingDirection.UP));
+                RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
+                RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD));
     // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
     imu.initialize(parameters);
   }
@@ -81,13 +87,6 @@ public class MecanumDrive {
     backRightMotor.setPower(backRightPower);
   }
 
-  public void stop() {
-    frontLeftMotor.setPower(0);
-    frontRightMotor.setPower(0);
-    backRightMotor.setPower(0);
-    backLeftMotor.setPower(0);
-  }
-
   public void resetYaw() {
     imu.resetYaw();
   }
@@ -120,9 +119,35 @@ public class MecanumDrive {
    * @param bRPower = backRight speed, -1 to 1
    */
   public void setPowers(double fLPower, double fRPower, double bLPower, double bRPower) {
+
+    double maxSpeed = 1.0;
+    maxSpeed = Math.max(maxSpeed, Math.abs(fLPower));
+    maxSpeed = Math.max(maxSpeed, Math.abs(fRPower));
+    maxSpeed = Math.max(maxSpeed, Math.abs(bLPower));
+    maxSpeed = Math.max(maxSpeed, Math.abs(bRPower));
+
+    fLPower /= maxSpeed;
+    fRPower /= maxSpeed;
+    bLPower /= maxSpeed;
+    bRPower /= maxSpeed;
+
     frontLeftMotor.setPower(fLPower);
     frontRightMotor.setPower(fRPower);
     backLeftMotor.setPower(bLPower);
     backRightMotor.setPower(bRPower);
+  }
+
+  public void driveRobotCentric(double forward, double right, double rotate){
+    double fLPower = forward + right + rotate;
+    double fRPower = forward - right - rotate;
+    double bLPower = forward - right + rotate;
+    double bRPower = forward + right - rotate;
+  }
+
+  public void stopMotors() {
+    frontLeftMotor.setPower(0);
+    frontRightMotor.setPower(0);
+    backRightMotor.setPower(0);
+    backLeftMotor.setPower(0);
   }
 }

@@ -49,7 +49,7 @@ public class AutonomousPlayer extends LinearOpMode {
     }
 
     // Stop all motors at the end
-    drive.stop();
+    drive.stopMotors();
     verticalArm.stop();
   }
 

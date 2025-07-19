@@ -140,7 +140,7 @@ public class RobotContainer extends OpMode {
         || !isWithinTolerance(0, gamepad1.right_stick_x, 0.1)) {
       drive.driveFieldRelative(forward, right, rotate);
     } else {
-      drive.stop();
+      drive.stopMotors();
     }
 
     if (gamepad2.b) {
