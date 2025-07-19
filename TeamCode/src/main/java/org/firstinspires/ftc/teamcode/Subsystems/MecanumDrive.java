@@ -70,7 +70,7 @@ public class MecanumDrive {
     double rotX = x * Math.cos(heading) - y * Math.sin(heading);
     double rotY = x * Math.sin(heading) + y * Math.cos(heading);
 
-    double rotXa = rotX * 1.12;// Counteract imperfect strafing
+    double rotXa = rotX * 1.11;// Counteract imperfect strafing
 
     // Denominator is the largest motor power (absolute value) or 1
     // This ensures all the powers maintain the same ratio,
@@ -142,6 +142,8 @@ public class MecanumDrive {
     double fRPower = forward - right - rotate;
     double bLPower = forward - right + rotate;
     double bRPower = forward + right - rotate;
+
+    setPowers(fLPower, fRPower, bLPower, bRPower);
   }
 
   public void stopMotors() {

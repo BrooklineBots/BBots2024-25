@@ -24,6 +24,7 @@ public class HorizontalExtension {
     rightExtensionServo = hwMap.crservo.get(Constants.HorizontalConstants.RIGHT_EXTENSION_ID);
     leftExtensionServo = hwMap.crservo.get(Constants.HorizontalConstants.LEFT_EXTENSION_ID);
     rightExtensionServo.setDirection(CRServo.Direction.REVERSE);
+
   }
 
   public void setPower(double power) {
