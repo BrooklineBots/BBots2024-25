@@ -128,4 +128,73 @@ public class MecanumDrive {
     backLeftMotor.setPower(bLPower);
     backRightMotor.setPower(bRPower);
   }
+
+  public void setRunMode(final DcMotor.RunMode runMode) {
+    frontLeftMotor.setMode(runMode);
+    frontRightMotor.setMode(runMode);
+    backLeftMotor.setMode(runMode);
+    backRightMotor.setMode(runMode);
+  }
+
+  public boolean driveDistance(final double distanceMeters) {
+    return driveDistance(distanceMeters, Constants.AutoConstants.DRIVE_SPEED);
+  }
+
+  /**
+   * Drives the robot a specified distance in meters at a given speed.
+   *
+   * @param distanceMeters Distance to drive in meters. Positive values drive forward, negative
+   *     values drive backward.
+   * @param override_speed Speed to drive at (0 to 1).
+   */
+  public boolean driveDistance(final double distanceMeters, final double override_speed) {
+    final int targetTicks = (int) (distanceMeters * Constants.DriveConstants.TICKS_PER_METER);
+
+    frontLeftMotor.setTargetPosition(targetTicks);
+    frontRightMotor.setTargetPosition(targetTicks);
+    backLeftMotor.setTargetPosition(targetTicks);
+    backRightMotor.setTargetPosition(targetTicks);
+
+    setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+    setPowers(override_speed, override_speed, override_speed, override_speed);
+
+    // Wait until motors reach target
+    while (frontLeftMotor.isBusy()
+        || frontRightMotor.isBusy()
+        || backLeftMotor.isBusy()
+        || backRightMotor.isBusy()) {
+      // Idle for now
+      try {
+        Thread.sleep(1);
+      } catch (final InterruptedException e) {
+        Thread.currentThread().interrupt();
+      }
+    }
+    stop();
+    setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    return true;
+  }
+
+  public void rotate(final double degrees) {
+    rotate(degrees, Constants.AutoConstants.ROTATION_SPEED);
+  }
+
+  /**
+   * Rotates the robot by a specified number of degrees at a given speed.
+   *
+   * @param degrees Degrees to rotate. Positive values rotate clockwise, negative values rotate
+   *     counter-clockwise.
+   * @param speed Speed to rotate at (0 to 1).
+   */
+  public void rotate(final double degrees, final double speed) {
+    final double targetHeading = getBotHeading() + Math.toRadians(degrees);
+    double error = targetHeading - getBotHeading();
+
+    while (Math.abs(error) > Math.toRadians(2)) {
+      final double turnPower = error > 0 ? speed : -speed;
+      driveFieldRelative(0, 0, turnPower);
+      error = targetHeading - getBotHeading();
+    }
+    stop();
+  }
 }

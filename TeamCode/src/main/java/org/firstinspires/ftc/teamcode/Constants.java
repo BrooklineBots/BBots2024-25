@@ -6,6 +6,16 @@ public class Constants {
     public static final String FRONT_RIGHT_MOTOR_ID = "frontRightMotor";
     public static final String BACK_LEFT_MOTOR_ID = "backLeftMotor";
     public static final String BACK_RIGHT_MOTOR_ID = "backRightMotor";
+    public static final int TICKS_PER_METER = 1000; // TODO: change this value
+  }
+
+  public static class AutoConstants {
+    public static final double FAST_DRIVE_SPEED = 1.0;
+    public static final double DRIVE_SPEED = 0.5;
+    public static final double SLOW_DRIVE_SPEED = 0.3;
+    public static final double ROTATION_SPEED = 0.4;
+    public static final long ARM_DELAY_MS = 2000; // Time for arm to move
+    public static final long SCORE_DELAY_MS = 1000; // Time for claw to open
   }
 
   public static class ArmConstants {
