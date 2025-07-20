@@ -41,7 +41,7 @@ public class MecanumDrive {
     // Retrieve the IMU from the hardware map
     imu = hwMap.get(IMU.class, "imu");
     // Adjust the orientation parameters to match your robot
-    IMU.Parameters parameters =
+    final IMU.Parameters parameters =
         new IMU.Parameters(
             new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
@@ -57,23 +57,25 @@ public class MecanumDrive {
    * @param x = left/right speed, -1 to 1
    * @param rx = rotation speed, -1 to 1
    */
-  public void driveFieldRelative(double y, double x, double rx) {
-
+  public void driveFieldRelative(final double forward, final double right, final double rotate) {
+    final double y = forward;
+    final double x = right;
+    final double rx = rotate;
     // Rotate the movement direction counter to the bot's rotation
 
     double rotX = x * Math.cos(-getBotHeading()) - y * Math.sin(-getBotHeading());
-    double rotY = x * Math.sin(-getBotHeading()) + y * Math.cos(-getBotHeading());
+    final double rotY = x * Math.sin(-getBotHeading()) + y * Math.cos(-getBotHeading());
 
     rotX = rotX * 1.1; // Counteract imperfect strafing
 
     // Denominator is the largest motor power (absolute value) or 1
     // This ensures all the powers maintain the same ratio,
     // but only if at least one is out of the range [-1, 1]
-    double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
-    double frontLeftPower = (rotY + rotX + rx) / denominator;
-    double backLeftPower = (rotY - rotX + rx) / denominator;
-    double frontRightPower = (rotY - rotX - rx) / denominator;
-    double backRightPower = (rotY + rotX - rx) / denominator;
+    final double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
+    final double frontLeftPower = (rotY + rotX + rx) / denominator;
+    final double backLeftPower = (rotY - rotX + rx) / denominator;
+    final double frontRightPower = (rotY - rotX - rx) / denominator;
+    final double backRightPower = (rotY + rotX - rx) / denominator;
 
     frontLeftMotor.setPower(frontLeftPower);
     backLeftMotor.setPower(backLeftPower);
@@ -102,7 +104,7 @@ public class MecanumDrive {
   }
 
   public double getBotHeading() {
-    double botHeading =
+    final double botHeading =
         imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS) + fieldHeadingOffset;
     return botHeading;
   }
@@ -119,10 +121,80 @@ public class MecanumDrive {
    * @param bLPower = backLeft speed, -1 to 1
    * @param bRPower = backRight speed, -1 to 1
    */
-  public void setPowers(double fLPower, double fRPower, double bLPower, double bRPower) {
+  public void setPowers(
+      final double fLPower, final double fRPower, final double bLPower, final double bRPower) {
     frontLeftMotor.setPower(fLPower);
     frontRightMotor.setPower(fRPower);
     backLeftMotor.setPower(bLPower);
     backRightMotor.setPower(bRPower);
+  }
+
+  public void setRunMode(final DcMotor.RunMode runMode) {
+    frontLeftMotor.setMode(runMode);
+    frontRightMotor.setMode(runMode);
+    backLeftMotor.setMode(runMode);
+    backRightMotor.setMode(runMode);
+  }
+
+  public boolean driveDistance(final double distanceMeters) {
+    return driveDistance(distanceMeters, Constants.AutoConstants.DRIVE_SPEED);
+  }
+
+  /**
+   * Drives the robot a specified distance in meters at a given speed.
+   *
+   * @param distanceMeters Distance to drive in meters. Positive values drive forward, negative
+   *     values drive backward.
+   * @param override_speed Speed to drive at (0 to 1).
+   */
+  public boolean driveDistance(final double distanceMeters, final double override_speed) {
+    final int targetTicks = (int) (distanceMeters * Constants.DriveConstants.TICKS_PER_METER);
+
+    frontLeftMotor.setTargetPosition(targetTicks);
+    frontRightMotor.setTargetPosition(targetTicks);
+    backLeftMotor.setTargetPosition(targetTicks);
+    backRightMotor.setTargetPosition(targetTicks);
+
+    setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+    setPowers(override_speed, override_speed, override_speed, override_speed);
+
+    // Wait until motors reach target
+    while (frontLeftMotor.isBusy()
+        || frontRightMotor.isBusy()
+        || backLeftMotor.isBusy()
+        || backRightMotor.isBusy()) {
+      // Idle for now
+      try {
+        Thread.sleep(1);
+      } catch (final InterruptedException e) {
+        Thread.currentThread().interrupt();
+      }
+    }
+    stop();
+    setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    return true;
+  }
+
+  public void rotate(final double degrees) {
+    rotate(degrees, Constants.AutoConstants.ROTATION_SPEED);
+  }
+
+  /**
+   * Rotates the robot by a specified number of degrees at a given speed.
+   *
+   * @param degrees Degrees to rotate. Positive values rotate clockwise, negative values rotate
+   *     counter-clockwise.
+   * @param speed Speed to rotate at (0 to 1).
+   */
+  public void rotate(final double degrees, final double speed) {
+    final double targetHeading = getBotHeading() + Math.toRadians(degrees);
+    double error = targetHeading - getBotHeading();
+
+    while (Math.abs(error) > Math.toRadians(2)) {
+      final double turnPower = error > 0 ? speed : -speed;
+      driveFieldRelative(0, 0, turnPower);
+      error = targetHeading - getBotHeading();
+    }
+    stop();
   }
 }
