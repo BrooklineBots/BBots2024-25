@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.teamcode.Subsystems.HomingSensor;
 import org.firstinspires.ftc.teamcode.Subsystems.OuttakeArm;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.HorizontalExtension;
@@ -20,6 +22,7 @@ public class RobotContainer extends OpMode {
   private MecanumDrive drive;
   private HorizontalExtension horizontal;
   private Intake intake;
+  private HomingSensor homingSensor;
   //  private Limelight limelight;
 
   private double initialHeading;
@@ -31,6 +34,7 @@ public class RobotContainer extends OpMode {
 
   private boolean isRedAlliance = true;
 
+  private boolean hasDefaulted = false;
   private long recordingTimer;
   private final long startTimer = System.currentTimeMillis();
   private final boolean isRecording = false;
@@ -55,6 +59,7 @@ public class RobotContainer extends OpMode {
     outtakeArm = new OuttakeArm(hardwareMap, telemetry);
     drive = new MecanumDrive(hardwareMap, telemetry);
     horizontal = new HorizontalExtension(hardwareMap, telemetry);
+    homingSensor = new HomingSensor(hardwareMap, telemetry);
     intake = new Intake(hardwareMap, telemetry);
     //    limelight = new Limelight(hardwareMap, telemetry, isRedAlliance);
     //    limelight.start();
@@ -82,7 +87,10 @@ public class RobotContainer extends OpMode {
 
   @Override
   public void loop() {
-
+    if(!hasDefaulted){
+      intake.goToPositionFlip(Constants.IntakePosition.FLIP_TRANSFER_POSITION);
+      hasDefaulted = true;
+    }
     /*
     if (gamepad1.x) {
       if (recorder.startRecording()) {
@@ -242,10 +250,10 @@ public class RobotContainer extends OpMode {
       }
     }
 
-    if (gamepad2.x) { // score high bar
-      outtakeArm.goToPosition(Constants.OuttakeArmPosition.SCORE_HIGH_BAR_POSITION);
-      verticalArm.goToPosition(Constants.ArmPosition.SCORE_HIGH_BAR);
-    }
+//    if (gamepad2.x) { // score high bar
+//      outtakeArm.goToPosition(Constants.OuttakeArmPosition.SCORE_HIGH_BAR_POSITION);
+//      verticalArm.goToPosition(Constants.ArmPosition.SCORE_HIGH_BAR);
+//    }
 
     // WIP intake control on gamepad1
     if (gamepad1.y) {
@@ -283,11 +291,22 @@ public class RobotContainer extends OpMode {
     // horizontal extension
     if (gamepad1.right_bumper) {
       horizontal.extend();
-    } else if (gamepad1.left_bumper) {
+    } else if (gamepad1.left_bumper && !homingSensor.isPressed()) {
       horizontal.retract();
+    } else if(gamepad2.y){
+      while(!homingSensor.isPressed()){
+        horizontal.retract();
+      }
+      horizontal.stopServos();
     } else {
       horizontal.stopServos();
     }
+
+    if(homingSensor.isPressed()){
+      horizontal.stopServos();
+    }
+
+    //
 
     // toggle alliance
     if (gamepad2.a) {
@@ -298,6 +317,7 @@ public class RobotContainer extends OpMode {
     telemetry.addData("alliance:", isRedAlliance);
     telemetry.addData("Left Arm Position: ", verticalArm.getCurrentPosition()[0]);
     telemetry.addData("Right Arm Position: ", verticalArm.getCurrentPosition()[1]);
+    telemetry.addData("touchSensorPressed: ", homingSensor.isPressed());
     telemetry.update();
   }
 }
