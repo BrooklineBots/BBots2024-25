@@ -51,20 +51,19 @@ public class ScoreSpecimenAuto extends LinearOpMode {
             }
 
             //score first specimen
-            backward(20);
+            backward(50);
             strafeRight(54);
-            backward(38);
+            rotateRight(2);
             goToHighBar(65);
+            backward(30);
             scoreSpecimen(35);
-            sleep(1000);
 
             //score second specimen
-            forward(10);
-
-
-            rotateLeft(1850);
+            forward(20);
+            sleep(2000);
+            rotateLeft(180);
             strafeRight(90);
-            forward(120);
+            forward(130);
             strafeRight(27);
             rotateLeft(50);
             backward(165);
@@ -93,38 +92,46 @@ public class ScoreSpecimenAuto extends LinearOpMode {
     }
 
     private void forward(long cm){
-        drive.driveRobotCentric(0.5, 0, 0);
-        long time = cm * (500/45);
+        drive.driveRobotCentric(0.9, 0, 0);
+        long time = cm * (2000/603);
         sleep(time);
         drive.stopMotors();
+        sleep(100);
     }
     private void backward(long cm){
-        drive.driveRobotCentric(-0.5, 0, 0);
-        long time = cm * (500/45);
+        drive.driveRobotCentric(-0.9, 0, 0);
+        long time = cm * (2000/603);
         sleep(time);
         drive.stopMotors();
+        sleep(100);
     }
     private void strafeRight(long cm){
-        drive.driveRobotCentric(0, 0.5, 0);
-        long time = cm * (1000/37);
+        drive.driveRobotCentric(0, 0.9, 0);
+        long time = cm * (1440/137);
         sleep(time);
         drive.stopMotors();
+        sleep(100);
     }
     private void strafeLeft(long cm){
         drive.driveRobotCentric(0, -0.5, 0);
-        long time = cm * (1000/37);
+        long time = cm * (1440/137);
         sleep(time);
         drive.stopMotors();
+        sleep(100);
     }
-    private void rotateRight(long time){
-        drive.driveRobotCentric(0, 0, 0.5);
+    private void rotateRight(long degrees){
+        drive.driveRobotCentric(0, 0, 0.9);
+        long time = degrees * (5/2);
         sleep(time);
         drive.stopMotors();
+        sleep(100);
     }
-    private void rotateLeft(long time){
-        drive.driveRobotCentric(0, 0, -0.5);
+    private void rotateLeft(long degrees){
+        drive.driveRobotCentric(0, 0, -0.9);
+        long time = degrees * (5/2);
         sleep(time);
         drive.stopMotors();
+        sleep(100);
     }
     private void driveWait(long seconds){
         drive.stopMotors();
@@ -135,8 +142,8 @@ public class ScoreSpecimenAuto extends LinearOpMode {
         outtake.closeClaw();
         sleep(1000);
         outtake.closeClaw();
-        long time = cm * (225/8);
-        arm.setArmPowers(0.5);
+        long time = cm * (1000/121);
+        arm.setArmPowers(0.9);
         sleep(time);
         arm.setArmPowers(0);
     }
@@ -144,8 +151,8 @@ public class ScoreSpecimenAuto extends LinearOpMode {
         outtakeArm.goToPosition(Constants.OuttakeArmPosition.PICKUP_POSITION);
         sleep(2000);
         outtake.openClaw();
-        long time = cm * (225/8);
-        arm.setArmPowers(-0.5);
+        long time = cm * (1000/121);
+        arm.setArmPowers(-0.9);
         sleep(time);
         arm.setArmPowers(0);
     }
@@ -156,17 +163,17 @@ public class ScoreSpecimenAuto extends LinearOpMode {
         outtake.closeClaw();
         sleep(100);
         outtake.closeClaw();
-        long time = cm * (225/8);
-        arm.setArmPowers(0.5);
+        long time = cm * (1000/121);
+        arm.setArmPowers(0.9);
         sleep(time);
         arm.setArmPowers(0);
     }
 
     private void scoreSpecimen(long cm){
         outtake.closeClaw();
-        long time = cm * (225/8);
+        long time = cm * (1000/121);
         outtakeArm.goToPosition(Constants.OuttakeArmPosition.GO_TO_HIGH_BAR_POSITION);
-        arm.setArmPowers(-0.5);
+        arm.setArmPowers(-0.9);
         sleep(time);
         arm.setArmPowers(0);
         sleep(100);
