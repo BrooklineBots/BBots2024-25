@@ -57,6 +57,7 @@ public class Constants {
 
   public enum OuttakeArmPosition {
     TRANSFER_POSITION(0.345),
+    AUTONOMOUS_POSITION(0.4),
     GO_TO_HIGH_BAR_POSITION(0.665),
     SCORE_HIGH_BUCKET_POSITION(0.64),
     SCORE_HIGH_BAR_POSITION(0.68), //TODO: don't use this
