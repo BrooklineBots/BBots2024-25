@@ -52,36 +52,36 @@ public class BringSpecimensAuto extends LinearOpMode {
     }
 
     private void forward(long cm){
-        drive.driveRobotCentric(0.5, 0, 0);
+        drive.driveRobotCentricSlow(0.5, 0, 0);
         long time = cm * (500/45);
         sleep(time);
         drive.stopMotors();
     }
     private void backward(long cm){
-        drive.driveRobotCentric(-0.5, 0, 0);
+        drive.driveRobotCentricSlow(-0.5, 0, 0);
         long time = cm * (500/45);
         sleep(time);
         drive.stopMotors();
     }
     private void strafeRight(long cm){
-        drive.driveRobotCentric(0, 0.5, 0);
+        drive.driveRobotCentricSlow(0, 0.5, 0);
         long time = cm * (1000/37);
         sleep(time);
         drive.stopMotors();
     }
     private void strafeLeft(long cm){
-        drive.driveRobotCentric(0, -0.5, 0);
+        drive.driveRobotCentricSlow(0, -0.5, 0);
         long time = cm * (1000/37);
         sleep(time);
         drive.stopMotors();
     }
     private void rotateRight(long time){
-        drive.driveRobotCentric(0, 0, 0.5);
+        drive.driveRobotCentricSlow(0, 0, 0.5);
         sleep(time);
         drive.stopMotors();
     }
     private void rotateLeft(long time){
-        drive.driveRobotCentric(0, 0, -0.5);
+        drive.driveRobotCentricSlow(0, 0, -0.5);
         sleep(time);
         drive.stopMotors();
     }

@@ -43,6 +43,10 @@ public class HorizontalExtension {
     setPower(-Constants.HorizontalConstants.EXTENSION_POWER);
   }
 
+  public void home() {
+    setPower(Constants.HorizontalConstants.HOME_POWER);
+  }
+
   public void stopServos() {
     setPower(0);
   }

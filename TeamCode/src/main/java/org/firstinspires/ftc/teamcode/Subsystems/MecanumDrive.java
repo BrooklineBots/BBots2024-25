@@ -137,7 +137,16 @@ public class MecanumDrive {
     backRightMotor.setPower(bRPower);
   }
 
-  public void driveRobotCentric(double forward, double right, double rotate){
+  public void driveRobotCentricSlow(double forward, double right, double rotate){
+    double fLPower = forward + right + rotate;
+    double fRPower = forward - right - rotate;
+    double bLPower = forward - right + rotate;
+    double bRPower = forward + right - rotate;
+
+    setPowers(0.5*fLPower, 0.5*fRPower, 0.5*bLPower, 0.5*bRPower);
+  }
+
+  public void driveRobotCentricFast(double forward, double right, double rotate){
     double fLPower = forward + right + rotate;
     double fRPower = forward - right - rotate;
     double bLPower = forward - right + rotate;

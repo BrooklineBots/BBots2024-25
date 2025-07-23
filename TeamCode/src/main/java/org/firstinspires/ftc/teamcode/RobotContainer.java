@@ -146,7 +146,7 @@ public class RobotContainer extends OpMode {
     if (!isWithinTolerance(0, gamepad1.left_stick_y, 0.1)
         || !isWithinTolerance(0, gamepad1.left_stick_x, 0.1)
         || !isWithinTolerance(0, gamepad1.right_stick_x, 0.1)) {
-      drive.driveRobotCentric(forward, right, rotate);
+      drive.driveRobotCentricSlow(forward, right, rotate);
     } else {
       drive.stopMotors();
     }
@@ -263,6 +263,9 @@ public class RobotContainer extends OpMode {
 
       intake.goToPositionFlip(Constants.IntakePosition.FLIP_PICKUP_POSITION);
     }
+    if(gamepad2.x){
+      intake.goToPositionFlip(Constants.IntakePosition.FLIP_HOVER_POSITION);
+    }
 
     if (gamepad1.x) {
       intake.openClaw();
@@ -295,7 +298,7 @@ public class RobotContainer extends OpMode {
       horizontal.retract();
     } else if(gamepad2.y){
       while(!homingSensor.isPressed()){
-        horizontal.retract();
+        horizontal.home();
       }
       horizontal.stopServos();
     } else {

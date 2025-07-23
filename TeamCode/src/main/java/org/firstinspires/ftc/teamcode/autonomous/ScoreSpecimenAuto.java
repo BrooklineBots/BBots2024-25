@@ -45,42 +45,43 @@ public class ScoreSpecimenAuto extends LinearOpMode {
             outtakeArm.goToPosition(Constants.OuttakeArmPosition.AUTONOMOUS_POSITION);
             intake.goToPositionFlip(Constants.IntakePosition.FLIP_TRANSFER_POSITION);
             if(!touchSensor.isPressed()){
-                horizontalExtension.retract();
+                horizontalExtension.home();
             } else{
                 horizontalExtension.stopServos();
             }
 
-            //score first specimen
-            backward(50);
-            strafeRight(54);
-            rotateRight(2);
-            goToHighBar(65);
+      //score first specimen
             backward(30);
-            scoreSpecimen(35);
+            strafeRight(54);
+            rotateRight(1);
+            goToHighBar(75);
+            driveWait(1);
+            backward(63);
+            scoreSpecimen(40);
 
             //score second specimen
-            forward(20);
-            sleep(2000);
-            rotateLeft(180);
-            strafeRight(90);
-            forward(130);
-            strafeRight(27);
-            rotateLeft(50);
+            forward(17);
+            rotateLeft(598);
+            strafeRight(113);
+            rotateLeft(2);
+            forward(215);
+            strafeRight(35);
             backward(165);
-            forward(40);
-            driveWait(3);
-            moveToPickup(29);
+            driveWait(3/2);
+            forward(100);
+            driveWait(1);
+            moveToPickup(50);
             rotateRight(10);
-            backward(45);
+            backward(85);
+            sleep(2000);
             sleep(100);
             grabSpecimen(29);
             sleep(100);
             forward(40);
-            rotateLeft(1900);
-            strafeRight(100);
-            rotateLeft(50);
+            rotateLeft(600);
+            strafeRight(150);
             goToHighBar(54);
-            backward(17);
+            backward(30);
             scoreSpecimen(30);
 
             //backward(30);
@@ -92,43 +93,49 @@ public class ScoreSpecimenAuto extends LinearOpMode {
     }
 
     private void forward(long cm){
-        drive.driveRobotCentric(0.9, 0, 0);
+        drive.driveRobotCentricFast(0.9, 0, 0);
         long time = cm * (2000/603);
         sleep(time);
         drive.stopMotors();
         sleep(100);
     }
     private void backward(long cm){
-        drive.driveRobotCentric(-0.9, 0, 0);
+        drive.driveRobotCentricFast(-0.9, 0, 0);
         long time = cm * (2000/603);
         sleep(time);
         drive.stopMotors();
         sleep(100);
     }
     private void strafeRight(long cm){
-        drive.driveRobotCentric(0, 0.9, 0);
+        drive.driveRobotCentricFast(0, 0.9, 0);
         long time = cm * (1440/137);
         sleep(time);
         drive.stopMotors();
         sleep(100);
     }
     private void strafeLeft(long cm){
-        drive.driveRobotCentric(0, -0.5, 0);
+        drive.driveRobotCentricFast(0, -0.9, 0);
         long time = cm * (1440/137);
         sleep(time);
         drive.stopMotors();
         sleep(100);
     }
-    private void rotateRight(long degrees){
-        drive.driveRobotCentric(0, 0, 0.9);
-        long time = degrees * (5/2);
+    private void rotateRight(long time){
+        drive.driveRobotCentricFast(0, 0, 0.9);
+        /*
+        90 degrees - 227
+        180 degrees -
+         */
         sleep(time);
         drive.stopMotors();
         sleep(100);
     }
-    private void rotateLeft(long degrees){
-        drive.driveRobotCentric(0, 0, -0.9);
-        long time = degrees * (5/2);
+    private void rotateLeft(long time){
+        drive.driveRobotCentricFast(0, 0, -0.9);
+        /*
+        90 degrees - 230
+        180 degrees - 595
+         */
         sleep(time);
         drive.stopMotors();
         sleep(100);

@@ -78,7 +78,8 @@ public class Constants {
 
   public enum IntakePosition {
     FLIP_TRANSFER_POSITION(0.4),
-    FLIP_PICKUP_POSITION(0.968),
+    FLIP_PICKUP_POSITION(0.984),
+    FLIP_HOVER_POSITION(0.87),
     CLAW_OPEN_POSITION(0.0),
     CLAW_CLOSE_POSITION(0.5);
 
@@ -117,6 +118,7 @@ public class Constants {
     public static final String RIGHT_EXTENSION_ID = "right_extension_servo";
     public static final String LEFT_EXTENSION_ID = "left_extension_servo";
     public static final double EXTENSION_POWER = 0.5;
+    public static final double HOME_POWER = -0.3;
   }
 
   public static class HomingSensorConstants{
