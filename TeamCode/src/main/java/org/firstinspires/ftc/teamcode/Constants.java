@@ -56,12 +56,12 @@ public class Constants {
   }
 
   public enum OuttakeArmPosition {
-    TRANSFER_POSITION(0.345),
-    AUTONOMOUS_POSITION(0.4),
-    GO_TO_HIGH_BAR_POSITION(0.665),
-    SCORE_HIGH_BUCKET_POSITION(0.64),
+    TRANSFER_POSITION(0.29),
+    AUTONOMOUS_POSITION(0.36),
+    GO_TO_HIGH_BAR_POSITION(0.6),
+    SCORE_HIGH_BUCKET_POSITION(0.575),
     SCORE_HIGH_BAR_POSITION(0.68), //TODO: don't use this
-    PICKUP_POSITION(0.68);
+    PICKUP_POSITION(0.64);
 
     public final double position;
 

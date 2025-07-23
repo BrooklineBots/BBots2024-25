@@ -54,35 +54,30 @@ public class ScoreSpecimenAuto extends LinearOpMode {
             backward(30);
             strafeRight(54);
             rotateRight(1);
-            goToHighBar(75);
+            goToHighBar(90);
             driveWait(1);
-            backward(63);
-            scoreSpecimen(40);
+            backward(67);
+            scoreSpecimen(45);
 
             //score second specimen
-            forward(17);
-            rotateLeft(598);
+            forward(35);
+            rotateLeft(630);
             strafeRight(113);
-            rotateLeft(2);
-            forward(215);
-            strafeRight(35);
-            backward(165);
+            rotateLeft(3);
+            forward(255);
+            strafeRight(30);
+            backward(170);
             driveWait(3/2);
             forward(100);
+            sleep(2000);
             driveWait(1);
-            moveToPickup(50);
-            rotateRight(10);
-            backward(85);
+            moveToPickup(60);
+            rotateRight(25);
+            backward(90);
             sleep(2000);
             sleep(100);
             grabSpecimen(29);
             sleep(100);
-            forward(40);
-            rotateLeft(600);
-            strafeRight(150);
-            goToHighBar(54);
-            backward(30);
-            scoreSpecimen(30);
 
             //backward(30);
 
