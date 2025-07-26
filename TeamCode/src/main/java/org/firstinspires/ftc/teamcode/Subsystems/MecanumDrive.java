@@ -143,7 +143,7 @@ public class MecanumDrive {
     double bLPower = forward - right + rotate;
     double bRPower = forward + right - rotate;
 
-    setPowers(0.5*fLPower, 0.5*fRPower, 0.5*bLPower, 0.5*bRPower);
+    setPowers(0.7*fLPower, 0.7*fRPower, 0.7*bLPower, 0.7*bRPower);
   }
 
   public void driveRobotCentricFast(double forward, double right, double rotate){

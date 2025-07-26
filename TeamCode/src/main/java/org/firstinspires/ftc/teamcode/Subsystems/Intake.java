@@ -24,7 +24,7 @@ public class Intake {
     clawIntakeServo = hwMap.get(Servo.class, IntakeConstants.CLAW_INTAKE_SERVO_ID);
     intakeFlipServo = hwMap.get(Servo.class, IntakeConstants.INTAKE_FLIP_SERVO_ID);
     //intakeFlipServo.setDirection(Servo.Direction.REVERSE);
-    clawIntakeServo.setDirection(Servo.Direction.REVERSE);
+    //clawIntakeServo.setDirection(Servo.Direction.REVERSE);
     clawRotationServo = hwMap.get(CRServo.class, IntakeConstants.CLAW_ROTATION_SERVO_ID);
     clawRotationServo.setDirection(DcMotorSimple.Direction.REVERSE);
   }
