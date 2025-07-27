@@ -12,8 +12,8 @@ import org.firstinspires.ftc.teamcode.Subsystems.Outtake;
 import org.firstinspires.ftc.teamcode.Subsystems.OuttakeArm;
 import org.firstinspires.ftc.teamcode.Subsystems.VerticalArm;
 
-@Autonomous(name = "ScoreSpecimen", group = "Autonomous")
-public class ScoreSpecimenAuto extends LinearOpMode {
+@Autonomous(name = "ScoreSample", group = "Autonomous")
+public class ScoreSampleAuto extends LinearOpMode {
     private MecanumDrive drive;
     private HorizontalExtension horizontalExtension;
     private Intake intake;
@@ -22,7 +22,8 @@ public class ScoreSpecimenAuto extends LinearOpMode {
     private OuttakeArm outtakeArm;
     private VerticalArm arm;
 
-    private boolean outtakeArmInPosition = false;
+    private boolean isDriving = false;
+    private boolean hasDefaulted = false;
 
 
     @Override
@@ -38,83 +39,47 @@ public class ScoreSpecimenAuto extends LinearOpMode {
         arm.setModeRunWithoutEncoder();
 
 
+
         waitForStart();
 
         if(opModeIsActive()){
-
-            outtakeArm.goToPosition(Constants.OuttakeArmPosition.AUTONOMOUS_POSITION);
-            intake.goToPositionFlip(Constants.IntakePosition.FLIP_TRANSFER_POSITION);
-            if(!touchSensor.isPressed()){
-                horizontalExtension.home();
-            } else{
-                horizontalExtension.stopServos();
+            if(!hasDefaulted){
+                intake.goToPositionFlip(Constants.IntakePosition.FLIP_TRANSFER_POSITION);
+                outtakeArm.goToPosition(Constants.OuttakeArmPosition.AUTONOMOUS_POSITION);
+                hasDefaulted = true;
+            }
+            if(isDriving){
+                if(!touchSensor.isPressed()){
+                    horizontalExtension.home();
+                } else{
+                    horizontalExtension.stopServos();
+                }
             }
 
-      //score first specimen
-            backward(45);
-            strafeRight(54);
-            rotateRight(5);
-            goToHighBar(90);
-            driveWait(1);
-            backward(78); //75 //67;
-            scoreSpecimen(45);
-            rotateLeft(2);
-
-            //score second specimen
-            forward(40);
-            rotateLeft(590);
-            strafeRight(120); //90//80 //100 //130 //150
-            forward(160); //255
-
-            strafeRight(20); //25
-            backward(250); //280 //220
-            driveWait(3/2);
-            forward(150); //100
-            sleep(2000);
-            driveWait(1);
 
 
-            moveToPickup(60);
-            rotateRight(25);
-            strafeRight(20);
-            slowBackward(184);
-            sleep(2000);
-            sleep(100);
-            grabSpecimen(29);
-            forward(10);
-            strafeRight(20);
-            backward(10);
-            sleep(100);
 
-            //backward(30);
 
-            forward(20);
-            rotateRight(605);
-            strafeRight(170);
-            rotateLeft(1);
-            goToHighBar(61);
-            backward(100);
-            scoreSpecimen(45);
+
+
+
+
+
 
         }
     }
 
     private void forward(long cm){
+        isDriving = true;
         drive.driveRobotCentricFast(0.9, 0, 0);
         long time = cm * (2000/603);
         sleep(time);
         drive.stopMotors();
         sleep(100);
+        isDriving = false;
     }
     private void backward(long cm){
         drive.driveRobotCentricFast(-0.9, 0, 0);
-        long time = cm * (2000/603);
-        sleep(time);
-        drive.stopMotors();
-        sleep(100);
-    }
-    private void slowBackward(long cm){
-        drive.driveRobotCentricFast(-0.5, 0, 0);
         long time = cm * (2000/603);
         sleep(time);
         drive.stopMotors();

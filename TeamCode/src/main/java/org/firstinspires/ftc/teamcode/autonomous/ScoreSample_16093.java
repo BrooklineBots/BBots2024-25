@@ -12,8 +12,8 @@ import org.firstinspires.ftc.teamcode.Subsystems.Outtake;
 import org.firstinspires.ftc.teamcode.Subsystems.OuttakeArm;
 import org.firstinspires.ftc.teamcode.Subsystems.VerticalArm;
 
-@Autonomous(name = "ScoreSpecimen", group = "Autonomous")
-public class ScoreSpecimenAuto extends LinearOpMode {
+@Autonomous(name = "ScoreSample_16093", group = "Autonomous")
+public class ScoreSample_16093 extends LinearOpMode {
     private MecanumDrive drive;
     private HorizontalExtension horizontalExtension;
     private Intake intake;
@@ -50,53 +50,74 @@ public class ScoreSpecimenAuto extends LinearOpMode {
                 horizontalExtension.stopServos();
             }
 
-      //score first specimen
-            backward(45);
-            strafeRight(54);
-            rotateRight(5);
-            goToHighBar(90);
-            driveWait(1);
-            backward(78); //75 //67;
-            scoreSpecimen(45);
-            rotateLeft(2);
+            //score first sample
+//            backward(45);
+//            strafeRight(54);
+//            rotateRight(1);
+            scorePreloadSample();
+//            driveWait(2);
+//            preSamplePark();
+//            driveWait(1);
+//            samplePark();
+//            scoreSpecimen(45);
 
-            //score second specimen
-            forward(40);
-            rotateLeft(590);
-            strafeRight(120); //90//80 //100 //130 //150
-            forward(160); //255
-
-            strafeRight(20); //25
-            backward(250); //280 //220
-            driveWait(3/2);
-            forward(150); //100
-            sleep(2000);
-            driveWait(1);
-
-
-            moveToPickup(60);
-            rotateRight(25);
-            strafeRight(20);
-            slowBackward(184);
-            sleep(2000);
-            sleep(100);
-            grabSpecimen(29);
-            forward(10);
-            strafeRight(20);
-            backward(10);
-            sleep(100);
+//            //score second specimen
+//            forward(35);
+//            rotateLeft(630);
+//            strafeRight(150);
+//            forward(255);
+//            strafeRight(25);
+//            backward(220);
+//            driveWait(3/2);
+//            forward(100);
+//            sleep(2000);
+//            driveWait(1);
+//            moveToPickup(60);
+//            rotateRight(25);
+//            backward(90);
+//            sleep(2000);
+//            sleep(100);
+//            grabSpecimen(29);
+//            sleep(100);
 
             //backward(30);
 
-            forward(20);
-            rotateRight(605);
-            strafeRight(170);
-            rotateLeft(1);
-            goToHighBar(61);
-            backward(100);
-            scoreSpecimen(45);
+
+
 
         }
+    }
+
+    private void scorePreloadSample(){
+        outtake.closeClaw();
+//        sleep(150);
+//        outtake.closeClaw();
+        arm.setArmPowers(1);
+        sleep(600);
+        outtakeArm.goToPosition(Constants.OuttakeArmPosition.SCORE_HIGH_BUCKET_POSITION);
+        strafeLeft(25);
+        sleep(300);
+        backward(12);
+        sleep(200);
+        outtake.openClaw();
+        outtakeArm.goToPosition(Constants.OuttakeArmPosition.PARK_POSITION);
+        sleep(80);
+//        arm.setArmPowers(-0.9);
+//        sleep(200);
+    }
+
+    private void preSamplePark(){
+        rotateRight(100);
+        sleep(500);
+        strafeLeft(300);
+    }
+
+    private void samplePark(){
+        arm.setArmPowers(0.9);
+        outtakeArm.goToPosition(Constants.OuttakeArmPosition.PARK_POSITION);
+        forward(100);
+        sleep(200);
+        arm.setArmPowers(-0.9);
     }
 
     private void forward(long cm){
@@ -108,13 +129,6 @@ public class ScoreSpecimenAuto extends LinearOpMode {
     }
     private void backward(long cm){
         drive.driveRobotCentricFast(-0.9, 0, 0);
-        long time = cm * (2000/603);
-        sleep(time);
-        drive.stopMotors();
-        sleep(100);
-    }
-    private void slowBackward(long cm){
-        drive.driveRobotCentricFast(-0.5, 0, 0);
         long time = cm * (2000/603);
         sleep(time);
         drive.stopMotors();
@@ -159,47 +173,5 @@ public class ScoreSpecimenAuto extends LinearOpMode {
         long time = seconds * 1000;
         sleep(time);
     }
-    private void grabSpecimen(long cm){
-        outtake.closeClaw();
-        sleep(1000);
-        outtake.closeClaw();
-        long time = cm * (1000/121);
-        arm.setArmPowers(0.9);
-        sleep(time);
-        arm.setArmPowers(0);
-    }
-    private void moveToPickup(long cm){
-        outtakeArm.goToPosition(Constants.OuttakeArmPosition.PICKUP_POSITION);
-        sleep(2000);
-        outtake.openClaw();
-        long time = cm * (1000/121);
-        arm.setArmPowers(-0.9);
-        sleep(time);
-        arm.setArmPowers(0);
-    }
 
-    private void goToHighBar(long cm){
-        outtakeArm.goToPosition(Constants.OuttakeArmPosition.GO_TO_HIGH_BAR_POSITION);
-        sleep(500);
-        outtake.closeClaw();
-        sleep(100);
-        outtake.closeClaw();
-        long time = cm * (1000/121);
-        arm.setArmPowers(0.9);
-        sleep(time);
-        arm.setArmPowers(0);
-    }
-
-    private void scoreSpecimen(long cm){
-        outtake.closeClaw();
-        long time = cm * (1000/121);
-        outtakeArm.goToPosition(Constants.OuttakeArmPosition.GO_TO_HIGH_BAR_POSITION);
-        arm.setArmPowers(-0.9);
-        sleep(time);
-        arm.setArmPowers(0);
-        sleep(100);
-        outtake.openClaw();
-        sleep(500);
-
-    }
 }
