@@ -59,8 +59,7 @@ public class RobotContainer extends OpMode {
     horizontal = new HorizontalExtension(hardwareMap, telemetry);
     homingSensor = new HomingSensor(hardwareMap, telemetry);
     intake = new Intake(hardwareMap, telemetry);
-    //    limelight = new Limelight(hardwareMap, telemetry, isRedAlliance);
-    //    limelight.start();
+
     recordingTimer = System.currentTimeMillis() - startTimer;
   }
 
@@ -87,52 +86,6 @@ public class RobotContainer extends OpMode {
       intake.goToPositionFlip(Constants.IntakePosition.FLIP_TRANSFER_POSITION);
       hasDefaulted = true;
     }
-    /*
-    if (gamepad1.x) {
-      if (recorder.startRecording()) {
-        isRecording = true;
-        recordingTimer = System.currentTimeMillis();
-        gamepad1.rumble(250);
-      }
-    }
-
-    if (isRecording) {
-      final double[] drivePowers = drive.getPowers();
-      final double[] armPower = verticalArm.getArmPowers();
-      final double[] wheelPower = {0, 0}; // intake.getWheelPowers();
-      final double clawPosition = claw.getClawPosition();
-      final double[] flipperPosition = intake.getFlipperPos();
-      recordingTimer = System.currentTimeMillis() - startTimer;
-
-      recorder.recordData(
-          recordingTimer,
-          drivePowers[0], // Front Left
-          drivePowers[1], // Front Right
-          drivePowers[2], // Back Left
-          drivePowers[3], // Back Right
-          armPower[0], // Left Arm
-          armPower[1], // Right Arm
-          clawPosition, // Claw
-          wheelPower[0], // Intake Left
-          wheelPower[1], // Intake Right
-          flipperPosition[0], // leftFlipper
-          flipperPosition[1] // rightFlipper
-          );
-      telemetry.update();
-    } else {
-      //            telemetry.addData("Container, isRecording: ", isRecording);
-      //            telemetry.update();
-    }
-
-
-    if (isRecording && ((double) recordingTimer / 1000) >= 30.0) {
-      recorder.stopRecording();
-      isRecording = false;
-      gamepad1.rumble(250);
-    }
-
-     */
-    // recorder
 
     // field relative drive
     final double forward = -gamepad1.left_stick_y;
@@ -153,24 +106,6 @@ public class RobotContainer extends OpMode {
       drive.setFieldHeadingOffset(initialHeading + Math.PI);
     }
 
-    /*limelight
-    final boolean driveSticksActive =
-        !isWithinTolerance(0, gamepad1.left_stick_y, 0.05)
-            || !isWithinTolerance(0, gamepad1.left_stick_x, 0.05)
-            || !isWithinTolerance(0, gamepad1.right_stick_x, 0.05);
-
-    if (driveSticksActive && gamepad1.right_trigger > 0.25 && limelight.hasTarget()) {
-      final double rotCmd = limelight.getRotationCorrection();
-      drive.driveFieldRelative(forwardInput, strafeInput, rotCmd);
-    } else if (driveSticksActive) {
-      drive.driveFieldRelative(forwardInput, strafeInput, rotateInput);
-    } else {
-      drive.stop();
-    }
-
-     */
-    // limelight
-
     telemetry.addData("Start Time Nano Seconds: ", startTimeNs);
     telemetry.addData(
         "Arm Height IN: ",
@@ -183,7 +118,6 @@ public class RobotContainer extends OpMode {
     // testing TODO: Add claw open and close
 
     // emergency vertical arm control:
-    // if (!isWithinTolerance(0, gamepad2.left_trigger, 0.1)) {
 
     if (!isWithinTolerance(0, gamepad2.left_stick_y, 0.1)) {
       verticalArm.setModeRunWithoutEncoder();
@@ -195,29 +129,6 @@ public class RobotContainer extends OpMode {
     } else {
       verticalArm.stop();
     }
-    // }
-    //    else {
-    //      if (gamepad2.dpad_up) { // high bucket
-    //        outtake.closeClaw();
-    //        outtakeArm.goToPosition(Constants.OuttakeArmPosition.SCORE_HIGH_BUCKET_POSITION);
-    //        verticalArm.goToPosition(Constants.ArmPosition.SCORE_HIGH_BUCKET);
-    //      } else if (gamepad2.dpad_down) { // pickup specimen
-    //        verticalArm.goToPosition(Constants.ArmPosition.STOWED);
-    //        outtake.openClaw();
-    //        outtakeArm.goToPosition(Constants.OuttakeArmPosition.PICKUP_POSITION);
-    //      } else if (gamepad2.dpad_right) { // high bar
-    //        verticalArm.goToPosition(Constants.ArmPosition.GO_TO_HIGH_BAR);
-    //        outtakeArm.goToPosition(Constants.OuttakeArmPosition.GO_TO_HIGH_BAR_POSITION);
-    //      } else if (gamepad2.dpad_left && !transferTriggered) { // transfer
-    //        startTimeNs = System.nanoTime();
-    //        intake.goToPositionFlip(Constants.IntakePosition.FLIP_TRANSFER_POSITION);
-    //        outtake.openClaw();
-    //        verticalArm.goToPosition(Constants.ArmPosition.STOWED);
-    //        transferTriggered = true;
-    //        intakeMovedToTransfer = true;
-    //        outtakeMovedToTransfer = false;
-    //      }
-    //    }
 
     if (gamepad2.dpad_up) {
       outtakeArm.goToPosition(Constants.OuttakeArmPosition.SCORE_HIGH_BUCKET_POSITION);
@@ -245,12 +156,7 @@ public class RobotContainer extends OpMode {
       }
     }
 
-    //    if (gamepad2.x) { // score high bar
-    //      outtakeArm.goToPosition(Constants.OuttakeArmPosition.SCORE_HIGH_BAR_POSITION);
-    //      verticalArm.goToPosition(Constants.ArmPosition.SCORE_HIGH_BAR);
-    //    }
-
-    // WIP intake control on gamepad1
+    // intake control on gamepad1
     if (gamepad1.y) {
       intake.goToPositionFlip(Constants.IntakePosition.FLIP_TRANSFER_POSITION);
     }
@@ -300,8 +206,6 @@ public class RobotContainer extends OpMode {
     if (homingSensor.isPressed()) {
       horizontal.stopServos();
     }
-
-    //
 
     // toggle alliance
     if (gamepad2.a) {
