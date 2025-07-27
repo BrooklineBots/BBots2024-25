@@ -100,6 +100,14 @@ public class ScoreSample_16093 extends LinearOpMode {
     //        sleep(200);
   }
 
+  private void moveAndScorePreloadSample() {
+    outtake.closeClaw();
+    forward(35);
+    rotateLeft(2000);
+    forward(15);
+    scorePreloadSample();
+  }
+
   private void preSamplePark() {
     rotateRight(100);
     sleep(500);

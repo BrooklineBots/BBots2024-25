@@ -21,7 +21,7 @@ public class ScoreSpecimenAuto extends LinearOpMode {
   private OuttakeArm outtakeArm;
   private VerticalArm arm;
 
-  private boolean outtakeArmInPosition = false;
+  private final boolean outtakeArmInPosition = false;
 
   @Override
   public void runOpMode() throws InterruptedException {
@@ -94,47 +94,47 @@ public class ScoreSpecimenAuto extends LinearOpMode {
     }
   }
 
-  private void forward(long cm) {
+  private void forward(final long cm) {
     drive.driveRobotCentricFast(0.9, 0, 0);
-    long time = cm * (2000 / 603);
+    final long time = cm * (2000 / 603);
     sleep(time);
     drive.stopMotors();
     sleep(100);
   }
 
-  private void backward(long cm) {
+  private void backward(final long cm) {
     drive.driveRobotCentricFast(-0.9, 0, 0);
-    long time = cm * (2000 / 603);
+    final long time = cm * (2000 / 603);
     sleep(time);
     drive.stopMotors();
     sleep(100);
   }
 
-  private void slowBackward(long cm) {
+  private void slowBackward(final long cm) {
     drive.driveRobotCentricFast(-0.5, 0, 0);
-    long time = cm * (2000 / 603);
+    final long time = cm * (2000 / 603);
     sleep(time);
     drive.stopMotors();
     sleep(100);
   }
 
-  private void strafeRight(long cm) {
+  private void strafeRight(final long cm) {
     drive.driveRobotCentricFast(0, 0.9, 0);
-    long time = cm * (1440 / 137);
+    final long time = cm * (1440 / 137);
     sleep(time);
     drive.stopMotors();
     sleep(100);
   }
 
-  private void strafeLeft(long cm) {
+  private void strafeLeft(final long cm) {
     drive.driveRobotCentricFast(0, -0.9, 0);
-    long time = cm * (1440 / 137);
+    final long time = cm * (1440 / 137);
     sleep(time);
     drive.stopMotors();
     sleep(100);
   }
 
-  private void rotateRight(long time) {
+  private void rotateRight(final long time) { // In Milliseconds
     drive.driveRobotCentricFast(0, 0, 0.9);
     /*
     90 degrees - 227
@@ -145,7 +145,7 @@ public class ScoreSpecimenAuto extends LinearOpMode {
     sleep(100);
   }
 
-  private void rotateLeft(long time) {
+  private void rotateLeft(final long time) {
     drive.driveRobotCentricFast(0, 0, -0.9);
     /*
     90 degrees - 230
@@ -156,47 +156,47 @@ public class ScoreSpecimenAuto extends LinearOpMode {
     sleep(100);
   }
 
-  private void driveWait(long seconds) {
+  private void driveWait(final long seconds) {
     drive.stopMotors();
-    long time = seconds * 1000;
+    final long time = seconds * 1000;
     sleep(time);
   }
 
-  private void grabSpecimen(long cm) {
+  private void grabSpecimen(final long cm) {
     outtake.closeClaw();
     sleep(1000);
     outtake.closeClaw();
-    long time = cm * (1000 / 121);
+    final long time = cm * (1000 / 121);
     arm.setArmPowers(0.9);
     sleep(time);
     arm.setArmPowers(0);
   }
 
-  private void moveToPickup(long cm) {
+  private void moveToPickup(final long cm) {
     outtakeArm.goToPosition(Constants.OuttakeArmPosition.PICKUP_POSITION);
     sleep(2000);
     outtake.openClaw();
-    long time = cm * (1000 / 121);
+    final long time = cm * (1000 / 121);
     arm.setArmPowers(-0.9);
     sleep(time);
     arm.setArmPowers(0);
   }
 
-  private void goToHighBar(long cm) {
+  private void goToHighBar(final long cm) {
     outtakeArm.goToPosition(Constants.OuttakeArmPosition.GO_TO_HIGH_BAR_POSITION);
     sleep(500);
     outtake.closeClaw();
     sleep(100);
     outtake.closeClaw();
-    long time = cm * (1000 / 121);
+    final long time = cm * (1000 / 121);
     arm.setArmPowers(0.9);
     sleep(time);
     arm.setArmPowers(0);
   }
 
-  private void scoreSpecimen(long cm) {
+  private void scoreSpecimen(final long cm) {
     outtake.closeClaw();
-    long time = cm * (1000 / 121);
+    final long time = cm * (1000 / 121);
     outtakeArm.goToPosition(Constants.OuttakeArmPosition.GO_TO_HIGH_BAR_POSITION);
     arm.setArmPowers(-0.9);
     sleep(time);
