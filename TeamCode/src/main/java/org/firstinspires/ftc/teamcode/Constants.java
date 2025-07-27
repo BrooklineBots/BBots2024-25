@@ -90,7 +90,6 @@ public class Constants {
     }
   }
 
-
   public static class LimelightConstants {
     /** Pipelines configured on the Limelight UI. */
     public enum Pipeline {
@@ -121,7 +120,7 @@ public class Constants {
     public static final double HOME_POWER = -0.3;
   }
 
-  public static class HomingSensorConstants{
+  public static class HomingSensorConstants {
     public static final String SENSOR_ID = "homingSensor";
   }
 }

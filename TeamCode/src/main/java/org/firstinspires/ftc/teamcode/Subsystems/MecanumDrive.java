@@ -36,8 +36,7 @@ public class MecanumDrive {
 
     frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
     backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-    //backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-
+    // backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
     frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -70,7 +69,7 @@ public class MecanumDrive {
     double rotX = x * Math.cos(heading) - y * Math.sin(heading);
     double rotY = x * Math.sin(heading) + y * Math.cos(heading);
 
-    double rotXa = rotX * 1.11;// Counteract imperfect strafing
+    double rotXa = rotX * 1.11; // Counteract imperfect strafing
 
     // Denominator is the largest motor power (absolute value) or 1
     // This ensures all the powers maintain the same ratio,
@@ -102,7 +101,7 @@ public class MecanumDrive {
 
   public double getBotHeading() {
     double botHeading =
-            -(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS)) + fieldHeadingOffset;
+        -(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS)) + fieldHeadingOffset;
     return botHeading;
   }
 
@@ -137,16 +136,16 @@ public class MecanumDrive {
     backRightMotor.setPower(bRPower);
   }
 
-  public void driveRobotCentricSlow(double forward, double right, double rotate){
+  public void driveRobotCentricSlow(double forward, double right, double rotate) {
     double fLPower = forward + right + rotate;
     double fRPower = forward - right - rotate;
     double bLPower = forward - right + rotate;
     double bRPower = forward + right - rotate;
 
-    setPowers(0.7*fLPower, 0.7*fRPower, 0.7*bLPower, 0.7*bRPower);
+    setPowers(0.7 * fLPower, 0.7 * fRPower, 0.7 * bLPower, 0.7 * bRPower);
   }
 
-  public void driveRobotCentricFast(double forward, double right, double rotate){
+  public void driveRobotCentricFast(double forward, double right, double rotate) {
     double fLPower = forward + right + rotate;
     double fRPower = forward - right - rotate;
     double bLPower = forward - right + rotate;
