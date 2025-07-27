@@ -51,16 +51,16 @@ public class ScoreSpecimenAuto extends LinearOpMode {
       backward(45);
       strafeRight(54);
       rotateRight(5);
-      goToHighBar(90);
-      driveWait(1);
-      backward(78); // 75 //67;
+      goToHighBar(110); // 90
+      driveWait((float) 0.75);
+      backward(79); // 75 //67;
       scoreSpecimen(45);
-      rotateLeft(2);
+      rotateRight(20);
 
       // score second specimen
       forward(40);
       rotateLeft(590);
-      strafeRight(120); // 90//80 //100 //130 //150
+      strafeRight(130); // 90//80 //100 //130 //150
       forward(160); // 255
 
       strafeRight(20); // 25
@@ -156,10 +156,10 @@ public class ScoreSpecimenAuto extends LinearOpMode {
     sleep(100);
   }
 
-  private void driveWait(final long seconds) {
+  private void driveWait(final float seconds) {
     drive.stopMotors();
-    final long time = seconds * 1000;
-    sleep(time);
+    final float time = seconds * 1000;
+    sleep((long) time);
   }
 
   private void grabSpecimen(final long cm) {
